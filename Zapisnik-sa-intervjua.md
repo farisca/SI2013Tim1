@@ -1,12 +1,12 @@
-* **Čime se vaša kompanija bavi?**
+* **Čime se Vaša kompanija bavi?**
 
 Naša kompanija se bavi vodovodom i kanalizacijom, konkretnije ugradnjom vodomjera, postavljanjem cijevi, čišćenjem kanalizacije i slično.
 
 * **Za šta Vam je potreban informacioni sistem?**
 
-Informacioni sistem nam je potreban za izdavanje i evidentiranje radnih naloga. Radni nalozi su potrebni zbog ljudi koji idu na teren da ugrađuju vodomjere ili razvlače cijevi.
+Informacioni sistem nam je potreban za izdavanje i evidentiranje radnih naloga. Radni nalozi su potrebni zbog ljudi koji idu na teren da ugrađuju vodomjere ili postavljaju cijevi.
 
-* **Da li već postoji informacioni sistem za radne naloge? Ako DA, šta su problemi?**
+* **Da li već postoji informacioni sistem za radne naloge? Ako da, šta su problemi?**
 
 Ne postoji.
 
@@ -30,15 +30,15 @@ Postoji služba radnika koji hodaju po terenu i šef koji im izdaje radne naloge
 
 Svaki radnik bi trebao moći vidjeti samo svoje radne naloge, dok s druge strane postoji šefovi koji bi trebali imati uvid u sve radne naloge, kao i u sumarne izvještaje (npr. koliko je ugrađeno vodomjera).
 
-* **Što se izvještaja tiće, da li su vam potrebni hronološki izvještaji npr. sedmični ili mjesečni, i da li su vam potrebni trenutni zahtjevi?**
+* **Što se izvještaja tiče, da li su vam potrebni hronološki izvještaji npr. sedmični ili mjesečni, i da li su vam potrebni trenutni zahtjevi?**
 
 Nema potrebe za trenutnim izvještajima, ali su bitni sedmični/mjesečni izvještaji, te je bitno da se može lako naći informacija da je na nekoj lokaciji ugrađen vodomjer. Šef ima uvid u prethodne izvještaje.
 
-* **Kako radnike ovavještavate i dostavljate im radne naloge? Da li je moguće dostaviti radnicima koji su već na terenu novopristigle radne naloge, ili radnici dobijaju radnje naloge početkom smjene?**
+* **Kako radnike obavještavate i dostavljate im radne naloge? Da li je moguće dostaviti radnicima koji su već na terenu novopristigle radne naloge, ili radnici dobijaju radnje naloge početkom smjene?**
 
-Radnici početkom smjene dobivaju radne naloge, tako da se ne može desiti da se izdaje radni nalog nekom radniku koji je u tom trenutku već na terenu.
+Radnici početkom smjene dobivaju radne naloge, tako da se ne može dogoditi da se izdaje radni nalog nekom radniku koji je u tom trenutku već na terenu.
 
-* **Kako se ova procedura ponaša u hitnim slučajevima?**
+* **Kakva je procedura u hitnim slučajevima?**
 
 U hitnim slučajevima (npr. da negdje pukne cijev i treba je što prije popraviti) može se i naknadno evidentirati radni nalog.
 
@@ -54,7 +54,7 @@ Mora se znati ko izvršava posao, šta se radi, šta je potrebno od materijala, 
 
 Ne, šef zove skladište, ako ima materijala piše se radni nalog. Ne morate vi voditi evidenciju o materijalu.
 
-* **Da li se radni nalog može u bilo kojem trenutku izmijeniti? Ako da, ko I kada može i da li je potrebno imati uvid u prethodno stanje?**
+* **Da li se radni nalog može u bilo kojem trenutku izmijeniti? Ako da, ko i kada može, i da li je potrebno imati uvid u prethodno stanje?**
 
 Nije posebno bitno da li može biti izmijenjen. Može npr. biti neizvršen (recimo u slučaju da nema pristupa vodomjeru) i trebalo bi evidentirati razlog zbog kojeg nije izvršen. U tom slučaju kažemo da radni nalog nije izvršen, već je storniran.
 
@@ -62,9 +62,9 @@ Nije posebno bitno da li može biti izmijenjen. Može npr. biti neizvršen (reci
 
 Posao se može izvršiti redoslijedom koji radnik odredi.
 
-* **Pored ovih dosada navedenih funkcionalnosti da li postoji još neka?**
+* **Pored ovih, dosada navedenih funkcionalnosti, da li postoji još neka?**
 
-Potrebna je i pretraga obavljenih poslova po ulici, pregled kolko je i šta radio radnik u tekućem mjesecu i pregled izvršenih, neizvršenih, zaključenih i ne zaključenih naloga
+Potrebna je i pretraga obavljenih poslova po ulici, pregled kolko je i šta radio radnik u tekućem mjesecu i pregled izvršenih, neizvršenih, zaključenih i nezaključenih naloga
 
 * **Kada imate najviše zahtjeva za radnim nalozima? – koliko tada imate radnih naloga?**
 
