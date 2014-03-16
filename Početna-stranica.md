@@ -1,0 +1,1 @@
+* [Zapisnik sa intervjua](https://github.com/farisca/SI2013Tim1/wiki/Zapisnik-sa-intervjua)
