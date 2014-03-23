@@ -1,4 +1,4 @@
-**Datum održavanja sastanka: **19.03.2014.
+**Datum održavanja sastanka:** 19.03.2014.
 **Vrijeme:** 14:30 - 15:00
 
 **Prisutni:** svi
@@ -11,9 +11,10 @@
 * zašto smo mi pravi tim da taj softver ponudimo.
 
 **Individualni zadaci:**
+
 1. _uvod_ - Amina
 2. _mogućnosti sistema_ - Faris i Dejan
 3. _cijena, garancija i implementacija_ - Ahmed
-2. _prednosti i koristi (jedna osoba)_ - Haris
-3. _zasto mi? - Dado
-5. _pregled cjelokupnog teksta i grafičko uređenje dokumenta_ - Alen
+4. _prednosti i koristi (jedna osoba)_ - Haris
+5. _zasto mi?_ - Dado
+6. _pregled cjelokupnog teksta i grafičko uređenje dokumenta_ - Alen
