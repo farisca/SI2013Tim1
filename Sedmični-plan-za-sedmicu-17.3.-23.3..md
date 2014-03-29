@@ -7,7 +7,7 @@ Ponedjeljak, 17.3.2014:
 Utorak, 18.3.2014:
 - Dejan i Dado - istraziti postojanje nekog pravilnika za vodjenje radnih naloga (2h)
 - Faris i Ahmed - istraziti postojeca rjesenja za sisteme za radne naloge (1.5h)
-- Alen, Haris i Amina - skicirati funkcionalnosti sistem na osnovu zapisnika sa intervjua
+- Alen, Haris i Amina - skicirati funkcionalnosti sistem na osnovu zapisnika sa intervjua (1h)
 
 Srijeda, 19.3.2014:
 - Faris i Dejan - pisanje glavnog dijela ponude (opis modula/paketa) (1h)
