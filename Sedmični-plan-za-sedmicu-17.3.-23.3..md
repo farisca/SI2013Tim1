@@ -1,5 +1,5 @@
 TIM 1
-Sedmica 27.3.-23.3.2014
+Sedmica 17.3.-23.3.2014
 
 Ponedjeljak, 17.3.2014:
 - svi - sastanak, dogovor o preraspodjeli zadataka vezanih za pisanje ponude
