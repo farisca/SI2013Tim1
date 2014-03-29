@@ -5,17 +5,17 @@ Ponedjeljak, 24.3.2014:
 - svi - sastanak, dogovor o preraspodjeli zadataka vezanih za pisanje SRS-a
 
 Utorak, 25.3.2014:
-- Dejan i Haris - definirati funkcionalne zahtjeve vezane za radne naloge (2h)
+- Alen, Dejan i Haris - definirati funkcionalne zahtjeve vezane za radne naloge (2h)
 - Faris i Amina - definirati funkcionalne zahtjeve vezane za izvjestaje (1.5h)
 - Ahmed i Dado - definirati funkcionalne zahtjeve vezane za zaposlenike i evidenciju materijala (1h)
 
 Srijeda, 26.3.2014:
-- Dejan i Haris - pisanje funkcionalnih zahtjeva vezanih za radne naloge (2h)
+- Alen, Dejan i Haris - pisanje funkcionalnih zahtjeva vezanih za radne naloge (2h)
 - Faris i Amina - pisanje funkcionalnih zahtjeva vezanih za izvjestaje (2h)
 - Ahmed i Dado - pisanje funkcionalnih zahtjeva vezanih za zaposlenike i evidenciju materijala (2h)
 
 Četvrtak, 27.3.2014:
-- Dejan i Haris - pregled funkcionalnih zahtjeva vezanih za zaposlenike i evidenciju materijala (2h)
+- Alen, Dejan i Haris - pregled funkcionalnih zahtjeva vezanih za zaposlenike i evidenciju materijala (2h)
 - Faris i Amina - pregled funkcionalnih zahtjeva vezanih za radne naloge (2h)
 - Ahmed i Dado - pregled funkcionalnih zahtjeva vezanih za izvjestaje (2h)
 
