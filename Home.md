@@ -3,14 +3,14 @@
 * [Ponuda](https://github.com/farisca/SI2013Tim1/blob/master/Dokumentacija/Ponuda.pdf)
 
 **Sedmični planovi:**
-* [17.3.-23.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-plan-za-sedmicu-17.3.-23.3.)
-* [24.3.-30.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-plan-za-sedmicu-24.3.---30.3.)
-* [31.3.-6.4.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-plan-za-sedmicu-31.3.-6.4.)
+* [Sedmica 17.3.-23.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-plan-za-sedmicu-17.3.-23.3.)
+* [Sedmica 24.3.-30.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-plan-za-sedmicu-24.3.---30.3.)
+* [Sedmica 31.3.-6.4.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-plan-za-sedmicu-31.3.-6.4.)
 
 **Sedmični izvještaji:**
-* [17.3.-23.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-izvje%C5%A1taj-za-sedmicu-17.3.-23.3.)
-* [24.3.-30.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-izvje%C5%A1taj-za-sedmicu-24.3.-30.3.)
-* 31.3.-6.4.
+* [Sedmica 17.3.-23.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-izvje%C5%A1taj-za-sedmicu-17.3.-23.3.)
+* [Sedmica 24.3.-30.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-izvje%C5%A1taj-za-sedmicu-24.3.-30.3.)
+* Sedmica 31.3.-6.4.
 
 ***
 
