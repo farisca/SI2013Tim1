@@ -3,7 +3,7 @@ Sedmica 31.3.-6.4.2014
 
 Ponedjeljak, 31.3.2014:
 - Dado - pisanje svrhe dokumenta (1h) (_urađeno_)
-- Ahmed - pisanje definicija, akronima i kratica (1h)
+- Ahmed - pisanje definicija, akronima i kratica (1h) (_uradio Dejan_)
 - Alen - pisanje standardi dokumentiranja (1h)
 
 Utorak, 1.4.2014:
