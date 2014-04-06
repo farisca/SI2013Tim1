@@ -8,6 +8,7 @@ Utorak, 18.3.2014:
 
 Srijeda, 19.3.2014:
 * svi - učenje Jave
+
 Četvrtak, 20.3.2014:
 
 Petak, 21.3.2014:
