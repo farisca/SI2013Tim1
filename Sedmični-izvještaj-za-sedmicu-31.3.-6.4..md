@@ -27,11 +27,11 @@ Petak, 4.4.2014:
 - Dado - pisanje funkcionalnih zahtjeva za obradu uposlenika - I dio (2h) (_urađeno_)
 
 Subota, 5.4.2014:
-- Alen i Haris - uređenje dokumenta (1h)(_urađeno_)
+- Alen i Haris - uređenje dokumenta (1h) (_urađeno_)
 - Dado - pisanje funkcionalnih zahtjeva za obradu uposlenika - II dio (1h) (_urađeno_)
-- svi - učenje Jave (2h)
+- svi - učenje Jave (2h) (_urađeno_)
 - svi - finalni pregled urađenog (2h)
 
 Nedjelja, 6.4.2014:
-- svi - učenje Jave (2h)
+- svi - učenje Jave (2h) (_urađeno_)
 - Faris - uploadovanje dokumenta na github (10min)
