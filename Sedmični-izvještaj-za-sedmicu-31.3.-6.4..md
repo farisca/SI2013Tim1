@@ -8,17 +8,17 @@ Ponedjeljak, 31.3.2014:
 
 Utorak, 1.4.2014:
 - Haris - pisanje referenci (1h)(_urađeno_)
-- Amina i Faris - pisanje ograničenja (1h)
+- Amina i Faris - pisanje ograničenja (1h) (urađeno)
 - Dejan - pisanje pretpostavki i ovisnosti (1h) (_urađeno_)
 
 Srijeda, 2.4.2014:
 - Dado - pisanje planiranja zahtjeva (1h) (_urađeno_)
-- Amina - pisanje vanjskih zahtjeva (1h)
-- Faris - pisanje atributa kvalitete sistema (1h)
+- Amina - pisanje vanjskih zahtjeva (1h) (_urađeno zajedno sa Dejanom_) 
+- Faris - pisanje atributa kvalitete sistema (1h) (_urađeno_)
 
 Četvrtak, 3.4.2014:
 - Alen i Ahmed - pisanje nefunkcionalnih zahtjeva (1h) (_uradio Alen cijeli dio_)
-- Dado - pisanje softverski zahtjeva (1h) (_urađeno_)
+- Dado - pisanje softverskih zahtjeva (1h) (_urađeno_)
 
 Petak, 4.4.2014:
 - Alen, Dado - pregled cjelokupnog uvoda (1.5h) (_urađeno_)
@@ -30,7 +30,7 @@ Subota, 5.4.2014:
 - Alen i Haris - uređenje dokumenta (1h) (_urađeno_)
 - Dado - pisanje funkcionalnih zahtjeva za obradu uposlenika - II dio (1h) (_urađeno_)
 - svi - učenje Jave (2h) (_urađeno_)
-- svi - finalni pregled urađenog (2h)
+- svi - finalni pregled urađenog (2h) (_urađeno)
 
 Nedjelja, 6.4.2014:
 - svi - učenje Jave (2h) (_urađeno_)
