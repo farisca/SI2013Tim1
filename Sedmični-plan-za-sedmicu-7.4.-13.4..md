@@ -32,4 +32,4 @@ Subota, 22.3.2014:
 * Haris - pregled ER dijagrama (1h)
 
 Nedjelja, 23.3.2014:
-* svi - pregled urađenog
+* svi - pregled urađenog i dovršavanje neurađenih stavki
