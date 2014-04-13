@@ -14,7 +14,7 @@
 * [Sedmica 17.3.-23.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-izvje%C5%A1taj-za-sedmicu-17.3.-23.3.)
 * [Sedmica 24.3.-30.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-izvje%C5%A1taj-za-sedmicu-24.3.-30.3.)
 * [Sedmica 31.3.-6.4.](Sedmični izvještaj za sedmicu 31.3. 6.4.)
-* [Sedmica 14.4.-20.4.](Sedmični plan za sedmicu 14.4. 20.4.)
+* [Sedmica 7.4.-13.4.](Sedmični plan za sedmicu 7.4. 13.4.)
 
 ***
 
