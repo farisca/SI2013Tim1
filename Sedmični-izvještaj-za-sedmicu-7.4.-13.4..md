@@ -16,20 +16,21 @@ Srijeda, 9.4.2014:
 * Dejan - kreiranje interfejsa za obične korisnike (2h) (_dogovor sa Farisom u vezi sa izgledom aplikacije_)
 
 Četvrtak, 10.4.2014:
-Dado - pregled i ispravka nacrtanih use-case dijagrama (2h)
-Ahmed - pregled i ispravka nacrtanih dijagrama aktivnosti (2h)
-Amina - crtanje dijagrama klasa (2h)
-Alen - crtanje ER dijagrama (2h)
-Faris - kreiranje interfejsa za privilegirane korisnike (2h)
+* Dado - pregled i ispravka nacrtanih use-case dijagrama (2h) (_s obzirom da nisu urađeni u potpunosti, nije urađeno_)
+* Ahmed - pregled i ispravka nacrtanih dijagrama aktivnosti (2h) (_s obzirom da nisu urađeni u potpunosti, nije urađeno_)
+* Amina - crtanje dijagrama klasa (2h) (_djelomično_)
+* Alen - crtanje ER dijagrama (2h) (_djelomično_)
+* Faris - kreiranje interfejsa za privilegirane korisnike (2h) (_djelomično urađeno_)
 
 Petak, 11.4.2014:
-svi - sastanak i pregled urađenog (1h)
+* svi - sastanak i pregled urađenog (1h) (_urađeno_)
 
 Subota, 12.4.2014:
-svi - učenje Jave (2h)
-Amina - pregled i ispravka dijagrama sekvenci (1h)
-Faris - doradjivanje dijagrama klasa (2h)
-Haris - pregled ER dijagrama (1h)
+(_ispit, nije urađeno_)
+* svi - učenje Jave (2h) 
+* Amina - pregled i ispravka dijagrama sekvenci (1h)
+* Faris - doradjivanje dijagrama klasa (2h)
+* Haris - pregled ER dijagrama (1h)
 
 Nedjelja, 13.4.2014:
-svi - pregled urađenog i dovršavanje neurađenih stavki
+* svi - pregled urađenog i dovršavanje neurađenih stavki
