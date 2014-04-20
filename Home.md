@@ -17,7 +17,6 @@
 * [Sedmica 31.3.-6.4.](Sedmični izvještaj za sedmicu 31.3. 6.4.)
 * [Sedmica 7.4.-13.4.](Sedmični izvještaj za sedmicu 7.4. 13.4.)
 * [Sedmica 14.4.-20.4.](Sedmični izvještaj za sedmicu 14.4. 20.4.)
-***
 
 **Zapisnici sa sastanaka:**
 * [Zapisnik sa sastanka održanog 19.03.2014.](https://github.com/farisca/SI2013Tim1/wiki/Zapisnik-sa-sastanka-odr%C5%BEanog-19.03.2014.)
