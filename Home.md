@@ -3,8 +3,8 @@
 * [Ponuda](https://github.com/farisca/SI2013Tim1/blob/master/Dokumentacija/Ponuda.pdf?raw=true)
 * [Software Requirements Specification v1.0](https://github.com/farisca/SI2013Tim1/blob/master/Dokumentacija/Specifikacija%20Sistemskih%20Zahtjeva%20(v1.0).pdf?raw=true)
 * [Software Requirements Specification v1.1](https://github.com/farisca/SI2013Tim1/blob/master/Dokumentacija/Software%20Requirements%20Specification%20(v1.1).pdf?raw=true)
-* [User Interface Specification v1.0]()
-* [Dijagrami]()
+* [User Interface Specification v1.0](https://github.com/farisca/SI2013Tim1/blob/master/Dokumentacija/User%20Interface%20Specification%20(v1.0).pdf?raw=true)
+* [Dijagrami](https://github.com/farisca/SI2013Tim1/blob/master/Dokumentacija/Dijagrami(v1.0).pdf?raw=true)
 
 **Sedmični planovi:**
 * [Sedmica 17.3.-23.3.](https://github.com/farisca/SI2013Tim1/wiki/Sedmi%C4%8Dni-plan-za-sedmicu-17.3.-23.3.)
