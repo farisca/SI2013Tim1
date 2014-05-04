@@ -17,7 +17,7 @@ Srijeda, 7.5.2014:
 Petak, 9.5.2014:
 * -
 
-Subota, 10.5.2014: (_ISPIT_)
+Subota, 10.5.2014:
 * -
 
 Nedjelja, 11.5.2014:
