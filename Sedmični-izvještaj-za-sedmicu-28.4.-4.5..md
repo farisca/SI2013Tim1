@@ -19,7 +19,7 @@ Srijeda, 30.4.2014:
 Petak, 2.5.2014:
 * praznik
 
-Subota, 3.5.2014: (_ISPIT_)
+Subota, 3.5.2014:
 * svi - učenje Jave (2h)
 * Dejan i Faris - povezivanje svih dijelova (2h) (_urađeno ranije_)
 * Amina - dorađivanje prototipa (1h) (_djelomično urađeno_)
