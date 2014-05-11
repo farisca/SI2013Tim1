@@ -293,7 +293,6 @@ public class RadniNalozi extends JTabbedPane {
         panelPretraga.add(btnStorniraj);
         btnStorniraj.addActionListener(new ActionListener(){
         	
-        	@Override
         	public void actionPerformed(ActionEvent e){
         		
         		new StorniranjeRadnogNaloga();
