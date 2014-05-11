@@ -16,7 +16,13 @@ public class RadniNalog {
 	private Date DatumIzvrsenja;
 	private Time UtrosenoVrijeme;
 	private Boolean Odobren;
-	RadniNalog(int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,Zaposlenik[] LI,String PM,String lok,Date DI,Time UV,Boolean odo) {
+	private String opisPosla;
+	private String razlogStorniranja;
+	private Zaposlenik osobaKojaStornira;
+	private String razlogModifikovanja;
+	private Zaposlenik osobaKojaModifikuje;
+	private Date datumModifikovanja;
+	RadniNalog(int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,Zaposlenik[] LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP) {
 		setBrojRadnogNaloga(BRN);
 		setVrijemeRadnogNaloga(VRN);
 		setKreatorRadnogNaloga(KRN);
@@ -29,6 +35,12 @@ public class RadniNalog {
 		setDatumIzvrsenja(DI);
 		setUtrosenoVrijeme(UV);
 		setOdobren(odo);
+		setOpisPosla(OP);
+		setRazlogStorniranja("");
+		setOsobaKojaStornira(null);
+		setRazlogModifikovanja(null);
+		setOsobaKojaModifikuje(null);
+		setDatumModifikovanja(null);
 	}
 	void Obrisi() {};
 	void Zakljuci() {
@@ -109,5 +121,41 @@ public class RadniNalog {
 	}
 	public void setOdobren(Boolean odobren) {
 		Odobren = odobren;
+	}
+	public String getOpisPosla() {
+		return opisPosla;
+	}
+	public void setOpisPosla(String opisPosla) {
+		this.opisPosla = opisPosla;
+	}
+	public String getRazlogStorniranja() {
+		return razlogStorniranja;
+	}
+	public void setRazlogStorniranja(String razlogStorniranja) {
+		this.razlogStorniranja = razlogStorniranja;
+	}
+	public Zaposlenik getOsobaKojaStornira() {
+		return osobaKojaStornira;
+	}
+	public void setOsobaKojaStornira(Zaposlenik osobaKojaStornira) {
+		this.osobaKojaStornira = osobaKojaStornira;
+	}
+	public String getRazlogModifikovanja() {
+		return razlogModifikovanja;
+	}
+	public void setRazlogModifikovanja(String razlogModifikovanja) {
+		this.razlogModifikovanja = razlogModifikovanja;
+	}
+	public Zaposlenik getOsobaKojaModifikuje() {
+		return osobaKojaModifikuje;
+	}
+	public void setOsobaKojaModifikuje(Zaposlenik osobaKojaModifikuje) {
+		this.osobaKojaModifikuje = osobaKojaModifikuje;
+	}
+	public Date getDatumModifikovanja() {
+		return datumModifikovanja;
+	}
+	public void setDatumModifikovanja(Date datumModifikovanja) {
+		this.datumModifikovanja = datumModifikovanja;
 	}
 	}
