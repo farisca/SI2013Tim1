@@ -4,7 +4,8 @@ import java.awt.List;
 import java.sql.Time;
 import java.util.Date;
 
-public class RadniNalog {
+public class RadniNalog implements java.io.Serializable {
+	private long id;
 	private int BrojRadnogNaloga;
 	private Date VrijemeRadnogNaloga;
 	private int KreatorRadnogNaloga;
@@ -23,7 +24,10 @@ public class RadniNalog {
 	private String razlogModifikovanja;
 	private int osobaKojaModifikuje;
 	private Date datumModifikovanja;
-	RadniNalog(int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,List LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP) {
+	
+	public RadniNalog() {}
+	
+	public RadniNalog(int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,List LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP) {
 		setBrojRadnogNaloga(BRN);
 		setVrijemeRadnogNaloga(VRN);
 		setKreatorRadnogNaloga(KRN);
@@ -157,5 +161,12 @@ public class RadniNalog {
 	}
 	public void setDatumModifikovanja(Date datumModifikovanja) {
 		this.datumModifikovanja = datumModifikovanja;
+	}
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 	}
