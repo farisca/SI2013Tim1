@@ -1,4 +1,4 @@
-package jKP;
+package ba.unsa.etf.si.tim1.jKP;
 
 import java.sql.Time;
 import java.util.Date;
