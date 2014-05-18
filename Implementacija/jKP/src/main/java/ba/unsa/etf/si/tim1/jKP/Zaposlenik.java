@@ -5,18 +5,18 @@ public class Zaposlenik {
 	private String Ime;
 	private String Prezime;
 	private tipUposlenika TipUposlenika;
-	private PristupniPodaci Podaci;
+	/*private PristupniPodaci Podaci;
 	public PristupniPodaci getPodaci() {
 		return Podaci;
 	}
 	public void setPodaci(PristupniPodaci podaci) {
 		Podaci = podaci;
-	}
-	Zaposlenik(String ime,String prezime, tipUposlenika TU, PristupniPodaci pod) {
+	}*/
+	Zaposlenik(String ime,String prezime, tipUposlenika TU/*, PristupniPodaci pod*/) {
 		setIme(ime);
 		setPrezime(prezime);
 		setTipUposlenika(TU);
-		Podaci = pod;
+		/*Podaci = pod;*/
 	}
 	void Izbrisi() {};
 	void DeaktivirajKorisnickiRacun() {
@@ -24,9 +24,9 @@ public class Zaposlenik {
 	}
 	void PromjeniLozinku(String staralozinka,String novalozinka) throws Exception
 	{
-		if(staralozinka == Podaci.getLozinka())
+		/*if(staralozinka == Podaci.getLozinka())
 			Podaci.setLozinka(novalozinka);
-		else throw new Exception("Lozinka nije validna!");
+		else*/ throw new Exception("Lozinka nije validna!");
 	}
 	void PromjeniTipUposlenika(tipUposlenika ntu) {
 		setTipUposlenika(ntu);

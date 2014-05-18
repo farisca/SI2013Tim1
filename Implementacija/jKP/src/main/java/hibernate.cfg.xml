@@ -9,6 +9,7 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost/jkp</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <mapping resource="RadniNalog.hbm.xml"/>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <mapping resource="ba/unsa/etf/si/tim1/jKP/RadniNalog.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

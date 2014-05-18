@@ -9,10 +9,14 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 
 public class Login extends JFrame {
@@ -78,5 +82,11 @@ public class Login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		RadniNalog rn = new RadniNalog(41, new Date(), new Zaposlenik("Faris", "cakaric", tipUposlenika.obicni), StatusRadnogNaloga.kreiran, TipPosla.UgradnjaVodomjera, new Date(), null, null, null, null, null, null, null);
+		session.save(rn);
+		t.commit();
 	}
 }

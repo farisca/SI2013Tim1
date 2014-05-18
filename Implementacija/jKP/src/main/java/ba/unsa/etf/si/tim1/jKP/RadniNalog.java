@@ -142,7 +142,8 @@ public class RadniNalog implements java.io.Serializable {
 		return osobaKojaStornira;
 	}
 	public void setOsobaKojaStornira(Zaposlenik osobaKojaStornira) {
-		this.osobaKojaStornira = osobaKojaStornira.getId();
+		if(osobaKojaStornira == null) this.osobaKojaStornira = -1;
+		else this.osobaKojaStornira = osobaKojaStornira.getId();
 	}
 	public String getRazlogModifikovanja() {
 		return razlogModifikovanja;
@@ -154,7 +155,8 @@ public class RadniNalog implements java.io.Serializable {
 		return osobaKojaModifikuje;
 	}
 	public void setOsobaKojaModifikuje(Zaposlenik osobaKojaModifikuje) {
-		this.osobaKojaModifikuje = osobaKojaModifikuje.getId();
+		if(osobaKojaModifikuje == null) this.osobaKojaModifikuje = -1;
+		else this.osobaKojaModifikuje = osobaKojaModifikuje.getId();
 	}
 	public Date getDatumModifikovanja() {
 		return datumModifikovanja;
