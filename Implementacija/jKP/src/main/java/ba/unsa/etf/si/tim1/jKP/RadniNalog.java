@@ -1,5 +1,6 @@
 package ba.unsa.etf.si.tim1.jKP;
 
+import java.awt.List;
 import java.sql.Time;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ public class RadniNalog {
 	private StatusRadnogNaloga Status;
 	private TipPosla Posao;
 	private Date PlaniraniDatumIzvrsenja;
-	private Zaposlenik[] ListaIzvrsioca;
+	private List ListaIzvrsioca;
 	private String PotrebniMaterijal;
 	private String Lokacija;
 	private Date DatumIzvrsenja;
@@ -18,11 +19,11 @@ public class RadniNalog {
 	private Boolean Odobren;
 	private String opisPosla;
 	private String razlogStorniranja;
-	private Zaposlenik osobaKojaStornira;
+	private int osobaKojaStornira;
 	private String razlogModifikovanja;
-	private Zaposlenik osobaKojaModifikuje;
+	private int osobaKojaModifikuje;
 	private Date datumModifikovanja;
-	RadniNalog(int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,Zaposlenik[] LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP) {
+	RadniNalog(int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,List LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP) {
 		setBrojRadnogNaloga(BRN);
 		setVrijemeRadnogNaloga(VRN);
 		setKreatorRadnogNaloga(KRN);
@@ -79,10 +80,10 @@ public class RadniNalog {
 	public void setPosao(TipPosla posao) {
 		Posao = posao;
 	}
-	public Zaposlenik[] getListaIzvrsioca() {
+	public List getListaIzvrsioca() {
 		return ListaIzvrsioca;
 	}
-	public void setListaIzvrsioca(Zaposlenik[] listaIzvrsioca) {
+	public void setListaIzvrsioca(List listaIzvrsioca) {
 		ListaIzvrsioca = listaIzvrsioca;
 	}
 	public Date getPlaniraniDatumIzvrsenja() {
@@ -133,11 +134,11 @@ public class RadniNalog {
 	public void setRazlogStorniranja(String razlogStorniranja) {
 		this.razlogStorniranja = razlogStorniranja;
 	}
-	public Zaposlenik getOsobaKojaStornira() {
+	public int getOsobaKojaStornira() {
 		return osobaKojaStornira;
 	}
 	public void setOsobaKojaStornira(Zaposlenik osobaKojaStornira) {
-		this.osobaKojaStornira = osobaKojaStornira;
+		this.osobaKojaStornira = osobaKojaStornira.getId();
 	}
 	public String getRazlogModifikovanja() {
 		return razlogModifikovanja;
@@ -145,11 +146,11 @@ public class RadniNalog {
 	public void setRazlogModifikovanja(String razlogModifikovanja) {
 		this.razlogModifikovanja = razlogModifikovanja;
 	}
-	public Zaposlenik getOsobaKojaModifikuje() {
+	public int getOsobaKojaModifikuje() {
 		return osobaKojaModifikuje;
 	}
 	public void setOsobaKojaModifikuje(Zaposlenik osobaKojaModifikuje) {
-		this.osobaKojaModifikuje = osobaKojaModifikuje;
+		this.osobaKojaModifikuje = osobaKojaModifikuje.getId();
 	}
 	public Date getDatumModifikovanja() {
 		return datumModifikovanja;
