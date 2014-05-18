@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 18, 2014 12:03:25 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="ba.unsa.etf.si.tim1.jKP.RadniNalog" table="RADNINALOG">
+        <id name="id" type="long">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="BrojRadnogNaloga" type="int">
+            <column name="BROJRADNOGNALOGA" />
+        </property>
+        <property name="VrijemeRadnogNaloga" type="java.util.Date">
+            <column name="VRIJEMERADNOGNALOGA" />
+        </property>
+        <property name="KreatorRadnogNaloga" type="int">
+            <column name="KREATORRADNOGNALOGA" />
+        </property>
+        <property name="Status">
+            <column name="STATUS" />
+            <type name="org.hibernate.type.EnumType">
+                <param name="type">12</param>
+                <param name="enumClass">ba.unsa.etf.si.tim1.jKP.StatusRadnogNaloga</param>
+            </type>
+        </property>
+        <property name="Posao">
+            <column name="POSAO" />
+            <type name="org.hibernate.type.EnumType">
+                <param name="type">12</param>
+                <param name="enumClass">ba.unsa.etf.si.tim1.jKP.TipPosla</param>
+            </type>
+        </property>
+        <property name="PlaniraniDatumIzvrsenja" type="java.util.Date">
+            <column name="PLANIRANIDATUMIZVRSENJA" />
+        </property>
+        <property name="ListaIzvrsioca" type="java.awt.List">
+            <column name="LISTAIZVRSIOCA" />
+        </property>
+        <property name="PotrebniMaterijal" type="java.lang.String">
+            <column name="POTREBNIMATERIJAL" />
+        </property>
+        <property name="Lokacija" type="java.lang.String">
+            <column name="LOKACIJA" />
+        </property>
+        <property name="DatumIzvrsenja" type="java.util.Date">
+            <column name="DATUMIZVRSENJA" />
+        </property>
+        <property name="UtrosenoVrijeme" type="java.sql.Time">
+            <column name="UTROSENOVRIJEME" />
+        </property>
+        <property name="Odobren" type="java.lang.Boolean">
+            <column name="ODOBREN" />
+        </property>
+        <property name="opisPosla" type="java.lang.String">
+            <column name="OPISPOSLA" />
+        </property>
+        <property name="razlogStorniranja" type="java.lang.String">
+            <column name="RAZLOGSTORNIRANJA" />
+        </property>
+        <property name="osobaKojaStornira" type="int">
+            <column name="OSOBAKOJASTORNIRA" />
+        </property>
+        <property name="razlogModifikovanja" type="java.lang.String">
+            <column name="RAZLOGMODIFIKOVANJA" />
+        </property>
+        <property name="osobaKojaModifikuje" type="int">
+            <column name="OSOBAKOJAMODIFIKUJE" />
+        </property>
+        <property name="datumModifikovanja" type="java.util.Date">
+            <column name="DATUMMODIFIKOVANJA" />
+        </property>
+    </class>
+</hibernate-mapping>
