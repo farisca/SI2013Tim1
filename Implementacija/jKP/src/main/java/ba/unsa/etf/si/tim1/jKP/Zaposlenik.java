@@ -1,6 +1,7 @@
 package ba.unsa.etf.si.tim1.jKP;
 
 public class Zaposlenik {
+	private int id;
 	private String Ime;
 	private String Prezime;
 	private tipUposlenika TipUposlenika;
@@ -47,5 +48,11 @@ public class Zaposlenik {
 	}
 	public void setTipUposlenika(tipUposlenika tipUposlenika) {
 		TipUposlenika = tipUposlenika;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

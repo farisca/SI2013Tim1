@@ -6,7 +6,7 @@ import java.util.Date;
 public class RadniNalog {
 	private int BrojRadnogNaloga;
 	private Date VrijemeRadnogNaloga;
-	private Zaposlenik KreatorRadnogNaloga;
+	private int KreatorRadnogNaloga;
 	private StatusRadnogNaloga Status;
 	private TipPosla Posao;
 	private Date PlaniraniDatumIzvrsenja;
@@ -46,7 +46,6 @@ public class RadniNalog {
 	void Zakljuci() {
 		setStatus(StatusRadnogNaloga.zakljucen);
 	}
-	void Printaj() {};
 	void Odobri() {
 		setOdobren(true);
 	}
@@ -56,11 +55,11 @@ public class RadniNalog {
 	public void setBrojRadnogNaloga(int brojRadnogNaloga) {
 		BrojRadnogNaloga = brojRadnogNaloga;
 	}
-	public Zaposlenik getKreatorRadnogNaloga() {
+	public int getKreatorRadnogNaloga() {
 		return KreatorRadnogNaloga;
 	}
 	public void setKreatorRadnogNaloga(Zaposlenik kreatorRadnogNaloga) {
-		KreatorRadnogNaloga = kreatorRadnogNaloga;
+		KreatorRadnogNaloga = kreatorRadnogNaloga.getId();
 	}
 	public Date getVrijemeRadnogNaloga() {
 		return VrijemeRadnogNaloga;
