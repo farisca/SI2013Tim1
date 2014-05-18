@@ -4,6 +4,11 @@ public class PristupniPodaci {
 	private String korisnickoIme;
 	private String lozinka;
 	
+	public PristupniPodaci(String korisnickoIme, String lozinka) {
+		setKorisnickoIme(korisnickoIme);
+		setLozinka(lozinka);
+	}
+	
 	public String getKorisnickoIme() {
 		return korisnickoIme;
 	}
