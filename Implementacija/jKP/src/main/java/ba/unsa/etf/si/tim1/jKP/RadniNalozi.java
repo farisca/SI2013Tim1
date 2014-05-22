@@ -2,8 +2,11 @@ package ba.unsa.etf.si.tim1.jKP;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -171,11 +174,15 @@ public class RadniNalozi extends JTabbedPane {
         JButton btnKreiraj = new JButton("Kreiraj");
         btnKreiraj.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		JOptionPane.showMessageDialog(panel, 
+        		/*JOptionPane.showMessageDialog(panel, 
 						"Nije implementirano!", 
 						"Potvrda", 
-						JOptionPane.INFORMATION_MESSAGE);
-			dispose();
+						JOptionPane.INFORMATION_MESSAGE);*/
+        		Zaposlenik z = new Zaposlenik("Dejan", "Azinović", TipUposlenika.privilegirani, new PristupniPodaci("admin", "admin"));
+        		RadniNalog rn = new RadniNalog(1, new Date(), z, StatusRadnogNaloga.kreiran, TipPosla.WomaMasina, new Date(), "Faris Čakarić", "Materijal", "Grbavica", new Date(), new Time(1000000), true, "testni posao");
+        		rn.spasiUBazu();
+        		// int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,List LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP
+        		dispose();
         	}
 
 			private void dispose() {

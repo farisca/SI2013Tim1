@@ -4,15 +4,18 @@ import java.awt.List;
 import java.sql.Time;
 import java.util.Date;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 public class RadniNalog implements java.io.Serializable {
 	private long id;
 	private int brojRadnogNaloga;
-	private Date VrijemeRadnogNaloga;
+	private Date datumKreiranja;
 	private int KreatorRadnogNaloga;
 	private StatusRadnogNaloga Status;
 	private TipPosla Posao;
 	private Date PlaniraniDatumIzvrsenja;
-	private List ListaIzvrsioca;
+	private String izvrsilacPosla;
 	private String PotrebniMaterijal;
 	private String Lokacija;
 	private Date DatumIzvrsenja;
@@ -27,14 +30,14 @@ public class RadniNalog implements java.io.Serializable {
 	
 	public RadniNalog() {}
 	
-	public RadniNalog(int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,List LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP) {
+	public RadniNalog(int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,String LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP) {
 		setBrojRadnogNaloga(BRN);
-		setVrijemeRadnogNaloga(VRN);
+		setDatumKreiranja(VRN);
 		setKreatorRadnogNaloga(KRN);
 		setStatus(stat);
 		setPosao(pos);
 		setPlaniraniDatumIzvrsenja(PDI);
-		setListaIzvrsioca(LI);
+		setIzvrsilacPosla(LI);
 		setPotrebniMaterijal(PM);
 		setLokacija(lok);
 		setDatumIzvrsenja(DI);
@@ -66,11 +69,11 @@ public class RadniNalog implements java.io.Serializable {
 	public void setKreatorRadnogNaloga(Zaposlenik kreatorRadnogNaloga) {
 		KreatorRadnogNaloga = kreatorRadnogNaloga.getId();
 	}
-	public Date getVrijemeRadnogNaloga() {
-		return VrijemeRadnogNaloga;
+	public Date getDatumKreiranja() {
+		return datumKreiranja;
 	}
-	public void setVrijemeRadnogNaloga(Date vrijemeRadnogNaloga) {
-		VrijemeRadnogNaloga = vrijemeRadnogNaloga;
+	public void setDatumKreiranja(Date vrijemeRadnogNaloga) {
+		datumKreiranja = vrijemeRadnogNaloga;
 	}
 	public StatusRadnogNaloga getStatus() {
 		return Status;
@@ -84,11 +87,11 @@ public class RadniNalog implements java.io.Serializable {
 	public void setPosao(TipPosla posao) {
 		Posao = posao;
 	}
-	public List getListaIzvrsioca() {
-		return ListaIzvrsioca;
+	public String getIzvrsilacPosla() {
+		return izvrsilacPosla;
 	}
-	public void setListaIzvrsioca(List listaIzvrsioca) {
-		ListaIzvrsioca = listaIzvrsioca;
+	public void setIzvrsilacPosla(String izvrsilac) {
+		izvrsilacPosla = izvrsilac;
 	}
 	public Date getPlaniraniDatumIzvrsenja() {
 		return PlaniraniDatumIzvrsenja;
@@ -171,4 +174,12 @@ public class RadniNalog implements java.io.Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
+	
+	public void spasiUBazu() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.save(this);
+		t.commit();
+		session.close();
 	}
+}
