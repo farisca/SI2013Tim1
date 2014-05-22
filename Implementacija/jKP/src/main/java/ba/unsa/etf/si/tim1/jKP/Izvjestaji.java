@@ -10,6 +10,9 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+
+import java.util.Date;
+
 import javax.swing.*;
 
 import com.sun.pdfview.PDFFile;
@@ -81,6 +84,8 @@ public class Izvjestaji extends JPanel {
 			datePicker.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                         prikazPdf.showPage(page);
+                        Date dateString = (Date) datePicker.getModel().getValue();
+                        JOptionPane.showMessageDialog(getRootPane(), dateString.toString());
                 }
 			});
 		} catch (Exception e1) {

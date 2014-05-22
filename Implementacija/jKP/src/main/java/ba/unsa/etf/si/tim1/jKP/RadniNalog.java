@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class RadniNalog implements java.io.Serializable {
 	private long id;
-	private int BrojRadnogNaloga;
+	private int brojRadnogNaloga;
 	private Date VrijemeRadnogNaloga;
 	private int KreatorRadnogNaloga;
 	private StatusRadnogNaloga Status;
@@ -55,10 +55,10 @@ public class RadniNalog implements java.io.Serializable {
 		setOdobren(true);
 	}
 	public int getBrojRadnogNaloga() {
-		return BrojRadnogNaloga;
+		return brojRadnogNaloga;
 	}
 	public void setBrojRadnogNaloga(int brojRadnogNaloga) {
-		BrojRadnogNaloga = brojRadnogNaloga;
+		this.brojRadnogNaloga = brojRadnogNaloga;
 	}
 	public int getKreatorRadnogNaloga() {
 		return KreatorRadnogNaloga;
