@@ -1,22 +1,21 @@
 package ba.unsa.etf.si.tim1.jKP;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 public class Zaposlenik {
 	private int id;
 	private String Ime;
 	private String Prezime;
 	private TipUposlenika tipUposlenika;
-	private PristupniPodaci Podaci;
-	public PristupniPodaci getPodaci() {
-		return Podaci;
-	}
-	public void setPodaci(PristupniPodaci podaci) {
-		Podaci = podaci;
-	}
-	Zaposlenik(String ime,String prezime, TipUposlenika TU, PristupniPodaci pod) {
+	private String KorisnickoIme;
+	private String lozinka;
+	Zaposlenik(String ime,String prezime, TipUposlenika TU, String ki, String loz) {
 		setIme(ime);
 		setPrezime(prezime);
 		setTipUposlenika(TU);
-		Podaci = pod;
+		setLozinka(loz);
+		setKorisnickoIme(ki);
 	}
 	void Izbrisi() {};
 	void DeaktivirajKorisnickiRacun() {
@@ -24,8 +23,8 @@ public class Zaposlenik {
 	}
 	void PromijeniLozinku(String staralozinka,String novalozinka) throws Exception
 	{
-		if(staralozinka == Podaci.getLozinka())
-			Podaci.setLozinka(novalozinka);
+		if(staralozinka == getLozinka())
+			setLozinka(novalozinka);
 		else throw new Exception("Lozinka nije validna!");
 	}
 	void PromjeniTipUposlenika(TipUposlenika ntu) {
@@ -54,5 +53,24 @@ public class Zaposlenik {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public void spasiUBazu() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.save(this);
+		t.commit();
+		session.close();
+	}
+	public String getKorisnickoIme() {
+		return KorisnickoIme;
+	}
+	public void setKorisnickoIme(String korisnickoIme) {
+		KorisnickoIme = korisnickoIme;
+	}
+	public String getLozinka() {
+		return lozinka;
+	}
+	public void setLozinka(String lozinka) {
+		this.lozinka = lozinka;
 	}
 }

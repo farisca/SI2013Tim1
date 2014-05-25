@@ -178,7 +178,7 @@ public class RadniNalozi extends JTabbedPane {
 						"Nije implementirano!", 
 						"Potvrda", 
 						JOptionPane.INFORMATION_MESSAGE);*/
-        		Zaposlenik z = new Zaposlenik("Dejan", "Azinović", TipUposlenika.privilegirani, new PristupniPodaci("admin", "admin"));
+        		Zaposlenik z = new Zaposlenik("Dejan", "Azinović", TipUposlenika.privilegirani, "admin", "admin");
         		RadniNalog rn = new RadniNalog(1, new Date(), z, StatusRadnogNaloga.kreiran, TipPosla.WomaMasina, new Date(), "Faris Čakarić", "Materijal", "Grbavica", new Date(), new Time(1000000), true, "testni posao");
         		rn.spasiUBazu();
         		// int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,List LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP

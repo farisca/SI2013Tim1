@@ -136,30 +136,28 @@ public class Admin extends JPanel {
 		btnSpasiti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					PristupniPodaci tempPodaci = new PristupniPodaci(
-							new String(textField_1.getText()), new String(
-									textField_3.getPassword()));
 					String[] ime_i_prezime = textField.getText().split(" ");
 					Zaposlenik NoviZaposlenik = new Zaposlenik(
-							ime_i_prezime[0], ime_i_prezime[1],
-							TipUposlenika.obicni, tempPodaci);
+							ime_i_prezime[0], ime_i_prezime[1],TipUposlenika.obicni, textField_1.getText(),new String(textField_2.getPassword()));
 					if (textField_5.getSelectedIndex() == 1)
 						NoviZaposlenik
 								.setTipUposlenika(TipUposlenika.privilegirani);
-					Exception e1;
-					if (textField.getText() == "" || ime_i_prezime[1]=="")
-						throw e1 = new Exception("Niste Upisali Ime i Prezime!");
-					if (textField_1.getText() == "")
-						throw e1 = new Exception(
+					if (textField.getText().length()==0 || ime_i_prezime[1].length()==0)
+						throw new Exception("Niste Upisali Ime i Prezime!");
+					if (textField_1.getText().length()==0)
+						throw new Exception(
 								"Niste Upisali Korisničko ime!");
+					if(textField_2.getPassword().length==0 || textField_2.getPassword().length==0)
+						throw new Exception("Niste upisali lozinku!");
 					if (!(Arrays.equals(textField_2.getPassword(), textField_3.getPassword())))
-						throw e1 = new Exception("Lozinke nisu iste!");
+						throw new Exception("Lozinke nisu iste!");
 					JOptionPane.showMessageDialog(panelNovi,
 							"Uspjesno ste kreirali novog korisnika "
 									+ NoviZaposlenik.getIme() + " "
 									+ NoviZaposlenik.getPrezime() + " koji je "
-									+ NoviZaposlenik.getTipUposlenika(),
+									+ NoviZaposlenik.getTipUposlenika() + " uposlenik!",
 							"Potvrda", JOptionPane.INFORMATION_MESSAGE);
+					NoviZaposlenik.spasiUBazu();
 					dispose();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(panelNovi, e1.getMessage(),

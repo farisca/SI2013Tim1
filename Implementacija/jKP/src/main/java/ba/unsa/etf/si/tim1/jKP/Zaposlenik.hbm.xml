@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 25, 2014 6:26:07 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="ba.unsa.etf.si.tim1.jKP.Zaposlenik" table="ZAPOSLENIK">
+  <id name="id" type="int">
+   <column name="ID"/>
+   <generator class="increment"/>
+  </id>
+  <property generated="never" lazy="false" name="Ime" type="java.lang.String">
+   <column name="IME"/>
+  </property>
+  <property generated="never" lazy="false" name="Prezime" type="java.lang.String">
+   <column name="PREZIME"/>
+  </property>
+  <property generated="never" lazy="false" name="tipUposlenika">
+   <column name="TIPUPOSLENIKA"/>
+   <type name="org.hibernate.type.EnumType">
+    <param name="type">12</param>
+    <param name="enumClass">ba.unsa.etf.si.tim1.jKP.TipUposlenika</param>
+   </type>
+  </property>
+  <property generated="never" lazy="false" name="KorisnickoIme" type="java.lang.String">
+   <column name="KORISNICKOIME"/>
+  </property>
+  <property generated="never" lazy="false" name="lozinka" type="java.lang.String">
+   <column name="LOZINKA"/>
+  </property>
+ </class>
+</hibernate-mapping>

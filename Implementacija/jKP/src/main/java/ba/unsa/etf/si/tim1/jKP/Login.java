@@ -85,7 +85,7 @@ public class Login extends JFrame {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		RadniNalog rn = new RadniNalog(41, new Date(), new Zaposlenik("Faris", "cakaric", TipUposlenika.obicni, new PristupniPodaci("fcakaric1", "admin")), StatusRadnogNaloga.kreiran, TipPosla.UgradnjaVodomjera, new Date(), null, null, null, null, null, null, null);
+		RadniNalog rn = new RadniNalog(41, new Date(), new Zaposlenik("Faris", "cakaric", TipUposlenika.obicni, "fcakaric1", "admin"), StatusRadnogNaloga.kreiran, TipPosla.UgradnjaVodomjera, new Date(), null, null, null, null, null, null, null);
 		session.save(rn);
 		t.commit();
 	}
