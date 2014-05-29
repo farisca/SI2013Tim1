@@ -1,71 +1,72 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated May 28, 2014 5:16:39 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="ba.unsa.etf.si.tim1.jKP.RadniNalog" table="RADNINALOG">
-        <id name="brojRadnogNaloga" type="long">
-            <column name="BROJRADNOGNALOGA" />
-            <generator class="assigned" />
-        </id>
-        <property name="datumKreiranja" type="java.util.Date">
-            <column name="DATUMKREIRANJA" />
-        </property>
-        <property name="kreatorRadnogNaloga" type="int">
-            <column name="KREATORRADNOGNALOGA" />
-        </property>
-        <property name="status">
-            <column name="STATUS" />
-            <type name="org.hibernate.type.EnumType">
-                <param name="type">12</param>
-                <param name="enumClass">ba.unsa.etf.si.tim1.jKP.StatusRadnogNaloga</param>
-            </type>
-        </property>
-        <property name="posao">
-            <column name="POSAO" />
-            <type name="org.hibernate.type.EnumType">
-                <param name="type">12</param>
-                <param name="enumClass">ba.unsa.etf.si.tim1.jKP.TipPosla</param>
-            </type>
-        </property>
-        <property name="planiraniDatumIzvrsenja" type="java.util.Date">
-            <column name="PLANIRANIDATUMIZVRSENJA" />
-        </property>
-        <property name="izvrsilacPosla" type="int">
-            <column name="IZVRSILACPOSLA" />
-        </property>
-        <property name="potrebniMaterijal" type="java.lang.String">
-            <column name="POTREBNIMATERIJAL" />
-        </property>
-        <property name="lokacija" type="java.lang.String">
-            <column name="LOKACIJA" />
-        </property>
-        <property name="datumIzvrsenja" type="java.util.Date">
-            <column name="DATUMIZVRSENJA" />
-        </property>
-        <property name="utrosenoVrijeme" type="java.sql.Time">
-            <column name="UTROSENOVRIJEME" />
-        </property>
-        <property name="odobren" type="java.lang.Boolean">
-            <column name="ODOBREN" />
-        </property>
-        <property name="opisPosla" type="java.lang.String">
-            <column name="OPISPOSLA" />
-        </property>
-        <property name="razlogStorniranja" type="java.lang.String">
-            <column name="RAZLOGSTORNIRANJA" />
-        </property>
-        <property name="osobaKojaStornira" type="int">
-            <column name="OSOBAKOJASTORNIRA" />
-        </property>
-        <property name="razlogModifikovanja" type="java.lang.String">
-            <column name="RAZLOGMODIFIKOVANJA" />
-        </property>
-        <property name="osobaKojaModifikuje" type="int">
-            <column name="OSOBAKOJAMODIFIKUJE" />
-        </property>
-        <property name="datumModifikovanja" type="java.util.Date">
-            <column name="DATUMMODIFIKOVANJA" />
-        </property>
-    </class>
+ <class name="ba.unsa.etf.si.tim1.jKP.RadniNalog" table="RADNINALOG">
+  <id name="brojRadnogNaloga" type="long">
+   <column name="BROJRADNOGNALOGA"/>
+   <generator class="native"/>
+  </id>
+  <property generated="never" lazy="false" name="datumKreiranja" type="java.util.Date">
+   <column name="DATUMKREIRANJA"/>
+  </property>
+  <property generated="never" lazy="false" name="kreatorRadnogNaloga" type="long">
+   <column name="KREATORRADNOGNALOGA"/>
+  </property>
+  <property generated="never" lazy="false" name="status">
+   <column name="STATUS"/>
+   <type name="org.hibernate.type.EnumType">
+    <param name="type">12</param>
+    <param name="enumClass">ba.unsa.etf.si.tim1.jKP.StatusRadnogNaloga</param>
+   </type>
+  </property>
+  <property generated="never" lazy="false" name="posao">
+   <column name="POSAO"/>
+   <type name="org.hibernate.type.EnumType">
+    <param name="type">12</param>
+    <param name="enumClass">ba.unsa.etf.si.tim1.jKP.TipPosla</param>
+   </type>
+  </property>
+  <property generated="never" lazy="false"
+   name="planiraniDatumIzvrsenja" type="java.util.Date">
+   <column name="PLANIRANIDATUMIZVRSENJA"/>
+  </property>
+  <property generated="never" lazy="false" name="izvrsilacPosla" type="long">
+   <column name="IZVRSILACPOSLA"/>
+  </property>
+  <property generated="never" lazy="false" name="potrebniMaterijal" type="java.lang.String">
+   <column name="POTREBNIMATERIJAL"/>
+  </property>
+  <property generated="never" lazy="false" name="lokacija" type="java.lang.String">
+   <column name="LOKACIJA"/>
+  </property>
+  <property generated="never" lazy="false" name="datumIzvrsenja" type="java.util.Date">
+   <column name="DATUMIZVRSENJA"/>
+  </property>
+  <property generated="never" lazy="false" name="utrosenoVrijeme" type="java.sql.Time">
+   <column name="UTROSENOVRIJEME"/>
+  </property>
+  <property generated="never" lazy="false" name="odobren" type="java.lang.Boolean">
+   <column name="ODOBREN"/>
+  </property>
+  <property generated="never" lazy="false" name="opisPosla" type="java.lang.String">
+   <column name="OPISPOSLA"/>
+  </property>
+  <property generated="never" lazy="false" name="razlogStorniranja" type="java.lang.String">
+   <column name="RAZLOGSTORNIRANJA"/>
+  </property>
+  <property generated="never" lazy="false" name="osobaKojaStornira" type="long">
+   <column name="OSOBAKOJASTORNIRA"/>
+  </property>
+  <property generated="never" lazy="false" name="razlogModifikovanja" type="java.lang.String">
+   <column name="RAZLOGMODIFIKOVANJA"/>
+  </property>
+  <property generated="never" lazy="false" name="osobaKojaModifikuje" type="long">
+   <column name="OSOBAKOJAMODIFIKUJE"/>
+  </property>
+  <property generated="never" lazy="false" name="datumModifikovanja" type="java.util.Date">
+   <column name="DATUMMODIFIKOVANJA"/>
+  </property>
+ </class>
 </hibernate-mapping>

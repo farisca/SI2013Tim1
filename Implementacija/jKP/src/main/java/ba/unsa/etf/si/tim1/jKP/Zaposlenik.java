@@ -57,13 +57,6 @@ public class Zaposlenik implements java.io.Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	/*public void spasiUBazu() {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction t = session.beginTransaction();
-		session.save(this);
-		t.commit();
-		session.close();
-	}*/
 
 	private long getPristupniPodaci() {
 		return pristupniPodaci;
@@ -72,5 +65,11 @@ public class Zaposlenik implements java.io.Serializable {
 	private void setPristupniPodaci(long pristupniPodaci) {
 		this.pristupniPodaci = pristupniPodaci;
 	}
+	
+	@Override
+	public String toString() {
+		return getIme() + " " + getPrezime();
+	}
+	
 
 }

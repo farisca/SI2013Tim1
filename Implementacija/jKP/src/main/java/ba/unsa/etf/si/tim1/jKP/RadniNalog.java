@@ -60,7 +60,7 @@ public class RadniNalog implements java.io.Serializable {
 	public long getBrojRadnogNaloga() {
 		return brojRadnogNaloga;
 	}
-	public void setBrojRadnogNaloga(int brojRadnogNaloga) {
+	public void setBrojRadnogNaloga(long brojRadnogNaloga) {
 		this.brojRadnogNaloga = brojRadnogNaloga;
 	}
 	public long getKreatorRadnogNaloga() {
@@ -169,11 +169,11 @@ public class RadniNalog implements java.io.Serializable {
 	}
 
 	
-	public void spasiUBazu() {
+	/*public void spasiUBazu() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
 		session.save(this);
 		t.commit();
 		session.close();
-	}
+	}*/
 }

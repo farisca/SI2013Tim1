@@ -38,4 +38,21 @@ public class HibernateZaposlenik {
 		s.close();
 		return z;
 	}
+	
+	public static List<Zaposlenik> dajSveZaposlenike() {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		
+		Query query = s.createQuery("FROM Zaposlenik");
+		
+		if(query.list().isEmpty()) {
+			s.close();
+			return null;
+		}
+		
+		List<Zaposlenik> lista = (List<Zaposlenik>)query.list();
+		
+		s.close();
+		return lista;
+	}
 }

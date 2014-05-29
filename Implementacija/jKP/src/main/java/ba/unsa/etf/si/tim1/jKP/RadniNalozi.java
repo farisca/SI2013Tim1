@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
+import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
+import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -41,7 +43,12 @@ public class RadniNalozi extends JTabbedPane {
 	private final JComboBox<StatusRadnogNaloga> comboBoxStatusNaloga;
 	private final JButton btnKreiraj;
 	
+	private Zaposlenik korisnik;
+	
 	public RadniNalozi() {
+		
+		korisnik = GlavniProzor.korisnik;
+		
 		this.setBounds(280, 50, 800, 550);
         
         JScrollPane scrollPaneKreiranjeNaloga = new JScrollPane();
@@ -105,17 +112,29 @@ public class RadniNalozi extends JTabbedPane {
         lblStatusRadnogNaloga.setBounds(76, 620, 150, 14);
         panelKreiranjeNaloga.add(lblStatusRadnogNaloga);
         
-        //Zaposlenik[] zaposlenici = ucitajSveZaposlenike();
+
+        java.util.List<Zaposlenik> listaZaposlenika = HibernateZaposlenik.dajSveZaposlenike();
+        Zaposlenik[] zaposlenici = listaZaposlenika.toArray(new Zaposlenik[listaZaposlenika.size()]);
         
         comboBoxKreirao = new JComboBox<Zaposlenik>();
-        //comboBoxKreirao.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
-        comboBoxKreirao.setEditable(true);
+        //comboBoxKreirao.setEditable(true);
+        if (korisnik.getTipUposlenika() != TipUposlenika.privilegirani) {
+        	comboBoxKreirao.setEnabled(false);
+        	comboBoxKreirao.setModel(new DefaultComboBoxModel<Zaposlenik>(new Zaposlenik[]{korisnik}));
+        }
+        else
+        	comboBoxKreirao.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
         comboBoxKreirao.setBounds(236, 134, 200, 20);
         panelKreiranjeNaloga.add(comboBoxKreirao);
         
         comboBoxIzvrsilac = new JComboBox<Zaposlenik>();
-        //comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
-        comboBoxIzvrsilac.setEditable(true);
+        //comboBoxIzvrsilac.setEditable(true);
+        if (korisnik.getTipUposlenika() != TipUposlenika.privilegirani) {
+        	comboBoxIzvrsilac.setEnabled(false);
+        	comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(new Zaposlenik[]{korisnik}));
+        }
+        else
+        	comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
         comboBoxIzvrsilac.setBounds(236, 159, 200, 20);
         panelKreiranjeNaloga.add(comboBoxIzvrsilac);
         
@@ -125,13 +144,13 @@ public class RadniNalozi extends JTabbedPane {
         txtLokacija.setColumns(10);
         
         txtUtrosenoVrijeme = new JFormattedTextField();
-        txtUtrosenoVrijeme.setEditable(false);
-        txtUtrosenoVrijeme.setEnabled(false);
+        //txtUtrosenoVrijeme.setEditable(false);
+        //txtUtrosenoVrijeme.setEnabled(false);
         txtUtrosenoVrijeme.setBounds(236, 256, 200, 20);
         panelKreiranjeNaloga.add(txtUtrosenoVrijeme);
         
         comboBoxTipPosla = new JComboBox<TipPosla>();
-        comboBoxTipPosla.setModel(new DefaultComboBoxModel<TipPosla>(new TipPosla[] {TipPosla.WomaMasina, TipPosla.UgradnjaVodomjera, TipPosla.UgradnjaVodomjera, TipPosla.ZamjenaCijevi, TipPosla.Ostalo}));
+        comboBoxTipPosla.setModel(new DefaultComboBoxModel<TipPosla>(new TipPosla[] {TipPosla.WomaMasina, TipPosla.UgradnjaVodomjera, TipPosla.ZamjenaVodomjera, TipPosla.ZamjenaCijevi, TipPosla.Ostalo}));
         comboBoxTipPosla.setBounds(236, 284, 200, 20);
         panelKreiranjeNaloga.add(comboBoxTipPosla);
         
@@ -206,8 +225,7 @@ public class RadniNalozi extends JTabbedPane {
         		String opisPosla = textAreaOpisPosla.getText();        		
         		
         		RadniNalog rn = new RadniNalog(datumKreiranja, kreirao, status, tip, planiraniDatumIzvrsenja, izvrsilac, potrebniMaterijal, lokacija, datumIzvrsenja, utrosenoVrijeme, false, opisPosla);
-        		rn.spasiUBazu();
-        		// int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,List LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP
+        		HibernateRadniNalog.pohraniRadniNalog(rn);
         		dispose();
         	}
 

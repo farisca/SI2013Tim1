@@ -6,7 +6,7 @@
     <class name="ba.unsa.etf.si.tim1.jKP.Zaposlenik" table="ZAPOSLENIK">
         <id name="id" type="long">
             <column name="ID" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <property name="ime" type="java.lang.String">
             <column name="IME" />
