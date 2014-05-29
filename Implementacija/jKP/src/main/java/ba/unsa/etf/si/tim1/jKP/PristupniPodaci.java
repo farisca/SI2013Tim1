@@ -1,9 +1,11 @@
 package ba.unsa.etf.si.tim1.jKP;
 
-public class PristupniPodaci {
+public class PristupniPodaci implements java.io.Serializable {
 	private long id;
 	private String korisnickoIme;
 	private String lozinka;
+	
+	public PristupniPodaci() {}
 	
 	public PristupniPodaci(String korisnickoIme, String lozinka) {
 		setKorisnickoIme(korisnickoIme);

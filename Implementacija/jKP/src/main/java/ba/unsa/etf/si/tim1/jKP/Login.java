@@ -71,14 +71,14 @@ public class Login extends JFrame {
         btnPrijava.setBounds(87, 301, 117, 25);
         btnPrijava.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		//if (HibernatePristupniPodaci.postojiKorisnik(txtUsername.getText()))
-        		//	JOptionPane.showMessageDialog(null, "true");
-        		//else
-        		//	JOptionPane.showMessageDialog(null, "false");
+        		if (HibernatePristupniPodaci.postojiKorisnik(txtUsername.getText()))
+        			JOptionPane.showMessageDialog(null, "true");
+        		else
+        			JOptionPane.showMessageDialog(null, "false");
         		
-        		GlavniProzor prozor = new GlavniProzor(korisnik);
+        		/*GlavniProzor prozor = new GlavniProzor(korisnik);
         		prozor.setVisible(true);
-        		setVisible(false);
+        		setVisible(false);*/
         		
         	}
         });

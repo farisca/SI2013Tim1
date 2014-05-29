@@ -3,14 +3,17 @@ package ba.unsa.etf.si.tim1.jKP;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class Zaposlenik {
+public class Zaposlenik implements java.io.Serializable {
 	private int id;
 	private String Ime;
 	private String Prezime;
 	private TipUposlenika tipUposlenika;
 	private String KorisnickoIme;
 	private String lozinka;
-	Zaposlenik(String ime,String prezime, TipUposlenika TU, String ki, String loz) {
+	
+	public Zaposlenik() {}
+	
+	public Zaposlenik(String ime,String prezime, TipUposlenika TU, String ki, String loz) {
 		setIme(ime);
 		setPrezime(prezime);
 		setTipUposlenika(TU);
