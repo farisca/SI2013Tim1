@@ -6,9 +6,9 @@ import javax.swing.*;
 
 public class GlavniProzor extends JFrame {
 	private JPanel kontejner;
-	private int korisnik;
+	protected static Zaposlenik korisnik;
 	
-	public GlavniProzor(int kor) {
+	public GlavniProzor(Zaposlenik kor) {
 		korisnik = kor;
 		
 		kontejner = new JPanel();

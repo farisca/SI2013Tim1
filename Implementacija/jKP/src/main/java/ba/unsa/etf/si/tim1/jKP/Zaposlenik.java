@@ -54,13 +54,13 @@ public class Zaposlenik {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public void spasiUBazu() {
+	/*public void spasiUBazu() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
 		session.save(this);
 		t.commit();
 		session.close();
-	}
+	}*/
 	public String getKorisnickoIme() {
 		return KorisnickoIme;
 	}

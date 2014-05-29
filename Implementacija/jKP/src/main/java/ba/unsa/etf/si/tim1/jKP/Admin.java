@@ -157,7 +157,7 @@ public class Admin extends JPanel {
 									+ NoviZaposlenik.getPrezime() + " koji je "
 									+ NoviZaposlenik.getTipUposlenika() + " uposlenik!",
 							"Potvrda", JOptionPane.INFORMATION_MESSAGE);
-					NoviZaposlenik.spasiUBazu();
+					//NoviZaposlenik.spasiUBazu();
 					dispose();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(panelNovi, e1.getMessage(),

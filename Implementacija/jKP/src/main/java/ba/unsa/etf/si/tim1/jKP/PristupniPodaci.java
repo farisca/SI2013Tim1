@@ -1,6 +1,7 @@
 package ba.unsa.etf.si.tim1.jKP;
 
 public class PristupniPodaci {
+	private long id;
 	private String korisnickoIme;
 	private String lozinka;
 	
@@ -9,6 +10,12 @@ public class PristupniPodaci {
 		setLozinka(lozinka);
 	}
 	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getKorisnickoIme() {
 		return korisnickoIme;
 	}

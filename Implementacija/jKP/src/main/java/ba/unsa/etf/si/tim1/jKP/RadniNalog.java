@@ -8,19 +8,18 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class RadniNalog implements java.io.Serializable {
-	private long id;
-	private int brojRadnogNaloga;
+	private long brojRadnogNaloga;
 	private Date datumKreiranja;
-	private int KreatorRadnogNaloga;
-	private StatusRadnogNaloga Status;
-	private TipPosla Posao;
-	private Date PlaniraniDatumIzvrsenja;
-	private String izvrsilacPosla;
-	private String PotrebniMaterijal;
-	private String Lokacija;
-	private Date DatumIzvrsenja;
-	private Time UtrosenoVrijeme;
-	private Boolean Odobren;
+	private int kreatorRadnogNaloga;
+	private StatusRadnogNaloga status;
+	private TipPosla posao;
+	private Date planiraniDatumIzvrsenja;
+	private int izvrsilacPosla;
+	private String potrebniMaterijal;
+	private String lokacija;
+	private Date datumIzvrsenja;
+	private Time utrosenoVrijeme;
+	private Boolean odobren;
 	private String opisPosla;
 	private String razlogStorniranja;
 	private int osobaKojaStornira;
@@ -30,20 +29,21 @@ public class RadniNalog implements java.io.Serializable {
 	
 	public RadniNalog() {}
 	
-	public RadniNalog(int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,String LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP) {
-		setBrojRadnogNaloga(BRN);
-		setDatumKreiranja(VRN);
-		setKreatorRadnogNaloga(KRN);
-		setStatus(stat);
-		setPosao(pos);
-		setPlaniraniDatumIzvrsenja(PDI);
-		setIzvrsilacPosla(LI);
-		setPotrebniMaterijal(PM);
-		setLokacija(lok);
-		setDatumIzvrsenja(DI);
-		setUtrosenoVrijeme(UV);
-		setOdobren(odo);
-		setOpisPosla(OP);
+	public RadniNalog(Date datumKreiranja, Zaposlenik kreatorNaloga, StatusRadnogNaloga status, TipPosla tip, Date planiraniDatumIzvrsenja, 
+						int izvrsilacPosla, String potrebniMaterijal, String lokacija, Date datumIzvrsenja, Time utrosenoVrijeme, Boolean odobren, String opis) {
+		//setBrojRadnogNaloga(BRN);
+		setDatumKreiranja(datumKreiranja);
+		setKreatorRadnogNaloga(kreatorNaloga);
+		setStatus(status);
+		setPosao(tip);
+		setPlaniraniDatumIzvrsenja(planiraniDatumIzvrsenja);
+		setIzvrsilacPosla(izvrsilacPosla);
+		setPotrebniMaterijal(potrebniMaterijal);
+		setLokacija(lokacija);
+		setDatumIzvrsenja(datumIzvrsenja);
+		setUtrosenoVrijeme(utrosenoVrijeme);
+		setOdobren(odobren);
+		setOpisPosla(opis);
 		setRazlogStorniranja("");
 		setOsobaKojaStornira(null);
 		setRazlogModifikovanja(null);
@@ -57,17 +57,17 @@ public class RadniNalog implements java.io.Serializable {
 	void Odobri() {
 		setOdobren(true);
 	}
-	public int getBrojRadnogNaloga() {
+	public long getBrojRadnogNaloga() {
 		return brojRadnogNaloga;
 	}
 	public void setBrojRadnogNaloga(int brojRadnogNaloga) {
 		this.brojRadnogNaloga = brojRadnogNaloga;
 	}
 	public int getKreatorRadnogNaloga() {
-		return KreatorRadnogNaloga;
+		return kreatorRadnogNaloga;
 	}
 	public void setKreatorRadnogNaloga(Zaposlenik kreatorRadnogNaloga) {
-		KreatorRadnogNaloga = kreatorRadnogNaloga.getId();
+		this.kreatorRadnogNaloga = kreatorRadnogNaloga.getId();
 	}
 	public Date getDatumKreiranja() {
 		return datumKreiranja;
@@ -76,58 +76,58 @@ public class RadniNalog implements java.io.Serializable {
 		datumKreiranja = vrijemeRadnogNaloga;
 	}
 	public StatusRadnogNaloga getStatus() {
-		return Status;
+		return status;
 	}
 	public void setStatus(StatusRadnogNaloga status) {
-		Status = status;
+		this.status = status;
 	}
 	public TipPosla getPosao() {
-		return Posao;
+		return posao;
 	}
 	public void setPosao(TipPosla posao) {
-		Posao = posao;
+		this.posao = posao;
 	}
-	public String getIzvrsilacPosla() {
+	public int getIzvrsilacPosla() {
 		return izvrsilacPosla;
 	}
-	public void setIzvrsilacPosla(String izvrsilac) {
+	public void setIzvrsilacPosla(int izvrsilac) {
 		izvrsilacPosla = izvrsilac;
 	}
 	public Date getPlaniraniDatumIzvrsenja() {
-		return PlaniraniDatumIzvrsenja;
+		return planiraniDatumIzvrsenja;
 	}
 	public void setPlaniraniDatumIzvrsenja(Date planiraniDatumIzvrsenja) {
-		PlaniraniDatumIzvrsenja = planiraniDatumIzvrsenja;
+		this.planiraniDatumIzvrsenja = planiraniDatumIzvrsenja;
 	}
 	public String getPotrebniMaterijal() {
-		return PotrebniMaterijal;
+		return potrebniMaterijal;
 	}
 	public void setPotrebniMaterijal(String potrebniMaterijal) {
-		PotrebniMaterijal = potrebniMaterijal;
+		this.potrebniMaterijal = potrebniMaterijal;
 	}
 	public String getLokacija() {
-		return Lokacija;
+		return lokacija;
 	}
 	public void setLokacija(String lokacija) {
-		Lokacija = lokacija;
+		this.lokacija = lokacija;
 	}
 	public Date getDatumIzvrsenja() {
-		return DatumIzvrsenja;
+		return datumIzvrsenja;
 	}
 	public void setDatumIzvrsenja(Date datumIzvrsenja) {
-		DatumIzvrsenja = datumIzvrsenja;
+		this.datumIzvrsenja = datumIzvrsenja;
 	}
 	public Time getUtrosenoVrijeme() {
-		return UtrosenoVrijeme;
+		return this.utrosenoVrijeme;
 	}
 	public void setUtrosenoVrijeme(Time utrosenoVrijeme) {
-		UtrosenoVrijeme = utrosenoVrijeme;
+		this.utrosenoVrijeme = utrosenoVrijeme;
 	}
 	public Boolean getOdobren() {
-		return Odobren;
+		return odobren;
 	}
 	public void setOdobren(Boolean odobren) {
-		Odobren = odobren;
+		this.odobren = odobren;
 	}
 	public String getOpisPosla() {
 		return opisPosla;
@@ -167,13 +167,7 @@ public class RadniNalog implements java.io.Serializable {
 	public void setDatumModifikovanja(Date datumModifikovanja) {
 		this.datumModifikovanja = datumModifikovanja;
 	}
-	public long getId() {
-		return id;
-	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
 	
 	public void spasiUBazu() {
 		Session session = HibernateUtil.getSessionFactory().openSession();

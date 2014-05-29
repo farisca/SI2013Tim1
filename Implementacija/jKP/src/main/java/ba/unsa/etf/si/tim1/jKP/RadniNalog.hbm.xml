@@ -1,75 +1,71 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 18, 2014 12:03:25 PM by Hibernate Tools 3.4.0.CR1 -->
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 28, 2014 5:16:39 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
- <class name="ba.unsa.etf.si.tim1.jKP.RadniNalog" table="RADNINALOG">
-  <id name="id" type="long">
-   <column name="ID"/>
-   <generator class="native"/>
-  </id>
-  <property generated="never" lazy="false" name="BrojRadnogNaloga" type="int">
-   <column name="BROJRADNOGNALOGA"/>
-  </property>
-  <property name="datumKreiranja" type="java.util.Date">
-   <column name="DATUMKREIRANJA"/>
-  </property>
-  <property generated="never" lazy="false" name="KreatorRadnogNaloga" type="int">
-   <column name="KREATORNALOGA"/>
-  </property>
-  <property generated="never" lazy="false" name="Status">
-   <column name="STATUS"/>
-   <type name="org.hibernate.type.EnumType">
-    <param name="type">12</param>
-    <param name="enumClass">ba.unsa.etf.si.tim1.jKP.StatusRadnogNaloga</param>
-   </type>
-  </property>
-  <property generated="never" lazy="false" name="Posao">
-   <column name="POSAO"/>
-   <type name="org.hibernate.type.EnumType">
-    <param name="type">12</param>
-    <param name="enumClass">ba.unsa.etf.si.tim1.jKP.TipPosla</param>
-   </type>
-  </property>
-  <property generated="never" lazy="false"
-   name="PlaniraniDatumIzvrsenja" type="java.util.Date">
-   <column name="PLANIRANIDATUMIZVRSENJA"/>
-  </property>
-  <property name="izvrsilacPosla" type="java.lang.String">
-   <column name="IZVRSIOCPOSLA"/>
-  </property>
-  <property generated="never" lazy="false" name="PotrebniMaterijal" type="java.lang.String">
-   <column name="POTREBNIMATERIJAL"/>
-  </property>
-  <property generated="never" lazy="false" name="Lokacija" type="java.lang.String">
-   <column name="LOKACIJA"/>
-  </property>
-  <property generated="never" lazy="false" name="DatumIzvrsenja" type="java.util.Date">
-   <column name="DATUMIZVRSENJA"/>
-  </property>
-  <property generated="never" lazy="false" name="UtrosenoVrijeme" type="java.sql.Time">
-   <column name="UTROSENOVRIJEME"/>
-  </property>
-  <property generated="never" lazy="false" name="Odobren" type="java.lang.Boolean">
-   <column name="ODOBREN"/>
-  </property>
-  <property generated="never" lazy="false" name="opisPosla" type="java.lang.String">
-   <column name="OPISPOSLA"/>
-  </property>
-  <property generated="never" lazy="false" name="razlogStorniranja" type="java.lang.String">
-   <column name="RAZLOGSTORNIRANJA"/>
-  </property>
-  <property generated="never" lazy="false" name="osobaKojaStornira" type="int">
-   <column name="OSOBAKOJASTORNIRA"/>
-  </property>
-  <property generated="never" lazy="false" name="razlogModifikovanja" type="java.lang.String">
-   <column name="RAZLOGMODIFIKOVANJA"/>
-  </property>
-  <property generated="never" lazy="false" name="osobaKojaModifikuje" type="int">
-   <column name="OSOBAKOJAMODIFIKUJE"/>
-  </property>
-  <property generated="never" lazy="false" name="datumModifikovanja" type="java.util.Date">
-   <column name="DATUMMODIFIKOVANJA"/>
-  </property>
- </class>
+    <class name="ba.unsa.etf.si.tim1.jKP.RadniNalog" table="RADNINALOG">
+        <id name="brojRadnogNaloga" type="long">
+            <column name="BROJRADNOGNALOGA" />
+            <generator class="assigned" />
+        </id>
+        <property name="datumKreiranja" type="java.util.Date">
+            <column name="DATUMKREIRANJA" />
+        </property>
+        <property name="kreatorRadnogNaloga" type="int">
+            <column name="KREATORRADNOGNALOGA" />
+        </property>
+        <property name="status">
+            <column name="STATUS" />
+            <type name="org.hibernate.type.EnumType">
+                <param name="type">12</param>
+                <param name="enumClass">ba.unsa.etf.si.tim1.jKP.StatusRadnogNaloga</param>
+            </type>
+        </property>
+        <property name="posao">
+            <column name="POSAO" />
+            <type name="org.hibernate.type.EnumType">
+                <param name="type">12</param>
+                <param name="enumClass">ba.unsa.etf.si.tim1.jKP.TipPosla</param>
+            </type>
+        </property>
+        <property name="planiraniDatumIzvrsenja" type="java.util.Date">
+            <column name="PLANIRANIDATUMIZVRSENJA" />
+        </property>
+        <property name="izvrsilacPosla" type="int">
+            <column name="IZVRSILACPOSLA" />
+        </property>
+        <property name="potrebniMaterijal" type="java.lang.String">
+            <column name="POTREBNIMATERIJAL" />
+        </property>
+        <property name="lokacija" type="java.lang.String">
+            <column name="LOKACIJA" />
+        </property>
+        <property name="datumIzvrsenja" type="java.util.Date">
+            <column name="DATUMIZVRSENJA" />
+        </property>
+        <property name="utrosenoVrijeme" type="java.sql.Time">
+            <column name="UTROSENOVRIJEME" />
+        </property>
+        <property name="odobren" type="java.lang.Boolean">
+            <column name="ODOBREN" />
+        </property>
+        <property name="opisPosla" type="java.lang.String">
+            <column name="OPISPOSLA" />
+        </property>
+        <property name="razlogStorniranja" type="java.lang.String">
+            <column name="RAZLOGSTORNIRANJA" />
+        </property>
+        <property name="osobaKojaStornira" type="int">
+            <column name="OSOBAKOJASTORNIRA" />
+        </property>
+        <property name="razlogModifikovanja" type="java.lang.String">
+            <column name="RAZLOGMODIFIKOVANJA" />
+        </property>
+        <property name="osobaKojaModifikuje" type="int">
+            <column name="OSOBAKOJAMODIFIKUJE" />
+        </property>
+        <property name="datumModifikovanja" type="java.util.Date">
+            <column name="DATUMMODIFIKOVANJA" />
+        </property>
+    </class>
 </hibernate-mapping>

@@ -29,157 +29,183 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 public class RadniNalozi extends JTabbedPane {
 	
+	// Varijable za kreiranje radnog naloga
+	private final JPanel panelKreiranjeNaloga;
+	private final JComboBox<Zaposlenik> comboBoxKreirao;
+	private final JComboBox<Zaposlenik> comboBoxIzvrsilac;
+	private final JTextField txtLokacija;
+	private final JFormattedTextField txtUtrosenoVrijeme;
+	private final JComboBox<TipPosla> comboBoxTipPosla;
+	private final JTextArea textAreaOpisPosla;
+	private final JTextArea textAreaPotrebniMaterijal;
+	private final JComboBox<StatusRadnogNaloga> comboBoxStatusNaloga;
+	private final JButton btnKreiraj;
+	
 	public RadniNalozi() {
-		
-
-        this.setBounds(280, 50, 800, 550);
+		this.setBounds(280, 50, 800, 550);
         
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        JScrollPane scrollPaneKreiranjeNaloga = new JScrollPane();
+        scrollPaneKreiranjeNaloga.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPaneKreiranjeNaloga.getVerticalScrollBar().setUnitIncrement(20);
         
         // Tab za kreiranje radnih naloga
-        this.addTab("Kreiranje", null, scrollPane, null);
+        this.addTab("Kreiranje", null, scrollPaneKreiranjeNaloga, null);
         
-        final JPanel panel = new JPanel();
-        scrollPane.setViewportView(panel);
-        panel.setLayout(null);
-        panel.setPreferredSize(new java.awt.Dimension(500, 750));
+        panelKreiranjeNaloga = new JPanel();
+        scrollPaneKreiranjeNaloga.setViewportView(panelKreiranjeNaloga);
+        panelKreiranjeNaloga.setLayout(null);
+        panelKreiranjeNaloga.setPreferredSize(new java.awt.Dimension(500, 750));
         
         JLabel lblKreiranjeRadnogNaloga = new JLabel("Kreiranje radnog naloga");
         lblKreiranjeRadnogNaloga.setFont(new Font("Tahoma", Font.BOLD, 16));
         lblKreiranjeRadnogNaloga.setBounds(39, 29, 229, 20);
-        panel.add(lblKreiranjeRadnogNaloga);
+        panelKreiranjeNaloga.add(lblKreiranjeRadnogNaloga);
         
         JLabel lblDatumKreiranja = new JLabel("Datum kreiranja:");
         lblDatumKreiranja.setBounds(76, 112, 150, 14);
-        panel.add(lblDatumKreiranja);
+        panelKreiranjeNaloga.add(lblDatumKreiranja);
         
         JLabel lblKreirao = new JLabel("Kreirao:");
         lblKreirao.setBounds(76, 137, 150, 14);
-        panel.add(lblKreirao);
+        panelKreiranjeNaloga.add(lblKreirao);
         
         JLabel lblIzvrilac = new JLabel("Izvr\u0161ilac:");
         lblIzvrilac.setBounds(76, 162, 150, 14);
-        panel.add(lblIzvrilac);
+        panelKreiranjeNaloga.add(lblIzvrilac);
         
         JLabel lblLokacija = new JLabel("Lokacija:");
         lblLokacija.setBounds(76, 187, 150, 14);
-        panel.add(lblLokacija);
+        panelKreiranjeNaloga.add(lblLokacija);
         
         JLabel lblPlaniraniDatumIzvrsenja = new JLabel("Planirani datum izvr\u0161enja:");
         lblPlaniraniDatumIzvrsenja.setBounds(76, 212, 150, 14);
-        panel.add(lblPlaniraniDatumIzvrsenja);
+        panelKreiranjeNaloga.add(lblPlaniraniDatumIzvrsenja);
         
         JLabel lblDatumZavrsetkaRadova = new JLabel("Datum zavr\u0161etka radova:");
         lblDatumZavrsetkaRadova.setBounds(76, 237, 150, 14);
-        panel.add(lblDatumZavrsetkaRadova);
+        panelKreiranjeNaloga.add(lblDatumZavrsetkaRadova);
         
         JLabel lblUtrosenoVrijeme = new JLabel("Utro\u0161eno vrijeme:");
         lblUtrosenoVrijeme.setBounds(76, 262, 150, 14);
-        panel.add(lblUtrosenoVrijeme);
+        panelKreiranjeNaloga.add(lblUtrosenoVrijeme);
         
         JLabel lblTipPosla = new JLabel("Tip posla ili usluge:");
         lblTipPosla.setBounds(76, 287, 150, 14);
-        panel.add(lblTipPosla);
+        panelKreiranjeNaloga.add(lblTipPosla);
         
         JLabel lblOpisPosla = new JLabel("Detaljniji opis posla:");
         lblOpisPosla.setBounds(76, 323, 150, 14);
-        panel.add(lblOpisPosla);
+        panelKreiranjeNaloga.add(lblOpisPosla);
         
         JLabel lblMaterijal = new JLabel("Materijal koji \u0107e biti utro\u0161en:");
         lblMaterijal.setBounds(76, 499, 200, 14);
-        panel.add(lblMaterijal);
+        panelKreiranjeNaloga.add(lblMaterijal);
         
         JLabel lblStatusRadnogNaloga = new JLabel("Status radnog naloga:");
         lblStatusRadnogNaloga.setBounds(76, 620, 150, 14);
-        panel.add(lblStatusRadnogNaloga);
+        panelKreiranjeNaloga.add(lblStatusRadnogNaloga);
         
-        JComboBox comboBox = new JComboBox();
-        comboBox.setModel(new DefaultComboBoxModel(new String[] {"Dejan Azinovi\u0107", "Faris \u010Cakari\u0107", "Amina \u010Celik", "Haris Eminagi\u0107", "Dado Bajramovi\u0107", "Alen \u010Camd\u017Ei\u0107", "Ahmed Ali\u0107"}));
-        comboBox.setEditable(true);
-        comboBox.setBounds(236, 134, 200, 20);
-        panel.add(comboBox);
+        Zaposlenik[] zaposlenici = ucitajSveZaposlenike();
         
-        JComboBox comboBox_1 = new JComboBox();
-        comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Faris \u010Cakari\u0107", "Dejan Azinovi\u0107", "Amina \u010Celik", "Haris Eminagi\u0107", "Dado Bajramovi\u0107", "Alen \u010Camd\u017Ei\u0107", "Ahmed Ali\u0107"}));
-        comboBox_1.setEditable(true);
-        comboBox_1.setBounds(236, 159, 200, 20);
-        panel.add(comboBox_1);
+        comboBoxKreirao = new JComboBox<Zaposlenik>();
+        comboBoxKreirao.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
+        comboBoxKreirao.setEditable(true);
+        comboBoxKreirao.setBounds(236, 134, 200, 20);
+        panelKreiranjeNaloga.add(comboBoxKreirao);
         
-        final JTextField txtZmajaOdBosne = new JTextField();
-        txtZmajaOdBosne.setBounds(236, 184, 200, 20);
-        panel.add(txtZmajaOdBosne);
-        txtZmajaOdBosne.setColumns(10);
+        comboBoxIzvrsilac = new JComboBox<Zaposlenik>();
+        comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
+        comboBoxIzvrsilac.setEditable(true);
+        comboBoxIzvrsilac.setBounds(236, 159, 200, 20);
+        panelKreiranjeNaloga.add(comboBoxIzvrsilac);
         
-        JFormattedTextField formattedTextField = new JFormattedTextField();
-        formattedTextField.setEditable(false);
-        formattedTextField.setEnabled(false);
-        formattedTextField.setBounds(236, 256, 200, 20);
-        panel.add(formattedTextField);
+        txtLokacija = new JTextField();
+        txtLokacija.setBounds(236, 184, 200, 20);
+        panelKreiranjeNaloga.add(txtLokacija);
+        txtLokacija.setColumns(10);
         
-        JComboBox comboBox_2 = new JComboBox();
-        comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Izlazak ma\u0161ine Woma na teren", "Ugradnja vodomjera", "Zamjena vodomjera", "Zamjena cijevi", "Ostalo"}));
-        comboBox_2.setBounds(236, 284, 200, 20);
-        panel.add(comboBox_2);
+        txtUtrosenoVrijeme = new JFormattedTextField();
+        txtUtrosenoVrijeme.setEditable(false);
+        txtUtrosenoVrijeme.setEnabled(false);
+        txtUtrosenoVrijeme.setBounds(236, 256, 200, 20);
+        panelKreiranjeNaloga.add(txtUtrosenoVrijeme);
+        
+        comboBoxTipPosla = new JComboBox<TipPosla>();
+        comboBoxTipPosla.setModel(new DefaultComboBoxModel<TipPosla>(new TipPosla[] {TipPosla.WomaMasina, TipPosla.UgradnjaVodomjera, TipPosla.UgradnjaVodomjera, TipPosla.ZamjenaCijevi, TipPosla.Ostalo}));
+        comboBoxTipPosla.setBounds(236, 284, 200, 20);
+        panelKreiranjeNaloga.add(comboBoxTipPosla);
         
         JScrollPane scrollPane_1 = new JScrollPane();
         scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane_1.setBounds(76, 348, 360, 131);
-        panel.add(scrollPane_1);
+        panelKreiranjeNaloga.add(scrollPane_1);
         
-        final JTextArea textArea = new JTextArea();
-        textArea.setLineWrap(true);
-        scrollPane_1.setViewportView(textArea);
+        textAreaOpisPosla = new JTextArea();
+        textAreaOpisPosla.setLineWrap(true);
+        scrollPane_1.setViewportView(textAreaOpisPosla);
         
         JScrollPane scrollPane_2 = new JScrollPane();
         scrollPane_2.setBounds(76, 524, 358, 70);
-        panel.add(scrollPane_2);
+        panelKreiranjeNaloga.add(scrollPane_2);
         
-        final JTextArea textArea_1 = new JTextArea();
-        scrollPane_2.setViewportView(textArea_1);
-        textArea_1.setLineWrap(true);
+        textAreaPotrebniMaterijal = new JTextArea();
+        scrollPane_2.setViewportView(textAreaPotrebniMaterijal);
+        textAreaPotrebniMaterijal.setLineWrap(true);
                 
-        JComboBox comboBox_3 = new JComboBox();
-        comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Kreiran", "Zaklju\u010Den", "Nezaklju\u010Den", "Storniran"}));
-        comboBox_3.setBounds(236, 617, 200, 20);
-        panel.add(comboBox_3);
+        comboBoxStatusNaloga = new JComboBox<StatusRadnogNaloga>();
+        comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran, StatusRadnogNaloga.zakljucen, StatusRadnogNaloga.nezakljucen, StatusRadnogNaloga.storniran}));
+        comboBoxStatusNaloga.setBounds(236, 617, 200, 20);
+        panelKreiranjeNaloga.add(comboBoxStatusNaloga);
         
         // Datepicker
         UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
-        final JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
-        datePicker.getJFormattedTextField().setBackground(Color.WHITE);
-        datePicker.setLocation(236, 106);
-        datePicker.setSize(200, 20);
-        panel.add(datePicker);
+        final JDatePickerImpl datePickerDatumKreiranja = new JDatePickerImpl(datePanel);
+        datePickerDatumKreiranja.getJFormattedTextField().setBackground(Color.WHITE);
+        datePickerDatumKreiranja.setLocation(236, 106);
+        datePickerDatumKreiranja.setSize(200, 20);
+        panelKreiranjeNaloga.add(datePickerDatumKreiranja);
         
         UtilDateModel model_2 = new UtilDateModel();
 		JDatePanelImpl datePanel_2 = new JDatePanelImpl(model_2);
-        final JDatePickerImpl datePicker_2 = new JDatePickerImpl(datePanel_2);
-        datePicker_2.getJFormattedTextField().setBackground(Color.WHITE);
-        datePicker_2.setLocation(236, 206);
-        datePicker_2.setSize(200, 20);
-        panel.add(datePicker_2);
+        final JDatePickerImpl datePickerPlaniraniDatumIzvrsenja = new JDatePickerImpl(datePanel_2);
+        datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField().setBackground(Color.WHITE);
+        datePickerPlaniraniDatumIzvrsenja.setLocation(236, 206);
+        datePickerPlaniraniDatumIzvrsenja.setSize(200, 20);
+        panelKreiranjeNaloga.add(datePickerPlaniraniDatumIzvrsenja);
         
         UtilDateModel model_3 = new UtilDateModel();
 		JDatePanelImpl datePanel_3 = new JDatePanelImpl(model_3);
-        final JDatePickerImpl datePicker_3 = new JDatePickerImpl(datePanel_3);
-        datePicker_3.getJFormattedTextField().setEnabled(false);
-        datePicker_3.setLocation(236, 231);
-        datePicker_3.setSize(200, 20);
-        panel.add(datePicker_3);
+        final JDatePickerImpl datePickerDatumZavrsetkaRadova = new JDatePickerImpl(datePanel_3);
+        datePickerDatumZavrsetkaRadova.getJFormattedTextField().setEnabled(false);
+        datePickerDatumZavrsetkaRadova.setLocation(236, 231);
+        datePickerDatumZavrsetkaRadova.setSize(200, 20);
+        panelKreiranjeNaloga.add(datePickerDatumZavrsetkaRadova);
         
 		
-        JButton btnKreiraj = new JButton("Kreiraj");
+        btnKreiraj = new JButton("Kreiraj");
+        
+        // Kreiraj radni nalog
         btnKreiraj.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		/*JOptionPane.showMessageDialog(panel, 
 						"Nije implementirano!", 
 						"Potvrda", 
 						JOptionPane.INFORMATION_MESSAGE);*/
-        		Zaposlenik z = new Zaposlenik("Dejan", "Azinović", TipUposlenika.privilegirani, "admin", "admin");
-        		RadniNalog rn = new RadniNalog(1, new Date(), z, StatusRadnogNaloga.kreiran, TipPosla.WomaMasina, new Date(), "Faris Čakarić", "Materijal", "Grbavica", new Date(), new Time(1000000), true, "testni posao");
+        		
+        		Date datumKreiranja = new Date();
+        		Zaposlenik kreirao = GlavniProzor.korisnik;
+        		StatusRadnogNaloga status = (StatusRadnogNaloga)comboBoxStatusNaloga.getSelectedItem();
+        		TipPosla tip = (TipPosla)comboBoxTipPosla.getSelectedItem();
+        		Date planiraniDatumIzvrsenja = new Date();
+        		int izvrsilac = ((Zaposlenik)comboBoxIzvrsilac.getSelectedItem()).getId();
+        		String potrebniMaterijal = textAreaPotrebniMaterijal.getText();
+        		String lokacija = txtLokacija.getText();
+        		Date datumIzvrsenja = new Date();
+        		Time utrosenoVrijeme = new Time(Integer.parseInt(txtUtrosenoVrijeme.getText()));
+        		String opisPosla = textAreaOpisPosla.getText();        		
+        		
+        		RadniNalog rn = new RadniNalog(datumKreiranja, kreirao, status, tip, planiraniDatumIzvrsenja, izvrsilac, potrebniMaterijal, lokacija, datumIzvrsenja, utrosenoVrijeme, false, opisPosla);
         		rn.spasiUBazu();
         		// int BRN,Date VRN,Zaposlenik KRN,StatusRadnogNaloga stat,TipPosla pos,Date PDI,List LI,String PM,String lok,Date DI,Time UV,Boolean odo, String OP
         		dispose();
@@ -187,16 +213,16 @@ public class RadniNalozi extends JTabbedPane {
 
 			private void dispose() {
 				// TODO Auto-generated method stub
-				datePicker.getJFormattedTextField().setText("");
-		        datePicker_2.getJFormattedTextField().setText("");
-		        datePicker_3.getJFormattedTextField().setText("");
-		        txtZmajaOdBosne.setText("");
-				textArea.setText("");
-				textArea_1.setText("");
+				datePickerDatumKreiranja.getJFormattedTextField().setText("");
+		        datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField().setText("");
+		        datePickerDatumZavrsetkaRadova.getJFormattedTextField().setText("");
+		        txtLokacija.setText("");
+				textAreaOpisPosla.setText("");
+				textAreaPotrebniMaterijal.setText("");
 			}
         });
         btnKreiraj.setBounds(345, 700, 89, 23);
-        panel.add(btnKreiraj);
+        panelKreiranjeNaloga.add(btnKreiraj);
 
        
         
@@ -332,5 +358,10 @@ public class RadniNalozi extends JTabbedPane {
         button.setBounds(604, 137, 110, 23);
         panelPretraga.add(button);
 		
+	}
+	
+	Zaposlenik[] ucitajSveZaposlenike() {
+		
+		return null;
 	}
 }
