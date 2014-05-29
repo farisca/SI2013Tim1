@@ -4,46 +4,46 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class Zaposlenik implements java.io.Serializable {
-	private int id;
-	private String Ime;
-	private String Prezime;
+	private long id;
+	private String ime;
+	private String prezime;
 	private TipUposlenika tipUposlenika;
-	private String KorisnickoIme;
-	private String lozinka;
+	private long pristupniPodaci;
 	
 	public Zaposlenik() {}
 	
-	public Zaposlenik(String ime,String prezime, TipUposlenika TU, String ki, String loz) {
+	public Zaposlenik(String ime, String prezime, TipUposlenika tipUposlenika, long podaci) {
 		setIme(ime);
 		setPrezime(prezime);
-		setTipUposlenika(TU);
-		setLozinka(loz);
-		setKorisnickoIme(ki);
+		setTipUposlenika(tipUposlenika);
+		setPristupniPodaci(podaci);
+		//setLozinka(loz);
+		//setKorisnickoIme(ki);
 	}
 	void Izbrisi() {};
 	void DeaktivirajKorisnickiRacun() {
 		setTipUposlenika(TipUposlenika.neaktivan);
 	}
-	void PromijeniLozinku(String staralozinka,String novalozinka) throws Exception
+	/*void PromijeniLozinku(String staralozinka,String novalozinka) throws Exception
 	{
 		if(staralozinka == getLozinka())
 			setLozinka(novalozinka);
 		else throw new Exception("Lozinka nije validna!");
-	}
+	}*/
 	void PromjeniTipUposlenika(TipUposlenika ntu) {
 		setTipUposlenika(ntu);
 	}
 	public String getIme() {
-		return Ime;
+		return ime;
 	}
 	public void setIme(String ime) {
-		Ime = ime;
+		this.ime = ime;
 	}
 	public String getPrezime() {
-		return Prezime;
+		return prezime;
 	}
 	public void setPrezime(String prezime) {
-		Prezime = prezime;
+		this.prezime = prezime;
 	}
 	public TipUposlenika getTipUposlenika() {
 		return tipUposlenika;
@@ -51,10 +51,10 @@ public class Zaposlenik implements java.io.Serializable {
 	public void setTipUposlenika(TipUposlenika tipUposlenika) {
 		this.tipUposlenika = tipUposlenika;
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	/*public void spasiUBazu() {
@@ -64,16 +64,13 @@ public class Zaposlenik implements java.io.Serializable {
 		t.commit();
 		session.close();
 	}*/
-	public String getKorisnickoIme() {
-		return KorisnickoIme;
+
+	private long getPristupniPodaci() {
+		return pristupniPodaci;
 	}
-	public void setKorisnickoIme(String korisnickoIme) {
-		KorisnickoIme = korisnickoIme;
+
+	private void setPristupniPodaci(long pristupniPodaci) {
+		this.pristupniPodaci = pristupniPodaci;
 	}
-	public String getLozinka() {
-		return lozinka;
-	}
-	public void setLozinka(String lozinka) {
-		this.lozinka = lozinka;
-	}
+
 }

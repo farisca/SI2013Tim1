@@ -10,11 +10,11 @@ import org.hibernate.Transaction;
 public class RadniNalog implements java.io.Serializable {
 	private long brojRadnogNaloga;
 	private Date datumKreiranja;
-	private int kreatorRadnogNaloga;
+	private long kreatorRadnogNaloga;
 	private StatusRadnogNaloga status;
 	private TipPosla posao;
 	private Date planiraniDatumIzvrsenja;
-	private int izvrsilacPosla;
+	private long izvrsilacPosla;
 	private String potrebniMaterijal;
 	private String lokacija;
 	private Date datumIzvrsenja;
@@ -22,15 +22,15 @@ public class RadniNalog implements java.io.Serializable {
 	private Boolean odobren;
 	private String opisPosla;
 	private String razlogStorniranja;
-	private int osobaKojaStornira;
+	private long osobaKojaStornira;
 	private String razlogModifikovanja;
-	private int osobaKojaModifikuje;
+	private long osobaKojaModifikuje;
 	private Date datumModifikovanja;
 	
 	public RadniNalog() {}
 	
 	public RadniNalog(Date datumKreiranja, Zaposlenik kreatorNaloga, StatusRadnogNaloga status, TipPosla tip, Date planiraniDatumIzvrsenja, 
-						int izvrsilacPosla, String potrebniMaterijal, String lokacija, Date datumIzvrsenja, Time utrosenoVrijeme, Boolean odobren, String opis) {
+						long izvrsilacPosla, String potrebniMaterijal, String lokacija, Date datumIzvrsenja, Time utrosenoVrijeme, Boolean odobren, String opis) {
 		//setBrojRadnogNaloga(BRN);
 		setDatumKreiranja(datumKreiranja);
 		setKreatorRadnogNaloga(kreatorNaloga);
@@ -63,7 +63,7 @@ public class RadniNalog implements java.io.Serializable {
 	public void setBrojRadnogNaloga(int brojRadnogNaloga) {
 		this.brojRadnogNaloga = brojRadnogNaloga;
 	}
-	public int getKreatorRadnogNaloga() {
+	public long getKreatorRadnogNaloga() {
 		return kreatorRadnogNaloga;
 	}
 	public void setKreatorRadnogNaloga(Zaposlenik kreatorRadnogNaloga) {
@@ -87,10 +87,10 @@ public class RadniNalog implements java.io.Serializable {
 	public void setPosao(TipPosla posao) {
 		this.posao = posao;
 	}
-	public int getIzvrsilacPosla() {
+	public long getIzvrsilacPosla() {
 		return izvrsilacPosla;
 	}
-	public void setIzvrsilacPosla(int izvrsilac) {
+	public void setIzvrsilacPosla(long izvrsilac) {
 		izvrsilacPosla = izvrsilac;
 	}
 	public Date getPlaniraniDatumIzvrsenja() {
@@ -141,7 +141,7 @@ public class RadniNalog implements java.io.Serializable {
 	public void setRazlogStorniranja(String razlogStorniranja) {
 		this.razlogStorniranja = razlogStorniranja;
 	}
-	public int getOsobaKojaStornira() {
+	public long getOsobaKojaStornira() {
 		return osobaKojaStornira;
 	}
 	public void setOsobaKojaStornira(Zaposlenik osobaKojaStornira) {
@@ -154,7 +154,7 @@ public class RadniNalog implements java.io.Serializable {
 	public void setRazlogModifikovanja(String razlogModifikovanja) {
 		this.razlogModifikovanja = razlogModifikovanja;
 	}
-	public int getOsobaKojaModifikuje() {
+	public long getOsobaKojaModifikuje() {
 		return osobaKojaModifikuje;
 	}
 	public void setOsobaKojaModifikuje(Zaposlenik osobaKojaModifikuje) {

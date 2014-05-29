@@ -105,16 +105,16 @@ public class RadniNalozi extends JTabbedPane {
         lblStatusRadnogNaloga.setBounds(76, 620, 150, 14);
         panelKreiranjeNaloga.add(lblStatusRadnogNaloga);
         
-        Zaposlenik[] zaposlenici = ucitajSveZaposlenike();
+        //Zaposlenik[] zaposlenici = ucitajSveZaposlenike();
         
         comboBoxKreirao = new JComboBox<Zaposlenik>();
-        comboBoxKreirao.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
+        //comboBoxKreirao.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
         comboBoxKreirao.setEditable(true);
         comboBoxKreirao.setBounds(236, 134, 200, 20);
         panelKreiranjeNaloga.add(comboBoxKreirao);
         
         comboBoxIzvrsilac = new JComboBox<Zaposlenik>();
-        comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
+        //comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
         comboBoxIzvrsilac.setEditable(true);
         comboBoxIzvrsilac.setBounds(236, 159, 200, 20);
         panelKreiranjeNaloga.add(comboBoxIzvrsilac);
@@ -198,7 +198,7 @@ public class RadniNalozi extends JTabbedPane {
         		StatusRadnogNaloga status = (StatusRadnogNaloga)comboBoxStatusNaloga.getSelectedItem();
         		TipPosla tip = (TipPosla)comboBoxTipPosla.getSelectedItem();
         		Date planiraniDatumIzvrsenja = new Date();
-        		int izvrsilac = ((Zaposlenik)comboBoxIzvrsilac.getSelectedItem()).getId();
+        		long izvrsilac = ((Zaposlenik)comboBoxIzvrsilac.getSelectedItem()).getId();
         		String potrebniMaterijal = textAreaPotrebniMaterijal.getText();
         		String lokacija = txtLokacija.getText();
         		Date datumIzvrsenja = new Date();
@@ -360,8 +360,4 @@ public class RadniNalozi extends JTabbedPane {
 		
 	}
 	
-	Zaposlenik[] ucitajSveZaposlenike() {
-		
-		return null;
-	}
 }

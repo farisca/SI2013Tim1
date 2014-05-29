@@ -1,6 +1,7 @@
 package ba.unsa.etf.si.tim1.jKP;
 
 import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
+import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -71,15 +72,17 @@ public class Login extends JFrame {
         btnPrijava.setBounds(87, 301, 117, 25);
         btnPrijava.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		if (HibernatePristupniPodaci.postojiKorisnik(txtUsername.getText()))
-        			JOptionPane.showMessageDialog(null, "true");
-        		else
-        			JOptionPane.showMessageDialog(null, "false");
-        		
-        		/*GlavniProzor prozor = new GlavniProzor(korisnik);
-        		prozor.setVisible(true);
-        		setVisible(false);*/
-        		
+        		try {
+        			long id = HibernatePristupniPodaci.provjeriPodatke(txtUsername.getText(), txtPassword.getText());
+        			korisnik = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(id);
+
+        			GlavniProzor prozor = new GlavniProzor(korisnik);
+            		prozor.setVisible(true);
+            		setVisible(false);
+        		}
+        		catch (Exception ex) {
+        			JOptionPane.showMessageDialog(null, ex.getMessage());
+        		}
         	}
         });
         jp.add(btnPrijava);

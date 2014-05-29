@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 28, 2014 5:16:39 PM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated May 29, 2014 9:28:35 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="ba.unsa.etf.si.tim1.jKP.Zaposlenik" table="ZAPOSLENIK">
-        <id name="id" type="int">
+        <id name="id" type="long">
             <column name="ID" />
             <generator class="assigned" />
         </id>
-        <property name="Ime" type="java.lang.String">
+        <property name="ime" type="java.lang.String">
             <column name="IME" />
         </property>
-        <property name="Prezime" type="java.lang.String">
+        <property name="prezime" type="java.lang.String">
             <column name="PREZIME" />
         </property>
         <property name="tipUposlenika">
@@ -21,11 +21,8 @@
                 <param name="enumClass">ba.unsa.etf.si.tim1.jKP.TipUposlenika</param>
             </type>
         </property>
-        <property name="KorisnickoIme" type="java.lang.String">
-            <column name="KORISNICKOIME" />
-        </property>
-        <property name="lozinka" type="java.lang.String">
-            <column name="LOZINKA" />
+        <property name="pristupniPodaci" type="long">
+            <column name="PRISTUPNIPODACI" />
         </property>
     </class>
 </hibernate-mapping>
