@@ -51,9 +51,14 @@ public class Admin extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(textField_4.getText());
 			for(int i=0;i<lz.size();i++) {
-				data[i][0] = lz.get(i).getIme();
+				data[i][0] = lz.get(i).getIme() + " " + lz.get(i).getPrezime();
 				data[i][1] = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
-				data[i][2] = "Aktiviran";
+				if(lz.get(i).getTipUposlenika()==TipUposlenika.neaktivan)
+					data[i][2] = "Deaktiviran";
+				else if(lz.get(i).getTipUposlenika()==TipUposlenika.obicni)
+					data[i][2] = "Obični";
+				else
+					data[i][2] = "Privilegirani";
 			}
 		}
 		});
@@ -69,11 +74,36 @@ public class Admin extends JPanel {
 		JButton button = new JButton("(De)aktiviraj");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(textField_4.getText());
+				Zaposlenik novi = lz.get(table.getSelectedRow());
+				if(novi.getTipUposlenika().toString()=="neaktivan") {
+					Object[] options = {"Obični",
+		                    "Privilegirani",
+		                    "Otkazujem aktivaciju!"};
+					int n = JOptionPane.showOptionDialog(panelPretraga,
+							"Odabarite vrstu korisnika kojeg aktivirate",
+									"Upit",
+									JOptionPane.YES_NO_CANCEL_OPTION,
+									JOptionPane.QUESTION_MESSAGE,
+									null,
+									options,
+									options[2]);
+					if(n==0) {
+						novi.setTipUposlenika(TipUposlenika.obicni);
+						HibernateZaposlenik.urediZaposlenika(novi);
+					}
+					else if(n==1) {
+						novi.setTipUposlenika(TipUposlenika.privilegirani);
+						HibernateZaposlenik.urediZaposlenika(novi);
+					}
+				}
+				else {
+					novi.setTipUposlenika(TipUposlenika.neaktivan);
+					HibernateZaposlenik.urediZaposlenika(novi);
+				}
 				JOptionPane.showMessageDialog(panelPretraga,
-						"Korisnik je uspjesno deaktiviran.", "Potvrda",
+						novi.getPrezime(), "Potvrda",
 						JOptionPane.INFORMATION_MESSAGE);
-				table.setValueAt("Deaktiviran", 0, 2);
-
 				dispose();
 			}
 

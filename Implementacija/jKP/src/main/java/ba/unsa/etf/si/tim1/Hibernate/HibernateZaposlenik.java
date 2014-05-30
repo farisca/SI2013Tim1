@@ -1,6 +1,7 @@
 package ba.unsa.etf.si.tim1.Hibernate;
 
 import ba.unsa.etf.si.tim1.jKP.HibernateUtil;
+import ba.unsa.etf.si.tim1.jKP.PristupniPodaci;
 import ba.unsa.etf.si.tim1.jKP.RadniNalog;
 import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
 
@@ -76,6 +77,13 @@ public class HibernateZaposlenik {
 		}
 		List<Zaposlenik> lista = (List<Zaposlenik>)query.list();
 		return lista;
+	}
+	public static void urediZaposlenika(Zaposlenik z) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = s.beginTransaction();
+		s.update(z);
+		t.commit();
+		s.close();
 	}
 }
 
