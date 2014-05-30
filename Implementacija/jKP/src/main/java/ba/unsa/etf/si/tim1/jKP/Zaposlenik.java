@@ -62,7 +62,7 @@ public class Zaposlenik implements java.io.Serializable {
 		return pristupniPodaci;
 	}
 
-	private void setPristupniPodaci(long pristupniPodaci) {
+	public void setPristupniPodaci(long pristupniPodaci) {
 		this.pristupniPodaci = pristupniPodaci;
 	}
 	

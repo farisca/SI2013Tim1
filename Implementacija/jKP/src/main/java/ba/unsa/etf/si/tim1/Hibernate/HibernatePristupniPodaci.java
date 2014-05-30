@@ -80,4 +80,13 @@ public class HibernatePristupniPodaci {
 		
 		return ((PristupniPodaci)query.list().get(0)).getId();
 	}
-}
+	public static long spremiPodatke(String username, String password) throws Exception {
+		String uPass = HesirajMD5(password);
+		PristupniPodaci p = new PristupniPodaci(username,uPass);
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = s.beginTransaction();
+		s.save(p);
+		t.commit();
+		return provjeriPodatke(p.getKorisnickoIme(),password);
+		}
+	}
