@@ -63,4 +63,30 @@ public class HibernateRadniNalog {
 	      }
 	      return null;
 	}
+	
+
+	public static List<RadniNalog> pretraga2(String kriterij1, String unos1, String kriterij2, String unos2) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+	    Transaction t = null;
+	      try{
+	         t = session.beginTransaction();
+	         String upit = "select * from radninalog where " + kriterij1 + " = :unos1 and "+ kriterij2 + " = :unos2";
+	         SQLQuery query = session.createSQLQuery(upit);
+	 		 query.addEntity(RadniNalog.class);
+	 		 query.setParameter("unos1", unos1);
+	 		 query.setParameter("unos2", unos2);
+	 		 List result = query.list();
+	 		 
+	 		  
+	 		 t.commit(); 
+	 		 return result;
+
+	      }catch (HibernateException e) {
+	         if (t!=null) t.rollback();
+	         e.printStackTrace(); 
+	      }finally {
+	         session.close(); 
+	      }
+	      return null;
+	}
 }

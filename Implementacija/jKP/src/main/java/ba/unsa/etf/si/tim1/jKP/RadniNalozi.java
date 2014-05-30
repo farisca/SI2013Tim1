@@ -30,6 +30,7 @@ import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 public class RadniNalozi extends JTabbedPane {
+
 	
 	// Varijable za kreiranje radnog naloga
 	private final JPanel panelKreiranjeNaloga;
@@ -55,7 +56,26 @@ public class RadniNalozi extends JTabbedPane {
 			"Datum zavr\u0161etka radova", 
 			"Tip posla ili usluge", 
 			"Utro\u0161eno vrijeme"};
-	
+	private final String[] kriteriji_pretrage = {"BrojRadnogNaloga", 
+			"KreatorRadnogNaloga", 
+			"IzvrsilacPosla", 
+			"Status", 
+			"Lokacija", 
+			"DatumKreiranja", 
+			"PlaniraniDatumIzvrsenja", 
+			"DatumIzvrsenja"};
+
+
+	private final JTextField textField;
+	private final JTextField textField_2;
+	private final JTextField textField_3;
+	private final JPanel panel_2 = new JPanel();
+	private final JPanel panel_3 = new JPanel();
+	private final JPanel panel_4 = new JPanel();
+	private final JButton btnTrazi_1;
+	private final JButton btnTrazi_2;
+	private final JButton btnTrazi_3;
+	private final JButton btnTrazi_4;
 	
 	private Zaposlenik korisnik;
 	
@@ -270,26 +290,26 @@ public class RadniNalozi extends JTabbedPane {
         panelPretraga.add(lblPretraga);
         
         JLabel lblKriterijPretrage = new JLabel("Kriterij pretrage:");
-        lblKriterijPretrage.setBounds(76, 112, 150, 14);
+        lblKriterijPretrage.setBounds(76, 72, 150, 14);
         panelPretraga.add(lblKriterijPretrage);
         
         JLabel lblKljunaRije = new JLabel("Klju\u010Dna rije\u010D:");
-        lblKljunaRije.setBounds(76, 137, 150, 14);
+        lblKljunaRije.setBounds(76, 97, 150, 14);
         panelPretraga.add(lblKljunaRije);
         
         comboKriterijPretrage = new JComboBox();
         comboKriterijPretrage.setModel(new DefaultComboBoxModel(new String[] {"BrojRadnogNaloga", "KreatorRadnogNaloga", "IzvrsilacPosla", "Status", "Lokacija", "DatumKreiranja", "PlaniraniDatumIzvrsenja", "DatumIzvrsenja"}));
-        comboKriterijPretrage.setBounds(236, 109, 200, 20);
+        comboKriterijPretrage.setBounds(236, 72, 200, 20);
         panelPretraga.add(comboKriterijPretrage);
         
         final JTextField textField_1 = new JTextField();
         textField_1.setText("1");
-        textField_1.setBounds(236, 134, 200, 20);
+        textField_1.setBounds(236, 94, 200, 20);
         panelPretraga.add(textField_1);
         textField_1.setColumns(10);
         
         JScrollPane scrollPane_3 = new JScrollPane();
-        scrollPane_3.setBounds(76, 213, 638, 178);
+        scrollPane_3.setBounds(76, 335, 638, 136);
         panelPretraga.add(scrollPane_3);
         
        
@@ -320,12 +340,8 @@ public class RadniNalozi extends JTabbedPane {
         tabela.getColumnModel().getColumn(9).setMinWidth(20);
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
-        JLabel lblRezultati = new JLabel("Rezultati:");
-        lblRezultati.setBounds(76, 188, 150, 14);
-        panelPretraga.add(lblRezultati);
-        
         JButton btnDetaljnije = new JButton("Detaljnije");
-        btnDetaljnije.setBounds(625, 420, 89, 23);
+        btnDetaljnije.setBounds(625, 488, 89, 23);
         btnDetaljnije.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		JOptionPane.showMessageDialog(panelPretraga, "Nije implementirano!");
@@ -343,11 +359,11 @@ public class RadniNalozi extends JTabbedPane {
         		
         	}
         });
-        btnModifikuj.setBounds(526, 420, 89, 23);
+        btnModifikuj.setBounds(529, 488, 89, 23);
         panelPretraga.add(btnModifikuj);
         
         JButton btnStorniraj = new JButton("Storniraj");
-        btnStorniraj.setBounds(427, 420, 89, 23);
+        btnStorniraj.setBounds(432, 488, 89, 23);
         panelPretraga.add(btnStorniraj);
         btnStorniraj.addActionListener(new ActionListener(){
         	
@@ -367,20 +383,21 @@ public class RadniNalozi extends JTabbedPane {
                 
         	}
         });
-        btnZakljui.setBounds(328, 420, 89, 23);
+        btnZakljui.setBounds(333, 488, 89, 23);
         panelPretraga.add(btnZakljui);
         
-        JButton btnNoviKriterij = new JButton("Novi kriterij");
-        btnNoviKriterij.setBounds(604, 108, 110, 23);
-        panelPretraga.add(btnNoviKriterij);
-        btnNoviKriterij.addActionListener(new ActionListener() {
+        JButton btnNoviKriterij_1 = new JButton("Novi kriterij");
+        btnNoviKriterij_1.setBounds(604, 68, 110, 23);
+        panelPretraga.add(btnNoviKriterij_1);
+        btnNoviKriterij_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		JOptionPane.showMessageDialog(panelPretraga, "Nije implementirano!");
+        		panel_2.setVisible(true);
+        		btnTrazi_1.setVisible(false);
         	}
         });
         
-        JButton button = new JButton("Tra\u017Ei");
-        button.addActionListener(new ActionListener() {
+        btnTrazi_1 = new JButton("Tra\u017Ei");
+        btnTrazi_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		
         		String kriterij = comboKriterijPretrage.getSelectedItem().toString();
@@ -390,7 +407,7 @@ public class RadniNalozi extends JTabbedPane {
 				List<RadniNalog> z = HibernateRadniNalog.pretraga(kriterij, unos);
                 
                 if (z.size()==0) { 
-                	JOptionPane.showMessageDialog(panelPretraga, "Nema tog RN-a!"); 
+                	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
                 } 
                 else {
                 	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
@@ -398,9 +415,171 @@ public class RadniNalozi extends JTabbedPane {
                 }
         	}
         });
-        button.setBounds(604, 137, 110, 23);
-        panelPretraga.add(button);
+        btnTrazi_1.setBounds(604, 93, 110, 23);
+        panelPretraga.add(btnTrazi_1);
 		
+        //--------------
+    //  panel_2 = new JPanel();
+        panel_2.setBounds(76, 122, 638, 60);
+        panel_2.setLayout(null);
+        panel_2.setVisible(false);
+        panelPretraga.add(panel_2);
+        
+        JLabel label = new JLabel("Kriterij pretrage:");
+        label.setBounds(0, 11, 150, 14);
+        panel_2.add(label);
+        
+        JLabel label_1 = new JLabel("Ključna riječ:");
+        label_1.setBounds(0, 36, 150, 14);
+        panel_2.add(label_1);
+        
+        final JComboBox comboBox = new JComboBox();
+        comboBox.setBounds(160, 8, 200, 20);
+        comboBox.setModel(new DefaultComboBoxModel(kriteriji_pretrage));
+        panel_2.add(comboBox);
+        
+        textField = new JTextField();
+        textField.setText("1");
+        textField.setColumns(10);
+        textField.setBounds(160, 33, 200, 20);
+        panel_2.add(textField);
+        
+        final JButton btnUkloni_2 = new JButton("Ukloni");
+        btnUkloni_2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		panel_2.setVisible(false);
+        		btnTrazi_1.setVisible(true);
+        	}
+        });
+        btnUkloni_2.setBounds(366, 32, 88, 23);
+        panel_2.add(btnUkloni_2);
+        
+        JButton btnNoviKriterij_2 = new JButton("Novi kriterij");
+        btnNoviKriterij_2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		panel_3.setVisible(true);
+        		btnTrazi_2.setVisible(false);
+        		btnUkloni_2.setVisible(false);
+        	}
+        });
+        btnNoviKriterij_2.setBounds(528, 7, 110, 23);
+        panel_2.add(btnNoviKriterij_2);
+        
+        btnTrazi_2 = new JButton("Traži");
+        btnTrazi_2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	
+        		// 1. kriterij i kljucna rijec
+        		String kriterij_1 = comboKriterijPretrage.getSelectedItem().toString();
+        		String unos_1 = textField_1.getText();
+        		
+        		// 2. kriterij i kljucna rijec
+        		String kriterij_2 = comboBox.getSelectedItem().toString();
+        		String unos_2 = textField.getText();
+        		
+				List<RadniNalog> z = HibernateRadniNalog.pretraga2(kriterij_1, unos_1, kriterij_2, unos_2);
+                
+                if (z.size()==0) { 
+                	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
+                } 
+                else {
+                	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
+                	upisiPodatkeUTabelu(z);
+                }
+        	}
+        });
+        btnTrazi_2.setBounds(528, 32, 110, 23);
+        panel_2.add(btnTrazi_2);
+        
+        //panel_3 = new JPanel();
+        panel_3.setLayout(null);
+        panel_3.setBounds(76, 193, 638, 60);
+        panel_3.setVisible(false);
+        panelPretraga.add(panel_3);
+        
+        JLabel label_2 = new JLabel("Kriterij pretrage:");
+        label_2.setBounds(0, 11, 150, 14);
+        panel_3.add(label_2);
+        
+        JLabel label_3 = new JLabel("Ključna riječ:");
+        label_3.setBounds(0, 36, 150, 14);
+        panel_3.add(label_3);
+        
+        JComboBox comboBox_1 = new JComboBox();
+        comboBox_1.setBounds(160, 8, 200, 20);
+        comboBox_1.setModel(new DefaultComboBoxModel(kriteriji_pretrage));
+        panel_3.add(comboBox_1);
+        
+        textField_2 = new JTextField();
+        textField_2.setText("1");
+        textField_2.setColumns(10);
+        textField_2.setBounds(160, 33, 200, 20);
+        panel_3.add(textField_2);
+        
+        final JButton btnUkloni_3 = new JButton("Ukloni");
+        btnUkloni_3.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		panel_3.setVisible(false);
+        		btnTrazi_2.setVisible(true);
+        	}
+        });
+        btnUkloni_3.setBounds(366, 32, 88, 23);
+        panel_3.add(btnUkloni_3);
+        
+        JButton btnNoviKriterij_3 = new JButton("Novi kriterij");
+        btnNoviKriterij_3.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		panel_4.setVisible(true);
+        		btnTrazi_3.setVisible(false);
+        		btnUkloni_3.setVisible(false);
+        	}
+        });
+        btnNoviKriterij_3.setBounds(528, 7, 110, 23);
+        panel_3.add(btnNoviKriterij_3);
+        
+        btnTrazi_3 = new JButton("Traži");
+        btnTrazi_3.setBounds(528, 32, 110, 23);
+        panel_3.add(btnTrazi_3);
+        
+        //panel_4 = new JPanel();
+        panel_4.setLayout(null);
+        panel_4.setBounds(76, 264, 638, 60);
+        panel_4.setVisible(false);
+        panelPretraga.add(panel_4);
+        
+        JLabel label_4 = new JLabel("Kriterij pretrage:");
+        label_4.setBounds(0, 11, 150, 14);
+        label_4.setVisible(false);
+        panel_4.add(label_4);
+        
+        JLabel label_5 = new JLabel("Ključna riječ:");
+        label_5.setBounds(0, 36, 150, 14);
+        panel_4.add(label_5);
+        
+        JComboBox comboBox_2 = new JComboBox();
+        comboBox_2.setBounds(160, 8, 200, 20);
+        comboBox_2.setModel(new DefaultComboBoxModel(kriteriji_pretrage));
+        panel_4.add(comboBox_2);
+        
+        textField_3 = new JTextField();
+        textField_3.setText("1");
+        textField_3.setColumns(10);
+        textField_3.setBounds(160, 33, 200, 20);
+        panel_4.add(textField_3);
+        
+        JButton btnUkloni_4 = new JButton("Ukloni");
+        btnUkloni_4.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		panel_4.setVisible(false);
+        		btnTrazi_3.setVisible(true);
+        	}
+        });
+        btnUkloni_4.setBounds(366, 32, 88, 23);
+        panel_4.add(btnUkloni_4);
+        
+        btnTrazi_4 = new JButton("Traži");
+        btnTrazi_4.setBounds(528, 32, 110, 23);
+        panel_4.add(btnTrazi_4);
 	}
 	
 	Zaposlenik[] ucitajSveZaposlenike() {
