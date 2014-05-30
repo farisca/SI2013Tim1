@@ -7,6 +7,9 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
+import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
+
 public class Admin extends JPanel {
 	private JTextField textField;
 	private JTextField textField_1;
@@ -137,27 +140,25 @@ public class Admin extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String[] ime_i_prezime = textField.getText().split(" ");
-					Zaposlenik NoviZaposlenik = new Zaposlenik(
-							ime_i_prezime[0], ime_i_prezime[1],TipUposlenika.obicni, textField_1.getText(),new String(textField_2.getPassword()));
-					if (textField_5.getSelectedIndex() == 1)
-						NoviZaposlenik
-								.setTipUposlenika(TipUposlenika.privilegirani);
-					if (textField.getText().length()==0 || ime_i_prezime[1].length()==0)
+					String ki = textField_1.getText();
+					String pass1 = textField_2.getText();
+					String pass2 = textField_3.getText();
+					if (ime_i_prezime[0].length()==0 || ime_i_prezime[1].length()==0)
 						throw new Exception("Niste Upisali Ime i Prezime!");
-					if (textField_1.getText().length()==0)
-						throw new Exception(
-								"Niste Upisali Korisničko ime!");
-					if(textField_2.getPassword().length==0 || textField_2.getPassword().length==0)
+					if (ki.length()==0)
+						throw new Exception("Niste Upisali Korisničko ime!");
+					if(pass1.length()==0 || pass2.length()==0)
 						throw new Exception("Niste upisali lozinku!");
-					if (!(Arrays.equals(textField_2.getPassword(), textField_3.getPassword())))
-						throw new Exception("Lozinke nisu iste!");
+				/*	if (!Arrays.equals(pass1.getPassword(), pass2.getPassword()))
+						throw new Exception("Lozinke nisu iste!");*/
+					Zaposlenik z = new Zaposlenik(ime_i_prezime[0],ime_i_prezime[1],TipUposlenika.obicni,1);
+					HibernateZaposlenik.pohraniZaposlenika(z, HibernatePristupniPodaci.spremiPodatke(ki, pass1));
 					JOptionPane.showMessageDialog(panelNovi,
 							"Uspjesno ste kreirali novog korisnika "
-									+ NoviZaposlenik.getIme() + " "
-									+ NoviZaposlenik.getPrezime() + " koji je "
-									+ NoviZaposlenik.getTipUposlenika() + " uposlenik!",
+									+ z.getIme() + " "
+									+ z.getPrezime() + " koji je "
+									+ z.getTipUposlenika() + " uposlenik!",
 							"Potvrda", JOptionPane.INFORMATION_MESSAGE);
-					//NoviZaposlenik.spasiUBazu();
 					dispose();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(panelNovi, e1.getMessage(),

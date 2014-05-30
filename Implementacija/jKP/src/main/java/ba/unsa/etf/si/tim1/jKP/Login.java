@@ -29,10 +29,10 @@ public class Login extends JFrame {
 	private JPasswordField txtPassword;
 	private Zaposlenik korisnik;
 
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Login();
-	}*/
+	}
 	
 	Login() {
 		setTitle("jKP");
@@ -75,7 +75,6 @@ public class Login extends JFrame {
         		try {
         			long id = HibernatePristupniPodaci.provjeriPodatke(txtUsername.getText(), txtPassword.getText());
         			korisnik = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(id);
-
         			GlavniProzor prozor = new GlavniProzor(korisnik);
             		prozor.setVisible(true);
             		setVisible(false);
@@ -92,11 +91,5 @@ public class Login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
-		
-		/*Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction t = session.beginTransaction();
-		RadniNalog rn = new RadniNalog(41, new Date(), new Zaposlenik("Faris", "cakaric", TipUposlenika.obicni, "fcakaric1", "admin"), StatusRadnogNaloga.kreiran, TipPosla.UgradnjaVodomjera, new Date(), null, null, null, null, null, null, null);
-		session.save(rn);
-		t.commit();*/
 	}
 }
