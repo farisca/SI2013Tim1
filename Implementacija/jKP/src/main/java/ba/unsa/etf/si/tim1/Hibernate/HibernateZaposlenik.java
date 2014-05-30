@@ -1,7 +1,6 @@
 package ba.unsa.etf.si.tim1.Hibernate;
 
 import ba.unsa.etf.si.tim1.jKP.HibernateUtil;
-import ba.unsa.etf.si.tim1.jKP.PristupniPodaci;
 import ba.unsa.etf.si.tim1.jKP.RadniNalog;
 import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
 
