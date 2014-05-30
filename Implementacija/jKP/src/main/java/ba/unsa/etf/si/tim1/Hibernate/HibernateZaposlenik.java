@@ -69,7 +69,7 @@ public class HibernateZaposlenik {
 		s.beginTransaction();
 		
 		Query query = s.createQuery("FROM Zaposlenik WHERE ime LIKE :kriterij OR prezime LIKE :kriterij");
-		query.setParameter("kriterij", kriterij);
+		query.setParameter("kriterij", "%"+kriterij+"%");
 		if(query.list().isEmpty()) {
 			s.close();
 			return null;

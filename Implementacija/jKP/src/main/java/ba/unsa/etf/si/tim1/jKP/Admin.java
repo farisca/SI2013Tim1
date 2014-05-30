@@ -46,11 +46,11 @@ public class Admin extends JPanel {
 		btnTrai.setBackground(Color.LIGHT_GRAY);
 		btnTrai.setBounds(610, 28, 117, 25);
 		panelPretraga.add(btnTrai);
-		final Object[][] data = {{"","",""}};
+		final Object[][] data = {{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""}};
 		btnTrai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(textField_4.getText());
-			for(int i=0;i<lz.size();i++) {
+			for(int i=0;i<=lz.size();i++) {
 				data[i][0] = lz.get(i).getIme() + " " + lz.get(i).getPrezime();
 				data[i][1] = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
 				if(lz.get(i).getTipUposlenika()==TipUposlenika.neaktivan)
@@ -60,6 +60,9 @@ public class Admin extends JPanel {
 				else
 					data[i][2] = "Privilegirani";
 			}
+			JOptionPane.showMessageDialog(panelPretraga,
+					data[1][0].toString(), "Potvrda",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 		});
 		JLabel lblRezultatiPretrage = new JLabel("Rezultati pretrage:");
