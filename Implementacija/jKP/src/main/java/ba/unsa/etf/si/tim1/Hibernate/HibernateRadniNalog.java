@@ -30,6 +30,16 @@ public class HibernateRadniNalog {
 		s.close();
 	}
 
+	public void modifikujRadniNalog(RadniNalog nalog) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = s.beginTransaction();
+		
+		s.update(nalog);
+		
+		t.commit();
+		s.close();
+	}
+	
 	public static List<RadniNalog> pretraga(String kriterij, String unos) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 	    Transaction t = null;
