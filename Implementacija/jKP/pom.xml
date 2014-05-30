@@ -55,5 +55,11 @@
     	<artifactId>itextpdf</artifactId>
     	<version>5.5.1</version>
     </dependency>
+    <dependency>
+	<groupId>org.swinglabs</groupId>
+	<artifactId>pdf-renderer</artifactId>
+	<version>1.0.5</version>
+</dependency>
+    
   </dependencies>
 </project>

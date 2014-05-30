@@ -14,6 +14,7 @@ import java.nio.channels.FileChannel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.itextpdf.text.Anchor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -63,7 +65,7 @@ public class Izvjestaji extends JPanel {
         this.add(lblTipIzvjetaja);
         
         comboBox = new JComboBox<String>();
-        comboBox.setBounds(144, 23, 300, 24);
+        comboBox.setBounds(144, 23, 490, 24);
         comboBox.addItem("Sedmični pregled rada zaposlenika");
         comboBox.addItem("Mjesečni izvještaj o radnim nalozima");
         comboBox.addItem("Mjesečni izvještaj o storniranim radnim nalozima");
@@ -146,16 +148,29 @@ public class Izvjestaji extends JPanel {
         			File file = new File("");
         			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         			Date date = new Date();
+        			if(comboBox.getSelectedIndex() == 0) {
+        				file = new File(dateFormat.format(date));
+                		SedmicniRadnici(dateFormat.format(date), (Date) datePicker.getModel().getValue());
+                	}
         			if(comboBox.getSelectedIndex() == 1) {
         				file = new File(dateFormat.format(date));
-                		MjesecniSumarni(dateFormat.format(date), datePicker);
+                		try {
+							MjesecniSumarni(dateFormat.format(date), comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+						}
                 	}
         			if(comboBox.getSelectedIndex() == 2) {
         				file = new File(dateFormat.format(date));
-                		MjesecniStornirani(dateFormat.format(date), comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+                		try {
+							MjesecniStornirani(dateFormat.format(date), comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+						}
                 	}
                 	
-                    
+        			
+
                    
                     FileChannel channel; 
                     ByteBuffer buf;
@@ -253,56 +268,71 @@ public class Izvjestaji extends JPanel {
 				textx = margin+cellMargin;
 			}
 			}
-	void MjesecniSumarni(String fajl, JDatePickerImpl datePicker) {
-		SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+	void MjesecniSumarni(String fajl, int mjesec, String godina) throws Exception {
+		DateFormat mj = new SimpleDateFormat("MM");
+		DateFormat god = new SimpleDateFormat("yyyy");
+		Date date = new Date();
+		if(Integer.valueOf(god.format(date)).intValue() < Integer.valueOf(godina).intValue()) throw new Exception ("Pogrešna godina!");
+		if(Integer.valueOf(god.format(date)).intValue() == Integer.valueOf(godina).intValue() && Integer.valueOf(mj.format(date)).intValue() < mjesec)
+			throw new Exception ("Pogrešan mjesec!");
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction t = session.beginTransaction();                		
-		int neizvrseni = Integer.parseInt(((session.createSQLQuery("select count(*) from (select * from RADNINALOG where VRIJEMERADNOGNALOGA > '2014-05-17' and VRIJEMERADNOGNALOGA < '" +  dt1.format((Date) datePicker.getModel().getValue()) + "') a where DATUMIZVRSENJA IS NULL")).list().toArray()[0]).toString());
-		int izvrseni = Integer.parseInt(((session.createSQLQuery("select count(*) from (select * from RADNINALOG where VRIJEMERADNOGNALOGA > '2014-05-17' and VRIJEMERADNOGNALOGA < '" +  dt1.format((Date) datePicker.getModel().getValue()) + "') a where DATUMIZVRSENJA IS NOT NULL")).list().toArray()[0]).toString());
-		int stornirani = Integer.parseInt(((session.createSQLQuery("select count(*) from (select * from RADNINALOG where VRIJEMERADNOGNALOGA > '2014-05-17' and VRIJEMERADNOGNALOGA < '" +  dt1.format((Date) datePicker.getModel().getValue()) + "') a where OSOBAKOJASTORNIRA <> -1")).list().toArray()[0]).toString());
-		JOptionPane.showMessageDialog(getRootPane(), neizvrseni);
-		PDDocument doc;
+		Transaction t = session.beginTransaction();   
+		int neizvrseni = 0; int izvrseni = 0; int stornirani = 0; 
+		neizvrseni = Integer.parseInt(((session.createSQLQuery("select count(*) from radninalog where month(datumkreiranja) = "+ mjesec + " and year(datumkreiranja) = " + godina + " and status = 'nezakljucen'")).list().toArray()[0]).toString());
+		izvrseni = Integer.parseInt(((session.createSQLQuery("select count(*) from radninalog where month(datumkreiranja) = "+ mjesec + " and year(datumkreiranja) = " + godina + " and status = 'zakljucen'")).list().toArray()[0]).toString());
+		stornirani = Integer.parseInt(((session.createSQLQuery("select count(*) from radninalog where month(datumkreiranja) = "+ mjesec + " and year(datumkreiranja) = " + godina + " and status = 'storniran'")).list().toArray()[0]).toString());
+		
+		Document document = new Document();
 		try {
-			doc = new PDDocument();
-			PDPage page = new PDPage();
-    		doc.addPage( page );
-
-    		PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-
-    		String[][] content = {{"Neizvrseni",Integer.toString(neizvrseni)}, 
-    		                      {"Izvrseni",Integer.toString(izvrseni)}, 
-    		                      {"Stornirani",Integer.toString(stornirani)}, 
-    		                      {"Ukupno",Integer.toString(neizvrseni + izvrseni + stornirani)}};
-
-    		
-    		contentStream.beginText();
-    		contentStream.moveTextPositionByAmount( 110, 700 );
-    		contentStream.setFont( PDType1Font.HELVETICA_BOLD , 14 );  
-    		contentStream.drawString("Kreirani, zakljuceni, nezakljuceni i stornirani radni nalozi");
-    		contentStream.endText();
-    		/*PDAnnotationLink txtLink = new PDAnnotationLink();
-    		PDActionURI action = new PDActionURI();
-    		action.setURI("http://www.pdfbox.org");
-    		txtLink.set
-    		page.getAnnotations().add(txtLink);
-    		txtLink.setAction(action);*/
-    		drawTable(page, contentStream, 650, 100, content);
-    		contentStream.close();
-    		doc.save("izvjestaj.pdf" );
+			PdfWriter.getInstance(document, new FileOutputStream(fajl));
+	        document.open();
+	        PdfPTable table = new PdfPTable(2);
+	        
+	        table.setWidthPercentage(50f);
+	        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
+	        	      Font.BOLD);
+	        Font ctFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
+	        	      Font.BOLD);
+	        Paragraph parah = new Paragraph("Kreirani, zakljuceni, nezakljuceni i stornirani radni nalozi", catFont);
+	        parah.setAlignment(Element.ALIGN_CENTER);
+	        
+	        document.add(parah);
+	        parah = new Paragraph("Mjesec: " + mjesec + "  Godina: " + godina, ctFont);
+	        parah.setAlignment(Element.ALIGN_CENTER);
+	        document.add(parah);
+	        document.add(new Paragraph(" "));document.add(new Paragraph(" "));
+	        table.setWidths(new float[]{(float)0.7,(float) 0.3});
+	        PdfPCell cell;
+	        cell = new PdfPCell(new Phrase("Kreirani radni nalozi"));cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase(String.valueOf(neizvrseni + izvrseni + stornirani))); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Zakljuceni"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase(String.valueOf(izvrseni)));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Nezakljuceni")); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase(String.valueOf(neizvrseni))); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Stornirani"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase(String.valueOf(stornirani))); table.addCell(cell);
+	        document.add(table);
+	        document.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		} catch (COSVisitorException e1) {
+		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 	}
-	void MjesecniStornirani(String fajl, int mjesec, String godina) {
+	void MjesecniStornirani(String fajl, int mjesec, String godina) throws Exception {
 		Document document = new Document();
+		DateFormat mj = new SimpleDateFormat("MM");
+		DateFormat god = new SimpleDateFormat("yyyy");
+		Date date = new Date();
+		if(Integer.valueOf(god.format(date)).intValue() < Integer.valueOf(godina).intValue()) throw new Exception ("Pogrešna godina!");
+		if(Integer.valueOf(god.format(date)).intValue() == Integer.valueOf(godina).intValue() && Integer.valueOf(mj.format(date)).intValue() < mjesec)
+			throw new Exception ("Pogrešan mjesec!");
         try {
         	Session session = HibernateUtil.getSessionFactory().openSession();
     		Transaction t = session.beginTransaction();     
-    		List<Object[]> lq =session.createSQLQuery("select r.brojradnognaloga, r.datumkreiranja, r.posao, z.ime, z.prezime, r.razlogstorniranja from radninalog r, zaposlenik z where z.id = r.osobakojastornira and r.osobakojastornira <> -1 and month(r.datumkreiranja) = " +String.valueOf(mjesec)+ " and year(r.datumkreiranja) = " + godina ).list();
+    		List<Object[]> lq =session.createSQLQuery("select r.brojradnognaloga, r.datumkreiranja, r.posao, z.ime, z.prezime, r.razlogstorniranja from radninalog r, zaposlenik z where z.id = r.osobakojastornira and r.status = 'storniran' and month(r.datumkreiranja) = " +String.valueOf(mjesec)+ " and year(r.datumkreiranja) = " + godina ).list();
     		String[][] elementi = new String[lq.size()][6];
     		int i = 0; int j = 0;
     		PdfWriter.getInstance(document, new FileOutputStream(fajl));
@@ -353,22 +383,73 @@ public class Izvjestaji extends JPanel {
        
 		
 	}
-	public static PdfPTable createTable1() throws DocumentException {
-        PdfPTable table = new PdfPTable(3);
-        table.setWidthPercentage(288 / 5.23f);
-        table.setWidths(new int[]{2, 1, 1});
-        PdfPCell cell;
-        cell = new PdfPCell(new Phrase("Table 1"));
-        cell.setColspan(3);
-        table.addCell(cell);
-        cell = new PdfPCell(new Phrase("Cell with rowspan 2"));
-        cell.setRowspan(2);
-        table.addCell(cell);
-        table.addCell("row 1; cell 1");
-        table.addCell("row 1; cell 2");
-        table.addCell("row 2; cell 1");
-        table.addCell("row 2; cell 2");
-        return table;
-    }
+	void SedmicniRadnici(String fajl, Date datePicker) {
+		Document document = new Document();
+        try {
+        	Session session = HibernateUtil.getSessionFactory().openSession();
+    		Transaction t = session.beginTransaction();
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		List<Object[]> lq =session.createSQLQuery("select z.id, z.ime, z.prezime, "
+    				+ "(select count(rn.brojradnognaloga) from zaposlenik zn, radninalog rn where rn.kreatorradnognaloga = z.id and "
+    				+ "rn.status = 'zakljucen' and z.id = zn.id  and "
+    				+ "week(rn.datumkreiranja) = week('"+ dateFormat.format(datePicker) + "')), "
+    				+ "(select count(rn.brojradnognaloga) from zaposlenik zn, radninalog rn where rn.kreatorradnognaloga = z.id and "
+    				+ "rn.status = 'nezakljucen' and z.id = zn.id  and "
+    				+ "week(rn.datumkreiranja) = week('"+ dateFormat.format(datePicker) + "')), (select count(rn.brojradnognaloga) from zaposlenik zn, radninalog rn"
+    				+ " where rn.kreatorradnognaloga = z.id and rn.status = 'storniran' and z.id = zn.id and "
+    				+ "week(rn.datumkreiranja) = week('"+ dateFormat.format(datePicker) + "'))"
+    				+ " from zaposlenik z, radninalog r where r.izvrsilacposla = z.id group by z.id").list();
+    		
+    		int i = 0; int j = 0;
+    		PdfWriter.getInstance(document, new FileOutputStream(fajl));
+	        document.open();
+	        PdfPTable table = new PdfPTable(5);
+	        
+	        table.setWidthPercentage(95f);
+	        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
+	        	      Font.BOLD);
+	        Font ctFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
+	        	      Font.BOLD);
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(datePicker);
+	        int week = cal.get(Calendar.WEEK_OF_YEAR);
+	        int year = cal.get(Calendar.YEAR);
+	        Paragraph parah = new Paragraph("Sedmicni izvjestaj o radu zaposlenika", catFont);
+	        parah.setAlignment(Element.ALIGN_CENTER);
+	        document.add(parah);
+	        parah = new Paragraph("Sedmica: " + week + ".  Godina: " + year, ctFont);
+	        parah.setAlignment(Element.ALIGN_CENTER);
+	        document.add(parah);
+	        document.add(new Paragraph(" "));document.add(new Paragraph(" "));
+	        table.setWidths(new float[]{(float) 0.2,(float) 0.2,(float) 0.2,(float) 0.2, (float) 0.2});
+	        PdfPCell cell;
+	        cell = new PdfPCell(new Phrase("Id"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Ime i prezime")); cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Broj zakljucenih"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Broj nezakljucenih"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Broj storniranih"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
+	        
+    		for(Object[] q : lq) {
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[0])));cell.setHorizontalAlignment(Element.ALIGN_CENTER); table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[1] + " " + q[2])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[3])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[4])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase( String.valueOf(q[5])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			i++;
+    		}
+		
+	        document.add(table);
+	        document.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+		
+	}
+	
 }
 
