@@ -2,6 +2,7 @@ package ba.unsa.etf.si.tim1.jKP;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,6 +57,7 @@ public class RadniNalozi extends JTabbedPane {
 			"Datum zavr\u0161etka radova", 
 			"Tip posla ili usluge", 
 			"Utro\u0161eno vrijeme"};
+	
 	private final String[] kriteriji_pretrage = {"BrojRadnogNaloga", 
 			"KreatorRadnogNaloga", 
 			"IzvrsilacPosla", 
@@ -78,6 +80,8 @@ public class RadniNalozi extends JTabbedPane {
 	private final JButton btnTrazi_4;
 	
 	private Zaposlenik korisnik;
+	
+	private List<RadniNalog> radni_nalozi = new ArrayList<RadniNalog>();
 	
 	public RadniNalozi() {
 		
@@ -404,14 +408,14 @@ public class RadniNalozi extends JTabbedPane {
         		
         		String unos = textField_1.getText();
         		
-				List<RadniNalog> z = HibernateRadniNalog.pretraga(kriterij, unos);
+				radni_nalozi = HibernateRadniNalog.pretraga(kriterij, unos);
                 
-                if (z.size()==0) { 
+                if (radni_nalozi.size()==0) { 
                 	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
                 } 
                 else {
                 	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
-                	upisiPodatkeUTabelu(z);
+                	upisiPodatkeUTabelu();
                 }
         	}
         });
@@ -478,14 +482,14 @@ public class RadniNalozi extends JTabbedPane {
         		String kriterij_2 = comboBox.getSelectedItem().toString();
         		String unos_2 = textField.getText();
         		
-				List<RadniNalog> z = HibernateRadniNalog.pretraga2(kriterij_1, unos_1, kriterij_2, unos_2);
+				radni_nalozi = HibernateRadniNalog.pretraga2(kriterij_1, unos_1, kriterij_2, unos_2);
                 
-                if (z.size()==0) { 
+                if (radni_nalozi.size()==0) { 
                 	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
                 } 
                 else {
                 	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
-                	upisiPodatkeUTabelu(z);
+                	upisiPodatkeUTabelu();
                 }
         	}
         });
@@ -540,6 +544,10 @@ public class RadniNalozi extends JTabbedPane {
         panel_3.add(btnNoviKriterij_3);
         
         btnTrazi_3 = new JButton("Traži");
+        btnTrazi_3.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        	}
+        });
         btnTrazi_3.setBounds(528, 32, 110, 23);
         panel_3.add(btnTrazi_3);
         
@@ -590,10 +598,10 @@ public class RadniNalozi extends JTabbedPane {
 		return null;
 	}
 	
-	 private void upisiPodatkeUTabelu(List<RadniNalog> lista){
+	 private void upisiPodatkeUTabelu(){
      
-     	for(int red=0; red<lista.size(); red++){
-	        	 RadniNalog rn = lista.get(red); 
+     	for(int red=0; red<radni_nalozi.size(); red++){
+	        	 RadniNalog rn = radni_nalozi.get(red); 
 	        	 
 	        	 podaci[red][0] = rn.getBrojRadnogNaloga();
 	        	 podaci[red][1] = rn.getKreatorRadnogNaloga();
