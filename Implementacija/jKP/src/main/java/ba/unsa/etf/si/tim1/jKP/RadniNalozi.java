@@ -2,7 +2,7 @@ package ba.unsa.etf.si.tim1.jKP;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.List;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Time;
@@ -42,6 +42,20 @@ public class RadniNalozi extends JTabbedPane {
 	private final JTextArea textAreaPotrebniMaterijal;
 	private final JComboBox<StatusRadnogNaloga> comboBoxStatusNaloga;
 	private final JButton btnKreiraj;
+	private final JComboBox comboKriterijPretrage;
+	private final Object[][] podaci = new Object[10][10];
+	private final JTable tabela = new JTable();
+	private final String[] zaglavlje_tabele = {"Broj naloga", 
+			"Kreirao", 
+			"Izvr\u0161ilac", 
+			"Status", 
+			"Lokacija", 
+			"Datum kreiranja", 
+			"Planirani datum izvr\u0161enja", 
+			"Datum zavr\u0161etka radova", 
+			"Tip posla ili usluge", 
+			"Utro\u0161eno vrijeme"};
+	
 	
 	private Zaposlenik korisnik;
 	
@@ -213,7 +227,7 @@ public class RadniNalozi extends JTabbedPane {
 						JOptionPane.INFORMATION_MESSAGE);*/
         		
         		Date datumKreiranja = new Date();
-        		Zaposlenik kreirao = GlavniProzor.korisnik;
+        		long kreirao = GlavniProzor.korisnik.getId();
         		StatusRadnogNaloga status = (StatusRadnogNaloga)comboBoxStatusNaloga.getSelectedItem();
         		TipPosla tip = (TipPosla)comboBoxTipPosla.getSelectedItem();
         		Date planiraniDatumIzvrsenja = new Date();
@@ -245,6 +259,7 @@ public class RadniNalozi extends JTabbedPane {
        
         
         // Tab za pretragu
+     // Tab za pretragu
         final JPanel panelPretraga = new JPanel();
         this.addTab("Pretraga", null, panelPretraga, null);
         panelPretraga.setLayout(null);
@@ -262,12 +277,12 @@ public class RadniNalozi extends JTabbedPane {
         lblKljunaRije.setBounds(76, 137, 150, 14);
         panelPretraga.add(lblKljunaRije);
         
-        JComboBox comboBox_4 = new JComboBox();
-        comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"Redni broj", "Kreirao", "Izvr\u0161ilac", "Status", "Lokacija", "Datum kreiranja", "Planirani datum izvr\u0161enja", "Datum zavr\u0161etka radova"}));
-        comboBox_4.setBounds(236, 109, 200, 20);
-        panelPretraga.add(comboBox_4);
+        comboKriterijPretrage = new JComboBox();
+        comboKriterijPretrage.setModel(new DefaultComboBoxModel(new String[] {"BrojRadnogNaloga", "KreatorRadnogNaloga", "IzvrsilacPosla", "Status", "Lokacija", "DatumKreiranja", "PlaniraniDatumIzvrsenja", "DatumIzvrsenja"}));
+        comboKriterijPretrage.setBounds(236, 109, 200, 20);
+        panelPretraga.add(comboKriterijPretrage);
         
-        JTextField textField_1 = new JTextField();
+        final JTextField textField_1 = new JTextField();
         textField_1.setText("1");
         textField_1.setBounds(236, 134, 200, 20);
         panelPretraga.add(textField_1);
@@ -277,41 +292,33 @@ public class RadniNalozi extends JTabbedPane {
         scrollPane_3.setBounds(76, 213, 638, 178);
         panelPretraga.add(scrollPane_3);
         
-        final JTable table = new JTable();
-        scrollPane_3.setViewportView(table);
-        table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{"1", "Dejan Azinovi\u0107", "Faris \u010Cakari\u0107", "Kreiran", "Zmaja od Bosne bb", "21.04.2014.", "23.04.2014.", "23.04.2014.", "Zamjena cijevi", "5 sati"},
-        		{null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null},
-        	},
-        	new String[] {
-        		"Redni broj", "Kreirao", "Izvr\u0161ilac", "Status", "Lokacija", "Datum kreiranja", "Planirani datum izvr\u0161enja", "Datum zavr\u0161etka radova", "Tip posla ili usluge", "Utro\u0161eno vrijeme"
-        	}
-        ));
-        table.getColumnModel().getColumn(0).setPreferredWidth(60);
-        table.getColumnModel().getColumn(1).setPreferredWidth(120);
-        table.getColumnModel().getColumn(1).setMinWidth(50);
-        table.getColumnModel().getColumn(2).setPreferredWidth(120);
-        table.getColumnModel().getColumn(2).setMinWidth(50);
-        table.getColumnModel().getColumn(4).setPreferredWidth(150);
-        table.getColumnModel().getColumn(4).setMinWidth(50);
-        table.getColumnModel().getColumn(5).setPreferredWidth(100);
-        table.getColumnModel().getColumn(5).setMinWidth(20);
-        table.getColumnModel().getColumn(6).setPreferredWidth(100);
-        table.getColumnModel().getColumn(6).setMinWidth(20);
-        table.getColumnModel().getColumn(7).setPreferredWidth(100);
-        table.getColumnModel().getColumn(7).setMinWidth(20);
-        table.getColumnModel().getColumn(8).setPreferredWidth(100);
-        table.getColumnModel().getColumn(8).setMinWidth(50);
-        table.getColumnModel().getColumn(9).setPreferredWidth(100);
-        table.getColumnModel().getColumn(9).setMinWidth(20);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+       
+        
+    //    tabela = new JTable();
+        scrollPane_3.setViewportView(tabela);
+        tabela.setModel(new DefaultTableModel(podaci, zaglavlje_tabele)); 
+        
+        
+        
+        
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(60);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tabela.getColumnModel().getColumn(1).setMinWidth(50);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(120);
+        tabela.getColumnModel().getColumn(2).setMinWidth(50);
+        tabela.getColumnModel().getColumn(4).setPreferredWidth(150);
+        tabela.getColumnModel().getColumn(4).setMinWidth(50);
+        tabela.getColumnModel().getColumn(5).setPreferredWidth(100);
+        tabela.getColumnModel().getColumn(5).setMinWidth(20);
+        tabela.getColumnModel().getColumn(6).setPreferredWidth(100);
+        tabela.getColumnModel().getColumn(6).setMinWidth(20);
+        tabela.getColumnModel().getColumn(7).setPreferredWidth(100);
+        tabela.getColumnModel().getColumn(7).setMinWidth(20);
+        tabela.getColumnModel().getColumn(8).setPreferredWidth(100);
+        tabela.getColumnModel().getColumn(8).setMinWidth(50);
+        tabela.getColumnModel().getColumn(9).setPreferredWidth(100);
+        tabela.getColumnModel().getColumn(9).setMinWidth(20);
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
         JLabel lblRezultati = new JLabel("Rezultati:");
         lblRezultati.setBounds(76, 188, 150, 14);
@@ -331,8 +338,8 @@ public class RadniNalozi extends JTabbedPane {
         btnModifikuj.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		new ModificiranjeRadnogNaloga();
-        		table.setValueAt("Amina Celik", 0, 2);
-        		table.setValueAt("05.05.2014.", 0, 5);
+        		tabela.setValueAt("Amina Celik", 0, 2);
+        		tabela.setValueAt("05.05.2014.", 0, 5);
         		
         	}
         });
@@ -347,16 +354,16 @@ public class RadniNalozi extends JTabbedPane {
         	public void actionPerformed(ActionEvent e){
         		
         		new StorniranjeRadnogNaloga();
-        		table.setValueAt("Storniran", 0, 3);
+        		tabela.setValueAt("Storniran", 0, 3);
         	}
         	
         });
         
-        JButton btnZakljui = new JButton("Zaklju�i");
+        JButton btnZakljui = new JButton("Zaklju?i");
         btnZakljui.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		new ZakljucivanjeRadnogNaloga();
-        		table.setValueAt("Zakljucen", 0, 3);
+        		tabela.setValueAt("Zakljucen", 0, 3);
                 
         	}
         });
@@ -373,9 +380,56 @@ public class RadniNalozi extends JTabbedPane {
         });
         
         JButton button = new JButton("Tra\u017Ei");
+        button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		
+        		String kriterij = comboKriterijPretrage.getSelectedItem().toString();
+        		
+        		String unos = textField_1.getText();
+        		
+				List<RadniNalog> z = HibernateRadniNalog.pretraga(kriterij, unos);
+                
+                if (z.size()==0) { 
+                	JOptionPane.showMessageDialog(panelPretraga, "Nema tog RN-a!"); 
+                } 
+                else {
+                	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
+                	upisiPodatkeUTabelu(z);
+                }
+        	}
+        });
         button.setBounds(604, 137, 110, 23);
         panelPretraga.add(button);
 		
 	}
 	
+	Zaposlenik[] ucitajSveZaposlenike() {
+		
+		return null;
+	}
+	
+	 private void upisiPodatkeUTabelu(List<RadniNalog> lista){
+     
+     	for(int red=0; red<lista.size(); red++){
+	        	 RadniNalog rn = lista.get(red); 
+	        	 
+	        	 podaci[red][0] = rn.getBrojRadnogNaloga();
+JOptionPane.showMessageDialog(null,  podaci[red][0].toString() );
+	        	 podaci[red][1] = rn.getKreatorRadnogNaloga();
+	        	 podaci[red][2] = rn.getIzvrsilacPosla();
+	        	 podaci[red][3] = rn.getStatus();
+	        	 podaci[red][4] = rn.getLokacija();
+	        	 podaci[red][5] = rn.getDatumKreiranja();
+	        	 podaci[red][6] = rn.getPlaniraniDatumIzvrsenja();
+	        	 podaci[red][7] = rn.getDatumIzvrsenja();
+	        	 podaci[red][8] = rn.getPosao();
+	        	 podaci[red][9] = rn.getUtrosenoVrijeme();
+     	}
+	        	 
+     	 tabela.setModel(new DefaultTableModel(podaci, zaglavlje_tabele)); 
+	         
+     	
+     }
 }
+
+

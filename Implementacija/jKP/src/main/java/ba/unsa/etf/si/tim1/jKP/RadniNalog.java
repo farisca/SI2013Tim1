@@ -29,7 +29,7 @@ public class RadniNalog implements java.io.Serializable {
 	
 	public RadniNalog() {}
 	
-	public RadniNalog(Date datumKreiranja, Zaposlenik kreatorNaloga, StatusRadnogNaloga status, TipPosla tip, Date planiraniDatumIzvrsenja, 
+	public RadniNalog(Date datumKreiranja, long kreatorNaloga, StatusRadnogNaloga status, TipPosla tip, Date planiraniDatumIzvrsenja, 
 						long izvrsilacPosla, String potrebniMaterijal, String lokacija, Date datumIzvrsenja, Time utrosenoVrijeme, Boolean odobren, String opis) {
 		//setBrojRadnogNaloga(BRN);
 		setDatumKreiranja(datumKreiranja);
@@ -45,9 +45,9 @@ public class RadniNalog implements java.io.Serializable {
 		setOdobren(odobren);
 		setOpisPosla(opis);
 		setRazlogStorniranja("");
-		setOsobaKojaStornira(null);
+		setOsobaKojaStornira(-1);
 		setRazlogModifikovanja(null);
-		setOsobaKojaModifikuje(null);
+		setOsobaKojaModifikuje(-1);
 		setDatumModifikovanja(null);
 	}
 	void Obrisi() {};
@@ -66,8 +66,8 @@ public class RadniNalog implements java.io.Serializable {
 	public long getKreatorRadnogNaloga() {
 		return kreatorRadnogNaloga;
 	}
-	public void setKreatorRadnogNaloga(Zaposlenik kreatorRadnogNaloga) {
-		this.kreatorRadnogNaloga = kreatorRadnogNaloga.getId();
+	public void setKreatorRadnogNaloga(long kreatorNaloga) {
+		this.kreatorRadnogNaloga = kreatorNaloga;
 	}
 	public Date getDatumKreiranja() {
 		return datumKreiranja;
@@ -144,9 +144,10 @@ public class RadniNalog implements java.io.Serializable {
 	public long getOsobaKojaStornira() {
 		return osobaKojaStornira;
 	}
-	public void setOsobaKojaStornira(Zaposlenik osobaKojaStornira) {
-		if(osobaKojaStornira == null) this.osobaKojaStornira = -1;
-		else this.osobaKojaStornira = osobaKojaStornira.getId();
+	public void setOsobaKojaStornira(long osobaKojaStornira) {
+		//if(osobaKojaStornira == null) this.osobaKojaStornira = -1;
+		//else 
+			this.osobaKojaStornira = osobaKojaStornira;
 	}
 	public String getRazlogModifikovanja() {
 		return razlogModifikovanja;
@@ -157,9 +158,10 @@ public class RadniNalog implements java.io.Serializable {
 	public long getOsobaKojaModifikuje() {
 		return osobaKojaModifikuje;
 	}
-	public void setOsobaKojaModifikuje(Zaposlenik osobaKojaModifikuje) {
-		if(osobaKojaModifikuje == null) this.osobaKojaModifikuje = -1;
-		else this.osobaKojaModifikuje = osobaKojaModifikuje.getId();
+	public void setOsobaKojaModifikuje(long osobaKojaModifikuje) {
+	//	if(osobaKojaModifikuje == null) this.osobaKojaModifikuje = -1;
+	//	else
+			this.osobaKojaModifikuje = osobaKojaModifikuje;
 	}
 	public Date getDatumModifikovanja() {
 		return datumModifikovanja;
