@@ -449,6 +449,7 @@ public class RadniNalozi extends JTabbedPane {
         	public void actionPerformed(ActionEvent e) {
         		panel_2.setVisible(false);
         		btnTrazi_1.setVisible(true);
+        	
         	}
         });
         btnUkloni_2.setBounds(366, 32, 88, 23);
@@ -521,6 +522,7 @@ public class RadniNalozi extends JTabbedPane {
         	public void actionPerformed(ActionEvent e) {
         		panel_3.setVisible(false);
         		btnTrazi_2.setVisible(true);
+        		btnUkloni_2.setVisible(true);
         	}
         });
         btnUkloni_3.setBounds(366, 32, 88, 23);
@@ -572,6 +574,7 @@ public class RadniNalozi extends JTabbedPane {
         	public void actionPerformed(ActionEvent e) {
         		panel_4.setVisible(false);
         		btnTrazi_3.setVisible(true);
+        		btnUkloni_3.setVisible(true);
         	}
         });
         btnUkloni_4.setBounds(366, 32, 88, 23);
@@ -593,7 +596,6 @@ public class RadniNalozi extends JTabbedPane {
 	        	 RadniNalog rn = lista.get(red); 
 	        	 
 	        	 podaci[red][0] = rn.getBrojRadnogNaloga();
-JOptionPane.showMessageDialog(null,  podaci[red][0].toString() );
 	        	 podaci[red][1] = rn.getKreatorRadnogNaloga();
 	        	 podaci[red][2] = rn.getIzvrsilacPosla();
 	        	 podaci[red][3] = rn.getStatus();
