@@ -64,4 +64,18 @@ public class HibernateZaposlenik {
 		t.commit();
 		s.close();
 	}
+	public static List<Zaposlenik> dajZaposlenikePoKriteriju(String kriterij) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		
+		Query query = s.createQuery("FROM Zaposlenik WHERE ime LIKE :kriterij OR prezime LIKE :kriterij");
+		query.setParameter("kriterij", kriterij);
+		if(query.list().isEmpty()) {
+			s.close();
+			return null;
+		}
+		List<Zaposlenik> lista = (List<Zaposlenik>)query.list();
+		return lista;
+	}
 }
+

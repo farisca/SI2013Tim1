@@ -3,7 +3,9 @@ package ba.unsa.etf.si.tim1.jKP;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -23,7 +25,6 @@ public class Admin extends JPanel {
 		this.setLayout(null);
 		this.setBackground(Color.white);
 		final JPanel panelPretraga = new JPanel();
-
 		JTabbedPane tabovi = new JTabbedPane();
 		tabovi.setSize(800, 550);
 		tabovi.setLocation(110, 50);
@@ -41,18 +42,26 @@ public class Admin extends JPanel {
 		textField_4.setColumns(10);
 		textField_4.setText("Faris");
 
-		JButton btnTrai = new JButton("Tra�i");
+		JButton btnTrai = new JButton("Traži");
 		btnTrai.setBackground(Color.LIGHT_GRAY);
 		btnTrai.setBounds(610, 28, 117, 25);
 		panelPretraga.add(btnTrai);
-
+		final Object[][] data = {{"","",""}};
+		btnTrai.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(textField_4.getText());
+			for(int i=0;i<lz.size();i++) {
+				data[i][0] = lz.get(i).getIme();
+				data[i][1] = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
+				data[i][2] = "Aktiviran";
+			}
+		}
+		});
 		JLabel lblRezultatiPretrage = new JLabel("Rezultati pretrage:");
 		lblRezultatiPretrage.setBounds(90, 121, 162, 15);
 		panelPretraga.add(lblRezultatiPretrage);
-		String[] columnNames = { "Ime i prezime", "Korisni�ko ime", "Status" };
-		Object[][] data = { { "Faris �akari�", "fckaric", "Aktiviran" } };
+		String[] columnNames = { "Ime i prezime", "Korisničko ime", "Status" };
 		table = new JTable((Object[][]) data, columnNames);
-
 		JScrollPane jsp = new JScrollPane(table);
 		jsp.setBounds(171, 152, 431, 106);
 		panelPretraga.add(jsp);
@@ -149,8 +158,8 @@ public class Admin extends JPanel {
 						throw new Exception("Niste Upisali Korisničko ime!");
 					if(pass1.length()==0 || pass2.length()==0)
 						throw new Exception("Niste upisali lozinku!");
-				/*	if (!Arrays.equals(pass1.getPassword(), pass2.getPassword()))
-						throw new Exception("Lozinke nisu iste!");*/
+					if (!Arrays.equals(textField_2.getPassword(), textField_3.getPassword()))
+						throw new Exception("Lozinke nisu iste!");
 					Zaposlenik z = new Zaposlenik(ime_i_prezime[0],ime_i_prezime[1],TipUposlenika.obicni,1);
 					HibernateZaposlenik.pohraniZaposlenika(z, HibernatePristupniPodaci.spremiPodatke(ki, pass1));
 					JOptionPane.showMessageDialog(panelNovi,

@@ -89,4 +89,13 @@ public class HibernatePristupniPodaci {
 		t.commit();
 		return provjeriPodatke(p.getKorisnickoIme(),password);
 		}
+	public static String dajKorisnickoImePoKriteriju(long id) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		Query query = s.createQuery("FROM PristupniPodaci WHERE id = :id");
+		query.setParameter("id", id);
+		if (query.list().isEmpty()) 
+			return "";
+		return ((PristupniPodaci)query.list().get(0)).getKorisnickoIme();
+		}
 	}
