@@ -26,7 +26,11 @@ public class RadniNalog implements java.io.Serializable {
 	private String razlogModifikovanja;
 	private long osobaKojaModifikuje;
 	private Date datumModifikovanja;
+	private long osobaKojaZakljucuje;
+	private String dodatniKomentar;
 	
+	
+
 	public RadniNalog() {}
 	
 	public RadniNalog(Date datumKreiranja, long kreatorNaloga, StatusRadnogNaloga status, TipPosla tip, Date planiraniDatumIzvrsenja, 
@@ -49,6 +53,8 @@ public class RadniNalog implements java.io.Serializable {
 		setRazlogModifikovanja(null);
 		setOsobaKojaModifikuje(-1);
 		setDatumModifikovanja(null);
+		setOsobaKojaZakljucuje(-1);
+		setDodatniKomentar(null);
 	}
 	void Obrisi() {};
 	void Zakljuci() {
@@ -168,6 +174,22 @@ public class RadniNalog implements java.io.Serializable {
 	}
 	public void setDatumModifikovanja(Date datumModifikovanja) {
 		this.datumModifikovanja = datumModifikovanja;
+	}
+	
+	public long getOsobaKojaZakljucuje() {
+		return osobaKojaZakljucuje;
+	}
+
+	public void setOsobaKojaZakljucuje(long osobaKojaZakljucuje) {
+		this.osobaKojaZakljucuje = osobaKojaZakljucuje;
+	}
+
+	public String getDodatniKomentar() {
+		return dodatniKomentar;
+	}
+
+	public void setDodatniKomentar(String dodatniKomentar) {
+		this.dodatniKomentar = dodatniKomentar;
 	}
 
 	
