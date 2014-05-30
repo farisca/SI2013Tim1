@@ -192,6 +192,10 @@ public class Admin extends JPanel {
 								throw new Exception("Lozinke nisu iste!");
 							novi.setIme(ime_i_prezime[0]);
 							novi.setPrezime(ime_i_prezime[1]);
+							if(textField_5.getSelectedIndex()==1)
+								novi.setTipUposlenika(TipUposlenika.privilegirani);
+							else
+								novi.setTipUposlenika(TipUposlenika.obicni);
 							PristupniPodaci p = HibernateZaposlenik.dajPristupnePodatkePoId(novi);
 							p.setKorisnickoIme(ki);
 							p.setLozinka(HibernatePristupniPodaci.HesirajMD5(pass1));
@@ -327,6 +331,10 @@ public class Admin extends JPanel {
 					if (!Arrays.equals(textField_2.getPassword(), textField_3.getPassword()))
 						throw new Exception("Lozinke nisu iste!");
 					Zaposlenik z = new Zaposlenik(ime_i_prezime[0],ime_i_prezime[1],TipUposlenika.obicni,1);
+					if(textField_5.getSelectedIndex()==1)
+						z.setTipUposlenika(TipUposlenika.privilegirani);
+					else
+						z.setTipUposlenika(TipUposlenika.obicni);
 					HibernateZaposlenik.pohraniZaposlenika(z, HibernatePristupniPodaci.spremiPodatke(ki, pass1));
 					JOptionPane.showMessageDialog(panelNovi,
 							"Uspjesno ste kreirali novog korisnika "
