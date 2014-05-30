@@ -2,6 +2,7 @@ package ba.unsa.etf.si.tim1.Hibernate;
 
 import ba.unsa.etf.si.tim1.jKP.HibernateUtil;
 import ba.unsa.etf.si.tim1.jKP.PristupniPodaci;
+import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -21,7 +22,7 @@ import org.hibernate.Transaction;
 public class HibernatePristupniPodaci {
 	public HibernatePristupniPodaci() {}
 	
-	private static String HesirajMD5(String message){ 
+	public static String HesirajMD5(String message){ 
 		String digest = null; 
 		
 		try {
@@ -98,4 +99,11 @@ public class HibernatePristupniPodaci {
 			return "";
 		return ((PristupniPodaci)query.list().get(0)).getKorisnickoIme();
 		}
+	public static void urediPristupnePodatke(PristupniPodaci p) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = s.beginTransaction();
+		s.update(p);
+		t.commit();
+		s.close();
+	}
 	}

@@ -20,12 +20,14 @@ public class Admin extends JPanel {
 	private JTextField textField_4;
 	private JTable table;
 	private JComboBox textField_5;
+	private Boolean nemaTaba;
 
 	public Admin() {
 		this.setLayout(null);
 		this.setBackground(Color.white);
 		final JPanel panelPretraga = new JPanel();
-		JTabbedPane tabovi = new JTabbedPane();
+		final JTabbedPane tabovi = new JTabbedPane();
+		String pomoc = null;
 		tabovi.setSize(800, 550);
 		tabovi.setLocation(110, 50);
 		this.add(tabovi);
@@ -60,9 +62,6 @@ public class Admin extends JPanel {
 				else
 					data[i][2] = "Privilegirani";
 			}
-			JOptionPane.showMessageDialog(panelPretraga,
-					data[1][0].toString(), "Potvrda",
-					JOptionPane.INFORMATION_MESSAGE);
 		}
 		});
 		JLabel lblRezultatiPretrage = new JLabel("Rezultati pretrage:");
@@ -73,7 +72,7 @@ public class Admin extends JPanel {
 		JScrollPane jsp = new JScrollPane(table);
 		jsp.setBounds(171, 152, 431, 106);
 		panelPretraga.add(jsp);
-
+		pomoc = textField_4.getText();
 		JButton button = new JButton("(De)aktiviraj");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -118,15 +117,149 @@ public class Admin extends JPanel {
 		button.setBackground(Color.LIGHT_GRAY);
 		button.setBounds(481, 269, 117, 25);
 		panelPretraga.add(button);
-
+		nemaTaba = true;
 		JButton bModifikuj = new JButton("Modifikuj");
 		bModifikuj.setBackground(Color.LIGHT_GRAY);
 		bModifikuj.setBounds(354, 270, 117, 25);
 		panelPretraga.add(bModifikuj);
 		bModifikuj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(panelPretraga,
-						"Nije implementirano!");
+				List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(textField_4.getText());
+				final Zaposlenik novi = lz.get(table.getSelectedRow());
+				final JPanel panelNovi = new JPanel();
+				panelNovi.setLayout(null);
+				if(nemaTaba==true) {
+					tabovi.addTab("Modifikuj", panelNovi);
+					nemaTaba=false;
+				}
+				final JLabel lblImeIPrezime_1 = new JLabel("Ime i prezime:");
+				lblImeIPrezime_1.setBounds(243, 181, 102, 15);
+				lblImeIPrezime_1
+						.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+				panelNovi.add(lblImeIPrezime_1);
+
+				JLabel lblKorisnikoIme = new JLabel("Korisni�ko ime:");
+				lblKorisnikoIme.setBounds(232, 212, 113, 15);
+				lblKorisnikoIme
+						.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+				panelNovi.add(lblKorisnikoIme);
+
+				JLabel lblifra = new JLabel("�ifra:");
+				lblifra.setBounds(301, 243, 44, 15);
+				lblifra.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+				panelNovi.add(lblifra);
+
+				JLabel lblPotvrdaifre = new JLabel("Potvrda �ifre:");
+				lblPotvrdaifre.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+				lblPotvrdaifre.setBounds(243, 274, 102, 15);
+				panelNovi.add(lblPotvrdaifre);
+
+				textField = new JTextField();
+				textField.setBounds(363, 179, 196, 19);
+				panelNovi.add(textField);
+				textField.setColumns(10);
+				textField.setText(novi.getIme()+" "+novi.getPrezime());
+				textField_1 = new JTextField();
+				textField_1.setColumns(10);
+				textField_1.setBounds(363, 210, 196, 19);
+				panelNovi.add(textField_1);
+				textField_1.setText(HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(novi.getPristupniPodaci()).toString());
+				textField_2 = new JPasswordField();
+				textField_2.setColumns(10);
+				textField_2.setBounds(363, 241, 196, 19);
+				panelNovi.add(textField_2);
+
+				textField_3 = new JPasswordField();
+				textField_3.setColumns(10);
+				textField_3.setBounds(363, 272, 196, 19);
+				panelNovi.add(textField_3);
+
+				JButton btnSpasiti = new JButton("Spasiti");
+				btnSpasiti.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							String[] ime_i_prezime = textField.getText().split(" ");
+							String ki = textField_1.getText();
+							String pass1 = textField_2.getText();
+							String pass2 = textField_3.getText();
+							if (ime_i_prezime[0].length()==0 || ime_i_prezime[1].length()==0)
+								throw new Exception("Niste Upisali Ime i Prezime!");
+							if (ki.length()==0)
+								throw new Exception("Niste Upisali Korisničko ime!");
+							if(pass1.length()==0 || pass2.length()==0)
+								throw new Exception("Niste upisali lozinku!");
+							if (!Arrays.equals(textField_2.getPassword(), textField_3.getPassword()))
+								throw new Exception("Lozinke nisu iste!");
+							novi.setIme(ime_i_prezime[0]);
+							novi.setPrezime(ime_i_prezime[1]);
+							PristupniPodaci p = HibernateZaposlenik.dajPristupnePodatkePoId(novi);
+							p.setKorisnickoIme(ki);
+							p.setLozinka(HibernatePristupniPodaci.HesirajMD5(pass1));
+							HibernatePristupniPodaci.urediPristupnePodatke(p);
+							HibernateZaposlenik.urediZaposlenika(novi);
+							JOptionPane.showMessageDialog(panelNovi,
+									"Uspjesno ste ažurirali korisnika "
+											+ novi.getIme() + " "
+											+ novi.getPrezime() + " koji je sada"
+											+ novi.getTipUposlenika() + " uposlenik!",
+									"Potvrda", JOptionPane.INFORMATION_MESSAGE);
+							tabovi.remove(2);
+							nemaTaba=true;
+							dispose();
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(panelNovi, e1.getMessage(),
+									"Potvrda", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+
+					private void dispose() {
+						// TODO Auto-generated method stub
+						textField.setText("");
+						textField_1.setText("");
+						textField_2.setText("");
+						textField_3.setText("");
+					}
+				});
+				btnSpasiti.setBackground(Color.LIGHT_GRAY);
+				btnSpasiti.setBounds(635, 450, 117, 25);
+				panelNovi.add(btnSpasiti);
+
+				JButton btnOtkazati = new JButton("Otkazati");
+				btnOtkazati.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(panelNovi,
+								"Kreiranje novog korisnika otkazano.", "Potvrda",
+								JOptionPane.INFORMATION_MESSAGE);
+						tabovi.remove(2);
+						nemaTaba=true;
+						dispose();
+					}
+
+					private void dispose() {
+						// TODO Auto-generated method stub
+						textField.setText("");
+						textField_1.setText("");
+						textField_2.setText("");
+						textField_3.setText("");
+					}
+				});
+				btnOtkazati.setBackground(Color.LIGHT_GRAY);
+				btnOtkazati.setBounds(504, 450, 117, 25);
+				panelNovi.add(btnOtkazati);
+
+				JLabel label = new JLabel("Tip:");
+				label.setHorizontalAlignment(SwingConstants.RIGHT);
+				label.setBounds(243, 302, 102, 15);
+				panelNovi.add(label);
+
+				textField_5 = new JComboBox();
+				textField_5.addItem("Obi�ni korisnik");
+				textField_5.addItem("Privilegirani korisnik");
+				textField_5.setBounds(363, 300, 196, 19);
+				panelNovi.add(textField_5);
+
+				setBounds(190, 0, 1000, 700);
+				setVisible(true);
 			}
 		});
 

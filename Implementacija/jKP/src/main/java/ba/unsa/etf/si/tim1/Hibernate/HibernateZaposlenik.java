@@ -1,6 +1,7 @@
 package ba.unsa.etf.si.tim1.Hibernate;
 
 import ba.unsa.etf.si.tim1.jKP.HibernateUtil;
+import ba.unsa.etf.si.tim1.jKP.PristupniPodaci;
 import ba.unsa.etf.si.tim1.jKP.RadniNalog;
 import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
 
@@ -39,7 +40,22 @@ public class HibernateZaposlenik {
 		s.close();
 		return z;
 	}
-	
+	public static PristupniPodaci dajPristupnePodatkePoId(Zaposlenik z) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		
+		Query query = s.createQuery("FROM PristupniPodaci WHERE id = :id");
+		query.setParameter("id",z.getPristupniPodaci());
+		
+		if(query.list().isEmpty()) {
+			s.close();
+			return null;
+		}
+		
+		PristupniPodaci p = (PristupniPodaci)query.list().get(0);
+		s.close();
+		return p;
+	}
 	public static List<Zaposlenik> dajSveZaposlenike() {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();

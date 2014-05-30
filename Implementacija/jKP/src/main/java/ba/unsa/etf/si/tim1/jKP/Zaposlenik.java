@@ -58,7 +58,7 @@ public class Zaposlenik implements java.io.Serializable {
 		this.id = id;
 	}
 
-	long getPristupniPodaci() {
+	public long getPristupniPodaci() {
 		return pristupniPodaci;
 	}
 
