@@ -68,5 +68,11 @@
   <property generated="never" lazy="false" name="datumModifikovanja" type="java.util.Date">
    <column name="DATUMMODIFIKOVANJA"/>
   </property>
+  <property generated="never" lazy="false" name="osobaKojaZakljucuje" type="long">
+   <column name="OSOBAKOJAZAKLJUCUJE"/>
+  </property>
+  <property generated="never" lazy="false" name="dodatniKomentar" type="java.lang.String">
+   <column name="DODATNIKOMENTAR"/>
+  </property>
  </class>
 </hibernate-mapping>
