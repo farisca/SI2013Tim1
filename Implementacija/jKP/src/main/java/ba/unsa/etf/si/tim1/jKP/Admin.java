@@ -130,6 +130,8 @@ public class Admin extends JPanel {
 					tabovi.addTab("Modifikuj", panelNovi);
 					nemaTaba=false;
 				}
+				tabovi.setSelectedComponent(panelNovi);
+				
 				final JLabel lblImeIPrezime_1 = new JLabel("Ime i prezime:");
 				lblImeIPrezime_1.setBounds(243, 181, 102, 15);
 				lblImeIPrezime_1
@@ -212,6 +214,7 @@ public class Admin extends JPanel {
 							JOptionPane.showMessageDialog(panelNovi, e1.getMessage(),
 									"Potvrda", JOptionPane.INFORMATION_MESSAGE);
 						}
+						
 						
 						PopuniTabelu();
 					}
