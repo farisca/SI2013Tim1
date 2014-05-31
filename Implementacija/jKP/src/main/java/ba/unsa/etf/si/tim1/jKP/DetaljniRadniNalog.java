@@ -317,7 +317,6 @@ public class DetaljniRadniNalog extends JDialog {
 				nalog.getDodatniKomentar());
 		}
 		catch (Exception e1) {
-			JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 		}	
 	}
 	

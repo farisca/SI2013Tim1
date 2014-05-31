@@ -91,11 +91,8 @@ public class StornirajRadniNalog extends JDialog {
 						if(textField_1.getText()==""||textField_1.getText()==null)
 							JOptionPane.showMessageDialog(contentPanel, "Niste unijeli razlog storniranja");
 						else{
-							r.setRazlogStorniranja(textField_1.getText());
-							r.setOsobaKojaStornira(korisnik.getId());
-							r.setStatus(StatusRadnogNaloga.storniran);
-							r.setDodatniKomentar(textField_2.getText());
-							HibernateRadniNalog.modifikujRadniNalog(r);
+							nalog=NapraviStorniranRN(nalog, textField_1.getText(), korisnik.getId(), textField_2.getText());
+							HibernateRadniNalog.modifikujRadniNalog(nalog);
 							JOptionPane.showMessageDialog(contentPanel, "Uspješno ste stornirali radni nalog");
 							ovaj.dispose();
 						}
@@ -105,5 +102,11 @@ public class StornirajRadniNalog extends JDialog {
 			}
 		}
 	}
-
+	public RadniNalog NapraviStorniranRN(RadniNalog nalog, String razlogS,long idOsobeS, String komentar ){
+		nalog.setRazlogStorniranja(razlogS);
+		nalog.setOsobaKojaStornira(idOsobeS);
+		nalog.setStatus(StatusRadnogNaloga.storniran);
+		nalog.setDodatniKomentar(komentar);
+		return nalog;
+	}
 }
