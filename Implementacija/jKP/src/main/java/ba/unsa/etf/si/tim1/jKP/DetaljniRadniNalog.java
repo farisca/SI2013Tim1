@@ -8,11 +8,13 @@ import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -70,14 +72,12 @@ public class DetaljniRadniNalog extends JDialog {
 		
 		textField = new JTextField();
 		textField.setEditable(false);
-		textField.setText(Long.toString(r.getBrojRadnogNaloga()));
 		textField.setBounds(170, 11, 201, 20);
 		contentPanel.add(textField);
 		textField.setColumns(10);
 		{
 			textField_1 = new JTextField();
 			textField_1.setEditable(false);
-			textField_1.setText(String.valueOf(r.getDatumKreiranja()));
 			textField_1.setBounds(170, 36, 201, 20);
 			contentPanel.add(textField_1);
 			textField_1.setColumns(10);
@@ -91,7 +91,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_2 = new JTextField();
 			textField_2.setEditable(false);
-			textField_2.setText(Long.toString(r.getKreatorRadnogNaloga()));
 			textField_2.setColumns(10);
 			textField_2.setBounds(170, 61, 201, 20);
 			contentPanel.add(textField_2);
@@ -105,12 +104,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_3 = new JTextField();
 			textField_3.setEditable(false);
-			if(r.getStatus()==StatusRadnogNaloga.kreiran)
-				textField_3.setText("Kreiran");
-			if(r.getStatus()==StatusRadnogNaloga.storniran)
-				textField_3.setText("Storniran");
-			if(r.getStatus()==StatusRadnogNaloga.zakljucen)
-				textField_3.setText("Zaključen");
 			textField_3.setColumns(10);
 			textField_3.setBounds(170, 86, 201, 20);
 			contentPanel.add(textField_3);
@@ -124,16 +117,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_4 = new JTextField();
 			textField_4.setEditable(false);
-			if(r.getPosao()==TipPosla.Ostalo)
-				textField_4.setText("Ostalo");
-			if(r.getPosao()==TipPosla.UgradnjaVodomjera)
-				textField_4.setText("Ugradnja vodomjera");
-			if(r.getPosao()==TipPosla.WomaMasina)
-				textField_4.setText("Woma mašina");
-			if(r.getPosao()==TipPosla.ZamjenaCijevi)
-				textField_4.setText("Zamjena cijevi");
-			if(r.getPosao()==TipPosla.ZamjenaVodomjera)
-				textField_4.setText("Zamjena vodomjera");
 			textField_4.setColumns(10);
 			textField_4.setBounds(170, 111, 201, 20);
 			contentPanel.add(textField_4);
@@ -147,7 +130,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_5 = new JTextField();
 			textField_5.setEditable(false);
-			textField_5.setText(String.valueOf(r.getPlaniraniDatumIzvrsenja()));
 			textField_5.setColumns(10);
 			textField_5.setBounds(170, 308, 201, 20);
 			contentPanel.add(textField_5);
@@ -161,7 +143,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_6 = new JTextField();
 			textField_6.setEditable(false);
-			textField_6.setText(Long.toString(r.getIzvrsilacPosla()));
 			textField_6.setColumns(10);
 			textField_6.setBounds(170, 358, 201, 20);
 			contentPanel.add(textField_6);
@@ -175,7 +156,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_7 = new JTextField();
 			textField_7.setEditable(false);
-			textField_7.setText(r.getPotrebniMaterijal());
 			textField_7.setColumns(10);
 			textField_7.setBounds(170, 221, 201, 82);
 			contentPanel.add(textField_7);
@@ -189,7 +169,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_8 = new JTextField();
 			textField_8.setEditable(false);
-			textField_8.setText(r.getLokacija());
 			textField_8.setColumns(10);
 			textField_8.setBounds(170, 383, 201, 20);
 			contentPanel.add(textField_8);
@@ -203,7 +182,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_9 = new JTextField();
 			textField_9.setEditable(false);
-			textField_9.setText(String.valueOf(r.getDatumIzvrsenja()));
 			textField_9.setColumns(10);
 			textField_9.setBounds(170, 333, 201, 20);
 			contentPanel.add(textField_9);
@@ -217,8 +195,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_10 = new JTextField();
 			textField_10.setEditable(false);
-			Time t=r.getUtrosenoVrijeme();
-			textField_10.setText(t.toString());
 			textField_10.setColumns(10);
 			textField_10.setBounds(170, 408, 201, 20);
 			contentPanel.add(textField_10);
@@ -232,7 +208,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_11 = new JTextField();
 			textField_11.setEditable(false);
-			textField_11.setText(r.getOpisPosla());
 			textField_11.setColumns(10);
 			textField_11.setBounds(170, 133, 201, 82);
 			contentPanel.add(textField_11);
@@ -246,10 +221,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_12 = new JTextField();
 			textField_12.setEditable(false);
-			if(r.getOsobaKojaStornira()!=-1)
-				textField_12.setText(Long.toString(r.getOsobaKojaStornira()));
-			else
-				textField_12.setText("");
 			textField_12.setColumns(10);
 			textField_12.setBounds(519, 11, 201, 20);
 			contentPanel.add(textField_12);
@@ -263,7 +234,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_13 = new JTextField();
 			textField_13.setEditable(false);
-			textField_13.setText(r.getRazlogStorniranja());
 			textField_13.setColumns(10);
 			textField_13.setBounds(519, 37, 201, 82);
 			contentPanel.add(textField_13);
@@ -271,7 +241,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_14 = new JTextField();
 			textField_14.setEditable(false);
-			textField_14.setText(r.getRazlogModifikovanja());
 			textField_14.setColumns(10);
 			textField_14.setBounds(519, 151, 201, 82);
 			contentPanel.add(textField_14);
@@ -279,10 +248,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_15 = new JTextField();
 			textField_15.setEditable(false);
-			if(r.getOsobaKojaModifikuje()!=-1)
-				textField_15.setText(Long.toString(r.getOsobaKojaModifikuje()));
-			else
-				textField_15.setText("");
 			textField_15.setColumns(10);
 			textField_15.setBounds(519, 125, 201, 20);
 			contentPanel.add(textField_15);
@@ -302,7 +267,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_16 = new JTextField();
 			textField_16.setEditable(false);
-			textField_16.setText(r.getDodatniKomentar());
 			textField_16.setColumns(10);
 			textField_16.setBounds(519, 265, 201, 82);
 			contentPanel.add(textField_16);
@@ -310,10 +274,6 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_17 = new JTextField();
 			textField_17.setEditable(false);
-			if(r.getOsobaKojaZakljucuje()!=-1)
-				textField_17.setText(Long.toString(r.getOsobaKojaZakljucuje()));
-			else
-				textField_17.setText("");
 			textField_17.setColumns(10);
 			textField_17.setBounds(519, 239, 201, 20);
 			contentPanel.add(textField_17);
@@ -346,5 +306,74 @@ public class DetaljniRadniNalog extends JDialog {
 				buttonPane.add(closeButton);
 			}
 		}
+		try{
+			PopunjavanjePolja(nalog.getBrojRadnogNaloga(),nalog.getDatumKreiranja(),
+				nalog.getKreatorRadnogNaloga(), nalog.getStatus(),
+				nalog.getPosao(), nalog.getPlaniraniDatumIzvrsenja(), nalog.getIzvrsilacPosla(),
+				nalog.getPotrebniMaterijal(), nalog.getLokacija(), nalog.getDatumIzvrsenja(), 
+				nalog.getUtrosenoVrijeme(),  nalog.getOpisPosla(),  nalog.getOsobaKojaStornira(),
+				nalog.getRazlogStorniranja(), nalog.getRazlogModifikovanja(), 
+				nalog.getOsobaKojaModifikuje(), nalog.getOsobaKojaZakljucuje(), 
+				nalog.getDodatniKomentar());
+		}
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+		}	
+	}
+	
+	public void PopunjavanjePolja(long brRN, Date dKreiranja, long idKreatora, 
+			StatusRadnogNaloga stat, TipPosla tip, Date planDatIzvrsenja,
+			long idIzvrsioca, String materijal, String lokacija, Date dIzvrsenja,
+			Time vrijeme, String opisP, long idOsobaS, String rStorniranja,
+			String rModifikovanja, long idOsobaM, long idOsobaZ, String komentar){
+		textField.setText(Long.toString(brRN));
+		textField_1.setText(String.valueOf(dKreiranja));
+		textField_2.setText(Long.toString(idKreatora));
+		
+		if(stat==StatusRadnogNaloga.kreiran)
+			textField_3.setText("Kreiran");
+		if(stat==StatusRadnogNaloga.storniran)
+			textField_3.setText("Storniran");
+		if(stat==StatusRadnogNaloga.zakljucen)
+			textField_3.setText("Zaključen");
+		
+		if(tip==TipPosla.Ostalo)
+			textField_4.setText("Ostalo");
+		if(tip==TipPosla.UgradnjaVodomjera)
+			textField_4.setText("Ugradnja vodomjera");
+		if(tip==TipPosla.WomaMasina)
+			textField_4.setText("Woma mašina");
+		if(tip==TipPosla.ZamjenaCijevi)
+			textField_4.setText("Zamjena cijevi");
+		if(tip==TipPosla.ZamjenaVodomjera)
+			textField_4.setText("Zamjena vodomjera");
+		
+		textField_5.setText(String.valueOf(planDatIzvrsenja));
+		textField_6.setText(Long.toString(idIzvrsioca));
+		textField_7.setText(materijal);
+		textField_8.setText(lokacija);
+		textField_9.setText(String.valueOf(dIzvrsenja));
+		textField_10.setText(vrijeme.toString());
+		textField_11.setText(opisP);
+		
+		if(idOsobaS!=-1)
+			textField_12.setText(Long.toString(idOsobaS));
+		else
+			textField_12.setText("");
+		
+		textField_13.setText(rStorniranja);
+		textField_14.setText(rModifikovanja);
+		
+		if(idOsobaM!=-1)
+			textField_15.setText(Long.toString(idOsobaM));
+		else
+			textField_15.setText("");
+		
+		textField_16.setText(komentar);
+		
+		if(idOsobaZ!=-1)
+			textField_17.setText(Long.toString(idOsobaZ));
+		else
+			textField_17.setText("");
 	}
 }
