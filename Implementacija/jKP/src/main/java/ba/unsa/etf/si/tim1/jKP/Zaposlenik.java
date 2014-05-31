@@ -1,7 +1,5 @@
 package ba.unsa.etf.si.tim1.jKP;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 public class Zaposlenik implements java.io.Serializable {
 	private long id;
@@ -17,19 +15,12 @@ public class Zaposlenik implements java.io.Serializable {
 		setPrezime(prezime);
 		setTipUposlenika(tipUposlenika);
 		setPristupniPodaci(podaci);
-		//setLozinka(loz);
-		//setKorisnickoIme(ki);
 	}
-	void Izbrisi() {};
+
 	void DeaktivirajKorisnickiRacun() {
 		setTipUposlenika(TipUposlenika.neaktivan);
 	}
-	/*void PromijeniLozinku(String staralozinka,String novalozinka) throws Exception
-	{
-		if(staralozinka == getLozinka())
-			setLozinka(novalozinka);
-		else throw new Exception("Lozinka nije validna!");
-	}*/
+
 	void PromjeniTipUposlenika(TipUposlenika ntu) {
 		setTipUposlenika(ntu);
 	}

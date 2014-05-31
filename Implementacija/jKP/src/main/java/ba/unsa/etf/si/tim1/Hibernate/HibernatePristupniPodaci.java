@@ -86,10 +86,10 @@ public class HibernatePristupniPodaci {
 		PristupniPodaci p = new PristupniPodaci(username,uPass);
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = s.beginTransaction();
-		s.save(p);
+		long id = (Long)s.save(p);
 		t.commit();
-		return provjeriPodatke(p.getKorisnickoIme(),password);
-		}
+		return id;
+	}
 	public static String dajKorisnickoImePoKriteriju(long id) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
@@ -106,4 +106,13 @@ public class HibernatePristupniPodaci {
 		t.commit();
 		s.close();
 	}
+	
+	public static long dajBrojKorisnika() {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		Query query = s.createSQLQuery("SELECT Count(*) FROM pristupnipodaci");
+		int brojKorisnika = ((java.math.BigInteger)query.list().get(0)).intValue();
+		s.close();
+		return brojKorisnika;
 	}
+}

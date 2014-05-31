@@ -29,12 +29,14 @@ public class Login extends JFrame {
 	private JPasswordField txtPassword;
 	private Zaposlenik korisnik;
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Login();
-	}
+	}*/
 	
 	Login() {
+		inicijalizirajBazu();
+		
 		setTitle("jKP");
 		setSize(300, 400);
 		JPanel jp = new JPanel();
@@ -91,5 +93,21 @@ public class Login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
+	}
+	
+	// Ukoliko je baza prazna napravi korisnika admin/admin
+	void inicijalizirajBazu() {
+		if (HibernatePristupniPodaci.dajBrojKorisnika() == 0) {
+			try {
+				long podaci = HibernatePristupniPodaci.spremiPodatke("admin", "admin");
+				Zaposlenik z = new Zaposlenik("Administrator", "Administrator", TipUposlenika.privilegirani, podaci);
+				//z.setTipUposlenika(TipUposlenika.privilegirani);
+				JOptionPane.showMessageDialog(null, z.getTipUposlenika());
+				HibernateZaposlenik.pohraniZaposlenika(z, podaci);
+			}
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, ex.getMessage());
+			}
+		}
 	}
 }

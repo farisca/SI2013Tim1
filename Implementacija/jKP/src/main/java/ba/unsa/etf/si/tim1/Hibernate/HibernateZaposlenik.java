@@ -36,7 +36,7 @@ public class HibernateZaposlenik {
 		}
 		
 		Zaposlenik z = (Zaposlenik)query.list().get(0);
-		
+
 		s.close();
 		return z;
 	}

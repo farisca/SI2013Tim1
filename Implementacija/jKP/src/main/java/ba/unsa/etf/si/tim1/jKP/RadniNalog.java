@@ -30,7 +30,7 @@ public class RadniNalog implements java.io.Serializable {
 	public RadniNalog() {}
 	
 	public RadniNalog(Date datumKreiranja, long kreatorNaloga, StatusRadnogNaloga status, TipPosla tip, Date planiraniDatumIzvrsenja, 
-						long izvrsilacPosla, String potrebniMaterijal, String lokacija, Date datumIzvrsenja, Time utrosenoVrijeme, Boolean odobren, String opis) {
+						long izvrsilacPosla, String potrebniMaterijal, String lokacija, Date datumIzvrsenja, Time utrosenoVrijeme, Boolean odobren, String opis) throws Exception {
 		//setBrojRadnogNaloga(BRN);
 		setDatumKreiranja(datumKreiranja);
 		setKreatorRadnogNaloga(kreatorNaloga);
@@ -114,7 +114,9 @@ public class RadniNalog implements java.io.Serializable {
 	public Date getDatumIzvrsenja() {
 		return datumIzvrsenja;
 	}
-	public void setDatumIzvrsenja(Date datumIzvrsenja) {
+	public void setDatumIzvrsenja(Date datumIzvrsenja) throws Exception {
+		if (datumIzvrsenja != null && datumIzvrsenja.after(new Date()))
+			throw new Exception("Datum izvršenja radnog naloga ne može biti u budućnosti.");
 		this.datumIzvrsenja = datumIzvrsenja;
 	}
 	public Time getUtrosenoVrijeme() {

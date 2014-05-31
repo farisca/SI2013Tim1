@@ -24,11 +24,16 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
+import org.jdesktop.swingx.JXDatePicker;
+
 import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
+import net.sourceforge.jdatepicker.DateModel;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilCalendarModel;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import java.util.Locale;
 
 public class RadniNalozi extends JTabbedPane {
 
@@ -45,6 +50,9 @@ public class RadniNalozi extends JTabbedPane {
 	private final JComboBox<StatusRadnogNaloga> comboBoxStatusNaloga;
 	private final JButton btnKreiraj;
 	private final JComboBox comboKriterijPretrage;
+	
+	
+	
 	private final Object[][] podaci = new Object[10][10];
 	private final JTable tabela = new JTable();
 	private final String[] zaglavlje_tabele = {"Broj naloga", 
@@ -156,12 +164,8 @@ public class RadniNalozi extends JTabbedPane {
         
         comboBoxKreirao = new JComboBox<Zaposlenik>();
         //comboBoxKreirao.setEditable(true);
-        if (korisnik.getTipUposlenika() != TipUposlenika.privilegirani) {
-        	comboBoxKreirao.setEnabled(false);
-        	comboBoxKreirao.setModel(new DefaultComboBoxModel<Zaposlenik>(new Zaposlenik[]{korisnik}));
-        }
-        else
-        	comboBoxKreirao.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
+    	comboBoxKreirao.setEnabled(false);
+    	comboBoxKreirao.setModel(new DefaultComboBoxModel<Zaposlenik>(new Zaposlenik[]{korisnik}));
         comboBoxKreirao.setBounds(236, 134, 200, 20);
         panelKreiranjeNaloga.add(comboBoxKreirao);
         
@@ -210,68 +214,78 @@ public class RadniNalozi extends JTabbedPane {
         textAreaPotrebniMaterijal.setLineWrap(true);
                 
         comboBoxStatusNaloga = new JComboBox<StatusRadnogNaloga>();
-        comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran, StatusRadnogNaloga.zakljucen, StatusRadnogNaloga.nezakljucen, StatusRadnogNaloga.storniran}));
+        if (korisnik.getTipUposlenika() == TipUposlenika.privilegirani)
+        	comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran, StatusRadnogNaloga.zakljucen, StatusRadnogNaloga.nezakljucen, StatusRadnogNaloga.storniran}));
+        else
+        	comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran}));
         comboBoxStatusNaloga.setBounds(236, 617, 200, 20);
         panelKreiranjeNaloga.add(comboBoxStatusNaloga);
         
         // Datepicker
-        UtilDateModel model = new UtilDateModel();
-		JDatePanelImpl datePanel = new JDatePanelImpl(model);
-        final JDatePickerImpl datePickerDatumKreiranja = new JDatePickerImpl(datePanel);
-        datePickerDatumKreiranja.getJFormattedTextField().setBackground(Color.WHITE);
+        final JXDatePicker datePickerDatumKreiranja = new JXDatePicker(new Date());
         datePickerDatumKreiranja.setLocation(236, 106);
         datePickerDatumKreiranja.setSize(200, 20);
+        datePickerDatumKreiranja.setLocale(new Locale("hr", "BA"));
+        datePickerDatumKreiranja.setFormats(new String[] {"EEEE dd.MM.yyyy"});
+        datePickerDatumKreiranja.setEnabled(false);
         panelKreiranjeNaloga.add(datePickerDatumKreiranja);
         
-        UtilDateModel model_2 = new UtilDateModel();
-		JDatePanelImpl datePanel_2 = new JDatePanelImpl(model_2);
-        final JDatePickerImpl datePickerPlaniraniDatumIzvrsenja = new JDatePickerImpl(datePanel_2);
-        datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField().setBackground(Color.WHITE);
+        final JXDatePicker datePickerPlaniraniDatumIzvrsenja = new JXDatePicker();
         datePickerPlaniraniDatumIzvrsenja.setLocation(236, 206);
         datePickerPlaniraniDatumIzvrsenja.setSize(200, 20);
+        datePickerPlaniraniDatumIzvrsenja.setLocale(new java.util.Locale("hr"));
+        datePickerPlaniraniDatumIzvrsenja.setFormats(new String[] {"EEEE dd.MM.yyyy"});
         panelKreiranjeNaloga.add(datePickerPlaniraniDatumIzvrsenja);
-        
-        UtilDateModel model_3 = new UtilDateModel();
-		JDatePanelImpl datePanel_3 = new JDatePanelImpl(model_3);
-        final JDatePickerImpl datePickerDatumZavrsetkaRadova = new JDatePickerImpl(datePanel_3);
-        datePickerDatumZavrsetkaRadova.getJFormattedTextField().setEnabled(false);
+                
+        final JXDatePicker datePickerDatumZavrsetkaRadova = new JXDatePicker();
         datePickerDatumZavrsetkaRadova.setLocation(236, 231);
         datePickerDatumZavrsetkaRadova.setSize(200, 20);
+        datePickerDatumZavrsetkaRadova.setLocale(new java.util.Locale("hr"));
+        datePickerDatumZavrsetkaRadova.setFormats(new String[] {"EEEE dd.MM.yyyy"});
         panelKreiranjeNaloga.add(datePickerDatumZavrsetkaRadova);
-        
-		
+
         btnKreiraj = new JButton("Kreiraj");
         
         // Kreiraj radni nalog
         btnKreiraj.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		/*JOptionPane.showMessageDialog(panel, 
-						"Nije implementirano!", 
-						"Potvrda", 
-						JOptionPane.INFORMATION_MESSAGE);*/
-        		
-        		Date datumKreiranja = new Date();
-        		long kreirao = GlavniProzor.korisnik.getId();
-        		StatusRadnogNaloga status = (StatusRadnogNaloga)comboBoxStatusNaloga.getSelectedItem();
-        		TipPosla tip = (TipPosla)comboBoxTipPosla.getSelectedItem();
-        		Date planiraniDatumIzvrsenja = new Date();
-        		long izvrsilac = ((Zaposlenik)comboBoxIzvrsilac.getSelectedItem()).getId();
-        		String potrebniMaterijal = textAreaPotrebniMaterijal.getText();
-        		String lokacija = txtLokacija.getText();
-        		Date datumIzvrsenja = new Date();
-        		Time utrosenoVrijeme = new Time(Integer.parseInt(txtUtrosenoVrijeme.getText()));
-        		String opisPosla = textAreaOpisPosla.getText();        		
-        		
-        		RadniNalog rn = new RadniNalog(datumKreiranja, kreirao, status, tip, planiraniDatumIzvrsenja, izvrsilac, potrebniMaterijal, lokacija, datumIzvrsenja, utrosenoVrijeme, false, opisPosla);
-        		HibernateRadniNalog.pohraniRadniNalog(rn);
-        		dispose();
+        		try {
+        			Date datumKreiranja = datePickerDatumKreiranja.getDate();
+            		long kreirao = GlavniProzor.korisnik.getId();
+            		StatusRadnogNaloga status = (StatusRadnogNaloga)comboBoxStatusNaloga.getSelectedItem();
+            		TipPosla tip = (TipPosla)comboBoxTipPosla.getSelectedItem();
+            		Date planiraniDatumIzvrsenja = datePickerPlaniraniDatumIzvrsenja.getDate();
+            		long izvrsilac = ((Zaposlenik)comboBoxIzvrsilac.getSelectedItem()).getId();
+            		String potrebniMaterijal = textAreaPotrebniMaterijal.getText();
+            		String lokacija = txtLokacija.getText();
+            		Date datumIzvrsenja = datePickerDatumZavrsetkaRadova.getDate();
+            		Time utrosenoVrijeme;
+            		if (!txtUtrosenoVrijeme.getText().isEmpty()) {
+            			int sati = (int)(Double.parseDouble(txtUtrosenoVrijeme.getText()));
+            			int minute = (int)(((Double.parseDouble(txtUtrosenoVrijeme.getText())) - sati)*60);
+                		utrosenoVrijeme = new Time(sati, minute, 0);
+            		}
+            		else
+            			utrosenoVrijeme = null;
+            		String opisPosla = textAreaOpisPosla.getText();
+        			
+        			RadniNalog rn = new RadniNalog(datumKreiranja, kreirao, status, tip, planiraniDatumIzvrsenja, izvrsilac, potrebniMaterijal, lokacija, datumIzvrsenja, utrosenoVrijeme, false, opisPosla);
+        			HibernateRadniNalog.pohraniRadniNalog(rn);
+        			
+        			JOptionPane.showMessageDialog(null, "Radni nalog je uspješno kreiran");
+        			
+        			dispose();
+        		}
+        		catch (Exception ex) {
+        			JOptionPane.showMessageDialog(null, ex.getMessage());
+        		}
         	}
 
 			private void dispose() {
 				// TODO Auto-generated method stub
-				datePickerDatumKreiranja.getJFormattedTextField().setText("");
-		        datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField().setText("");
-		        datePickerDatumZavrsetkaRadova.getJFormattedTextField().setText("");
+				datePickerDatumKreiranja.setDate(null);
+		        datePickerPlaniraniDatumIzvrsenja.setDate(null);
+		        datePickerDatumZavrsetkaRadova.setDate(null);
 		        txtLokacija.setText("");
 				textAreaOpisPosla.setText("");
 				textAreaPotrebniMaterijal.setText("");
