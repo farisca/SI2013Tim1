@@ -29,11 +29,6 @@ public class Login extends JFrame {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private Zaposlenik korisnik;
-
-	/*public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new Login();
-	}*/
 	
 	Login() {
 		ubijOnogaKoJePravioHibernate();
@@ -85,7 +80,7 @@ public class Login extends JFrame {
             		setVisible(false);
         		}
         		catch (Exception ex) {
-        			JOptionPane.showMessageDialog(null, ex.getMessage(), "Greška", JOptionPane.WARNING_MESSAGE);
+        			JOptionPane.showMessageDialog(null, ex.getMessage());
         		}
         	}
         });
@@ -114,7 +109,7 @@ public class Login extends JFrame {
 			}
 		}
 		catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Greška", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 }
