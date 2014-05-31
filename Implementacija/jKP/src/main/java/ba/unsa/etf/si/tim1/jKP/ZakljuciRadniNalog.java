@@ -61,6 +61,7 @@ public class ZakljuciRadniNalog extends JDialog {
 		{
 			textField = new JTextField();
 			textField.setEditable(false);
+			textField.setText(Long.toString(r.getBrojRadnogNaloga()));
 			textField.setBounds(189, 41, 200, 20);
 			contentPanel.add(textField);
 			textField.setColumns(10);
@@ -128,6 +129,7 @@ public class ZakljuciRadniNalog extends JDialog {
 						else{
 							Time t = new Time((Integer)spinner.getValue(),(Integer)spinner_1.getValue(), 0);
 							r.setUtrosenoVrijeme(t);
+							r.setStatus(StatusRadnogNaloga.zakljucen);
 							HibernateRadniNalog.modifikujRadniNalog(r);
 							JOptionPane.showMessageDialog(contentPanel, "Uspješno ste zaključili radni nalog");
 							ovaj.dispose();
