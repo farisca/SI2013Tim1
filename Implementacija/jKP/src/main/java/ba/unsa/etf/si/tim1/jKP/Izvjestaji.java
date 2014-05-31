@@ -455,7 +455,7 @@ public class Izvjestaji extends JPanel {
        
 		
 	}
-	void SedmicniRadnici(String fajl, Date datePicker) throws Exception {
+	public void SedmicniRadnici(String fajl, Date datePicker) throws Exception {
 		if(datePicker.after(new Date())) throw new Exception("Pogrešan datum!");
 		Calendar cal1 = Calendar.getInstance();
         cal1.setTime(new Date());
@@ -528,9 +528,12 @@ public class Izvjestaji extends JPanel {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		} catch(Exception e1) {
+			
+		}
 	}
 	void Godisnji(String fajl, Date datePicker) throws Exception {
+		if((new Date()).before(datePicker)) throw new Exception("Pogrešan datum!");
         try {
             Calendar calendar = Calendar.getInstance();  
             calendar.setTime(datePicker);  
