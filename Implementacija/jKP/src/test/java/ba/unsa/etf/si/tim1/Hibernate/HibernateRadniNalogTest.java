@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.junit.*;
+import static org.junit.Assert.*;
 
 import ba.unsa.etf.si.tim1.jKP.RadniNalog;
 import ba.unsa.etf.si.tim1.jKP.StatusRadnogNaloga;
@@ -14,37 +16,46 @@ import junit.framework.TestCase;
 
 public class HibernateRadniNalogTest extends TestCase {
 
+	RadniNalog rn1;
+	RadniNalog rn2;
+	
+	@Test
 	public void testPohraniRadniNalog() {
+		
 		fail("Not yet implemented"); // TODO
+		
 	}
-
+	@Test
 	public void testModifikujRadniNalog() {
-		fail("Not yet implemented"); // TODO
+		
 	}
-
+	@Test
 	public void testPretraga() {
 		try{
 			pripremiBazuZaTestiranje();
+			HibernateRadniNalog.pohraniRadniNalog(rn1);
 			List<String> podaci = new ArrayList();
 			podaci.add("LOKACIJA");
 			podaci.add("Bascarsija");
 			
 			List<RadniNalog> nalozi = HibernateRadniNalog.pretraga(podaci);
-			assertEquals("Bla", nalozi.get(0).getLokacija());
+			Assert.assertEquals("Bascarsija", nalozi.get(0).getLokacija());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
 	}
-
+	@Test
 	public void testDajSveRadneNaloge() {
-		fail("Not yet implemented"); // TODO
+		List<RadniNalog> nalozi = HibernateRadniNalog.dajSveRadneNaloge();
+		Assert.assertTrue(2 <= nalozi.size());
 	}
-
+	@Test
 	public void testUbijOnogaKoJePravioHibernate() {
 		fail("Not yet implemented"); // TODO
 	}
 
+	@Before
 	private void pripremiBazuZaTestiranje() throws Exception{
 		
 
@@ -68,12 +79,8 @@ public class HibernateRadniNalogTest extends TestCase {
 			String lokacija = "Bascarsija";
 			
 			
-			// kreiranje radnih naloga u bazi
 			RadniNalog rn1 = new RadniNalog(datumKreiranja, 3, status, tipPosla, planiraniDatumIzvrsenja, 1, materijal, lokacija, datumIzvrsenja, utrosenoVrijeme, true, "opis posla");
-			
-			
-			
-			
+			RadniNalog rn2 = new RadniNalog(datumKreiranja, 3, status, tipPosla, planiraniDatumIzvrsenja, 1, materijal, lokacija, datumIzvrsenja, utrosenoVrijeme, true, "opis posla");
 			
 			
         } catch (java.text.ParseException e) {
@@ -83,4 +90,5 @@ public class HibernateRadniNalogTest extends TestCase {
 		
 		
 	}
+	
 }
