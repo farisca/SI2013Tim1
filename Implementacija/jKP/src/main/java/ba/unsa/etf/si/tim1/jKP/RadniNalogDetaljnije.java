@@ -32,7 +32,7 @@ import com.sun.pdfview.PDFPage;
 import com.sun.pdfview.PagePanel;
 
 public class RadniNalogDetaljnije extends JFrame {
-	public RadniNalogDetaljnije(int brojnaloga) {
+	public RadniNalogDetaljnije(long brojnaloga) {
 		Document document = new Document();
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
@@ -63,21 +63,46 @@ public class RadniNalogDetaljnije extends JFrame {
 	        document.add(new Paragraph(" "));document.add(new Paragraph(" "));
 	        table.setWidths(new float[]{(float)0.3,(float) 0.7});
 	        PdfPCell cell;
-	        cell = new PdfPCell(new Phrase("R.br."));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Broj RN")); cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Datum kreiranja"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Posao"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Osoba koja stornira"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Stanje")); cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Razlog storniranja"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
+	       
+	        
 			for(Object[] q : lq) {
-				cell = new PdfPCell(new Phrase(String.valueOf(i + 1))); table.addCell(cell);
-				cell = new PdfPCell(new Phrase(String.valueOf(q[0])));table.addCell(cell);
-				cell = new PdfPCell(new Phrase(String.valueOf(q[1])));table.addCell(cell);
-				cell = new PdfPCell(new Phrase(String.valueOf(q[2])));table.addCell(cell);
-				cell = new PdfPCell(new Phrase( String.valueOf(q[3]) + " " + String.valueOf(q[4])));table.addCell(cell);
-				cell = new PdfPCell(new Phrase("Storniran"));table.addCell(cell);
-				cell = new PdfPCell(new Phrase(String.valueOf(q[5])));table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Broj naloga"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[0]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Datum kreiranja"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[1]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Kreator radnog naloga"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[2] + " " + q[3]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Status"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[4]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Posao"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[5]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Izvršilac posla"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[6] + " " + q[7]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Potrebni materijal"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[8]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Lokacija"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[9]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Datum izvršenja"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[10]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Utrošeno vrijeme"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[11]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Opis posla"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[12]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Razlog storniranja"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[13]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Osoba koja stornira"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[14] + "  " + q[15]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Razlog modificiranja"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[16]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Osoba koja modificira"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[17] + " " + q[18]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Datum modificiranja"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[19]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Osoba koja je zakljucila"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[20] + " " + q[21]))); table.addCell(cell);
+				cell = new PdfPCell(new Phrase("Komentar"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+				cell = new PdfPCell(new Phrase(String.valueOf(q[22]))); table.addCell(cell);
+				
 				i++;
 			}
 		
