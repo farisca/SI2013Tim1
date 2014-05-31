@@ -104,7 +104,40 @@ public class HibernateZaposlenik {
 		s.close();
 	}
 	
+	public static int dajBrojZaposlenika() {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		Query query = s.createSQLQuery("SELECT Count(*) FROM zaposlenik");
+		int brojKorisnika = ((java.math.BigInteger)query.list().get(0)).intValue();
+		s.close();
+		return brojKorisnika;
+	}
+	
+	private static void inicijalizirajTabelu() {
+		String url = "jdbc:mysql://localhost/jkp"; 
+		try { 
+			Class.forName("com.mysql.jdbc.Driver"); 
+			java.sql.Connection c = java.sql.DriverManager.getConnection(url, "root", ""); 
+		 
+				try { 
+					java.sql.Statement st = c.createStatement(); 
+					st.execute("INSERT INTO zaposlenik VALUES (NULL, 'Administrator', 'Administrator', 'privilegirani', '1');");
+				} 
+				catch (Exception e) { 
+					System.out.println("Greska pri radu sa bazom: "+e.getMessage()); 
+				}
+				finally {
+					c.close(); 
+				}
+		 }
+		 catch (Exception e) {
+			 System.out.println("Greska pri radu sa bazom: "+e.getMessage()); 
+		 }
+	}
+	
 	public static void ubijOnogaKoJePravioHibernate() {
+		if (dajBrojZaposlenika() == 0)
+			inicijalizirajTabelu();
 		dajSveZaposlenike();
 	}
 }

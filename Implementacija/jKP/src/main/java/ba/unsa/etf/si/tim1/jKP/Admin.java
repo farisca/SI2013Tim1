@@ -38,7 +38,7 @@ public class Admin extends JPanel {
 		tabovi.addTab("Pretraga", panelPretraga);
 		panelPretraga.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Klju�na rije�:");
+		JLabel lblNewLabel = new JLabel("Ključna riječ:");
 		lblNewLabel.setBounds(90, 33, 104, 15);
 		panelPretraga.add(lblNewLabel);
 
@@ -138,18 +138,18 @@ public class Admin extends JPanel {
 						.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 				panelNovi.add(lblImeIPrezime_1);
 
-				JLabel lblKorisnikoIme = new JLabel("Korisni�ko ime:");
+				JLabel lblKorisnikoIme = new JLabel("Korisničko ime:");
 				lblKorisnikoIme.setBounds(232, 212, 113, 15);
 				lblKorisnikoIme
 						.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 				panelNovi.add(lblKorisnikoIme);
 
-				JLabel lblifra = new JLabel("�ifra:");
+				JLabel lblifra = new JLabel("Šifra:");
 				lblifra.setBounds(301, 243, 44, 15);
 				lblifra.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 				panelNovi.add(lblifra);
 
-				JLabel lblPotvrdaifre = new JLabel("Potvrda �ifre:");
+				JLabel lblPotvrdaifre = new JLabel("Potvrda šifre:");
 				lblPotvrdaifre.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 				lblPotvrdaifre.setBounds(243, 274, 102, 15);
 				panelNovi.add(lblPotvrdaifre);
@@ -183,9 +183,9 @@ public class Admin extends JPanel {
 							String pass1 = textField_2.getText();
 							String pass2 = textField_3.getText();
 							if (ime_i_prezime[0].length()==0 || ime_i_prezime[1].length()==0)
-								throw new Exception("Niste Upisali Ime i Prezime!");
+								throw new Exception("Niste upisali ime i prezime!");
 							if (ki.length()==0)
-								throw new Exception("Niste Upisali Korisničko ime!");
+								throw new Exception("Niste upisali korisničko ime!");
 							if(pass1.length()==0 || pass2.length()==0)
 								throw new Exception("Niste upisali lozinku!");
 							if (!Arrays.equals(textField_2.getPassword(), textField_3.getPassword()))
@@ -260,7 +260,7 @@ public class Admin extends JPanel {
 				panelNovi.add(label);
 
 				textField_5 = new JComboBox();
-				textField_5.addItem("Obi�ni korisnik");
+				textField_5.addItem("Obični korisnik");
 				textField_5.addItem("Privilegirani korisnik");
 				textField_5.setBounds(363, 300, 196, 19);
 				panelNovi.add(textField_5);
@@ -283,18 +283,18 @@ public class Admin extends JPanel {
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		panelNovi.add(lblImeIPrezime_1);
 
-		JLabel lblKorisnikoIme = new JLabel("Korisni�ko ime:");
+		JLabel lblKorisnikoIme = new JLabel("Korisničko ime:");
 		lblKorisnikoIme.setBounds(232, 212, 113, 15);
 		lblKorisnikoIme
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		panelNovi.add(lblKorisnikoIme);
 
-		JLabel lblifra = new JLabel("�ifra:");
+		JLabel lblifra = new JLabel("Šifra:");
 		lblifra.setBounds(301, 243, 44, 15);
 		lblifra.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		panelNovi.add(lblifra);
 
-		JLabel lblPotvrdaifre = new JLabel("Potvrda �ifre:");
+		JLabel lblPotvrdaifre = new JLabel("Potvrda šifre:");
 		lblPotvrdaifre.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		lblPotvrdaifre.setBounds(243, 274, 102, 15);
 		panelNovi.add(lblPotvrdaifre);
@@ -393,7 +393,7 @@ public class Admin extends JPanel {
 		panelNovi.add(label);
 
 		textField_5 = new JComboBox();
-		textField_5.addItem("Obi�ni korisnik");
+		textField_5.addItem("Obični korisnik");
 		textField_5.addItem("Privilegirani korisnik");
 		textField_5.setBounds(363, 300, 196, 19);
 		panelNovi.add(textField_5);

@@ -52,7 +52,7 @@ public class Login extends JFrame {
         lblKorisnikoIme.setHorizontalAlignment(SwingConstants.RIGHT);
         jp.add(lblKorisnikoIme);
         
-        JLabel lblifra = new JLabel("\u0161ifra: ");
+        JLabel lblifra = new JLabel("Šifra: ");
         lblifra.setBounds(22, 249, 86, 14);
         lblifra.setHorizontalAlignment(SwingConstants.RIGHT);
         jp.add(lblifra);
@@ -104,6 +104,7 @@ public class Login extends JFrame {
 		try {
 			if (HibernatePristupniPodaci.dajBrojKorisnika() == 0) {
 				long podaci = HibernatePristupniPodaci.spremiPodatke("admin", "admin");
+				HibernateZaposlenik.ubijOnogaKoJePravioHibernate();
 				Zaposlenik z = new Zaposlenik("Administrator", "Administrator", TipUposlenika.privilegirani, podaci);
 				HibernateZaposlenik.pohraniZaposlenika(z, podaci);
 			}

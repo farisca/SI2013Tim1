@@ -101,7 +101,40 @@ public class HibernateRadniNalog {
 		return lista;
 	}
 	
+	public static int dajBrojRadnihNaloga() {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		Query query = s.createSQLQuery("SELECT Count(*) FROM radninalog");
+		int brojNaloga = ((java.math.BigInteger)query.list().get(0)).intValue();
+		s.close();
+		return brojNaloga;
+	}
+	
+	private static void inicijalizirajTabelu() {
+		String url = "jdbc:mysql://localhost/jkp"; 
+		try { 
+			Class.forName("com.mysql.jdbc.Driver"); 
+			java.sql.Connection c = java.sql.DriverManager.getConnection(url, "root", ""); 
+		 
+				try { 
+					java.sql.Statement st = c.createStatement(); 
+					st.execute("INSERT INTO radninalog (BROJRADNOGNALOGA, STATUS, POSAO, KREATORRADNOGNALOGA, IZVRSILACPOSLA, OSOBAKOJASTORNIRA, OSOBAKOJAMODIFIKUJE, OSOBAKOJAZAKLJUCUJE)  VALUES (NULL, 'zakljucen', 'Ostalo', '1', '1', '1', '1', '1');");
+				} 
+				catch (Exception e) { 
+					System.out.println("Greska pri radu sa bazom: "+e.getMessage()); 
+				}
+				finally {
+					c.close(); 
+				}
+		 }
+		 catch (Exception e) {
+			 System.out.println("Greska pri radu sa bazom: "+e.getMessage()); 
+		 }
+	}
+	
 	public static void ubijOnogaKoJePravioHibernate() {
+		if (dajBrojRadnihNaloga() == 0)
+			inicijalizirajTabelu();
 		dajSveRadneNaloge();
 	}
 	

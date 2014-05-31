@@ -285,13 +285,13 @@ public class RadniNalozi extends JTabbedPane {
             		
             		if (lokacija.isEmpty())
             			throw new Exception("Niste unijeli lokaciju");
+            		if (planiraniDatumIzvrsenja == null)
+            			throw new Exception("Niste izabrali planiran datum izvršenja radnog naloga");
             		if (opisPosla.isEmpty())
             			throw new Exception("Niste unijeli opis posla");
             		if (potrebniMaterijal.isEmpty())
             			throw new Exception("Niste unijeli potrebni materijal");
-            		if (planiraniDatumIzvrsenja == null)
-            			throw new Exception("Niste izabrali planiran datum izvršenja radnog naloga");
-        			
+            		
         			RadniNalog rn = new RadniNalog(datumKreiranja, kreirao, status, tip, planiraniDatumIzvrsenja, izvrsilac, potrebniMaterijal, lokacija, datumIzvrsenja, utrosenoVrijeme, false, opisPosla);
         			HibernateRadniNalog.pohraniRadniNalog(rn);
         			

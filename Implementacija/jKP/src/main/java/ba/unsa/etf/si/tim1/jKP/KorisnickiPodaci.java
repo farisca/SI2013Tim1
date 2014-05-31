@@ -26,6 +26,7 @@ public class KorisnickiPodaci extends JPanel {
 	
 	final JButton btnPrikaziPanel;
 	final JButton btnPromijeni;
+	final JButton btnOdustani;
 	
 	public KorisnickiPodaci(Zaposlenik kor) {
 		korisnik = kor;
@@ -102,9 +103,15 @@ public class KorisnickiPodaci extends JPanel {
         btnPromijeni.setBounds(208, 140, 89, 23);
         panelPassword.add(btnPromijeni);
         
+        btnOdustani = new JButton("Odustani");
+        btnOdustani.setBounds(100, 140, 89, 23);
+        panelPassword.add(btnOdustani);
+        
         btnPrikaziPanel = new JButton("Promijeni \u0161ifru");
         btnPrikaziPanel.setBounds(216, 180, 120, 23);
         this.add(btnPrikaziPanel);
+        
+        
         
         // Prikazuje panel za promjenu lozinke
         btnPrikaziPanel.addActionListener(new ActionListener() {
@@ -128,6 +135,21 @@ public class KorisnickiPodaci extends JPanel {
         		catch (Exception ex) {
         			JOptionPane.showMessageDialog(null, ex.getMessage());
         		}
+        	}
+        	
+        	public void dispose() {
+        		pwdStari.setText("");
+        		pwdNovi.setText("");
+        		pwdPotvrdiNovi.setText("");
+        	}
+        });
+        
+        // Odustajanje od promjene lozinke
+        btnOdustani.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		dispose();
+        		panelPassword.setVisible(false);
+        		btnPrikaziPanel.setVisible(true);
         	}
         	
         	public void dispose() {

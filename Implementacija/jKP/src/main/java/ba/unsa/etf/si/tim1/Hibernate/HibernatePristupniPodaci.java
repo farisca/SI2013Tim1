@@ -128,4 +128,5 @@ public class HibernatePristupniPodaci {
 		s.close();
 		return brojKorisnika;
 	}
+	
 }
