@@ -63,10 +63,11 @@ public class RadniNalozi extends JTabbedPane {
 	private final JComboBox<TipPosla> comboBoxTipPosla;
 	private final JTextArea textAreaOpisPosla;
 	private final JTextArea textAreaPotrebniMaterijal;
-	//private final JComboBox<StatusRadnogNaloga> comboBoxStatusNaloga;
+	private final JComboBox<StatusRadnogNaloga> comboBoxStatusNaloga;
 	private final JButton btnKreiraj;
 	private final JComboBox comboBox_1;
 	private final JXDatePicker dp_1;
+	private final JButton btnKreirajPrazanNalog;
 	
 	
 	private final Object[][] podaci = new Object[100][10];
@@ -109,7 +110,7 @@ public class RadniNalozi extends JTabbedPane {
         panelKreiranjeNaloga = new JPanel();
         scrollPaneKreiranjeNaloga.setViewportView(panelKreiranjeNaloga);
         panelKreiranjeNaloga.setLayout(null);
-        panelKreiranjeNaloga.setPreferredSize(new java.awt.Dimension(500, 650));
+        panelKreiranjeNaloga.setPreferredSize(new java.awt.Dimension(500, 710));
         
         JLabel lblKreiranjeRadnogNaloga = new JLabel("Kreiranje radnog naloga");
         lblKreiranjeRadnogNaloga.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -156,9 +157,9 @@ public class RadniNalozi extends JTabbedPane {
         lblMaterijal.setBounds(76, 499, 200, 14);
         panelKreiranjeNaloga.add(lblMaterijal);
         
-        /*JLabel lblStatusRadnogNaloga = new JLabel("Status radnog naloga:");
+        JLabel lblStatusRadnogNaloga = new JLabel("Status radnog naloga:");
         lblStatusRadnogNaloga.setBounds(76, 620, 150, 14);
-        panelKreiranjeNaloga.add(lblStatusRadnogNaloga);*/
+        panelKreiranjeNaloga.add(lblStatusRadnogNaloga);
         
 
         java.util.List<Zaposlenik> listaZaposlenika = HibernateZaposlenik.dajSveZaposlenike();
@@ -215,13 +216,13 @@ public class RadniNalozi extends JTabbedPane {
         scrollPane_2.setViewportView(textAreaPotrebniMaterijal);
         textAreaPotrebniMaterijal.setLineWrap(true);
                 
-        /*comboBoxStatusNaloga = new JComboBox<StatusRadnogNaloga>();
+        comboBoxStatusNaloga = new JComboBox<StatusRadnogNaloga>();
         if (korisnik.getTipUposlenika() == TipUposlenika.privilegirani)
         	comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran, StatusRadnogNaloga.zakljucen, StatusRadnogNaloga.nezakljucen, StatusRadnogNaloga.storniran}));
         else
         	comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran}));
         comboBoxStatusNaloga.setBounds(236, 617, 200, 20);
-        panelKreiranjeNaloga.add(comboBoxStatusNaloga);*/
+        panelKreiranjeNaloga.add(comboBoxStatusNaloga);
         
         // Datepicker
         final JXDatePicker datePickerDatumKreiranja = new JXDatePicker(new Date());
@@ -245,6 +246,17 @@ public class RadniNalozi extends JTabbedPane {
         datePickerDatumZavrsetkaRadova.setLocale(new java.util.Locale("hr"));
         datePickerDatumZavrsetkaRadova.setFormats(new String[] {"EEEE dd.MM.yyyy"});
         panelKreiranjeNaloga.add(datePickerDatumZavrsetkaRadova);
+        
+        btnKreirajPrazanNalog = new JButton("Prazan radni nalog");
+        btnKreirajPrazanNalog.setBounds(76, 670, 150, 23);
+        panelKreiranjeNaloga.add(btnKreirajPrazanNalog);
+        
+        // Kreiraj prazan radni nalog
+        btnKreirajPrazanNalog.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
 
         btnKreiraj = new JButton("Kreiraj");
         
@@ -254,8 +266,7 @@ public class RadniNalozi extends JTabbedPane {
         		try {
         			Date datumKreiranja = new Date();
             		long kreirao = GlavniProzor.korisnik.getId();
-            		//StatusRadnogNaloga status = (StatusRadnogNaloga)comboBoxStatusNaloga.getSelectedItem();
-            		StatusRadnogNaloga status = StatusRadnogNaloga.kreiran;
+            		StatusRadnogNaloga status = (StatusRadnogNaloga)comboBoxStatusNaloga.getSelectedItem();
             		TipPosla tip = (TipPosla)comboBoxTipPosla.getSelectedItem();
             		Date planiraniDatumIzvrsenja = datePickerPlaniraniDatumIzvrsenja.getDate();
             		long izvrsilac = ((Zaposlenik)comboBoxIzvrsilac.getSelectedItem()).getId();
@@ -271,6 +282,15 @@ public class RadniNalozi extends JTabbedPane {
             		else
             			utrosenoVrijeme = null;
             		String opisPosla = textAreaOpisPosla.getText();
+            		
+            		if (lokacija.isEmpty())
+            			throw new Exception("Niste unijeli lokaciju");
+            		if (opisPosla.isEmpty())
+            			throw new Exception("Niste unijeli opis posla");
+            		if (potrebniMaterijal.isEmpty())
+            			throw new Exception("Niste unijeli potrebni materijal");
+            		if (planiraniDatumIzvrsenja == null)
+            			throw new Exception("Niste izabrali planiran datum izvršenja radnog naloga");
         			
         			RadniNalog rn = new RadniNalog(datumKreiranja, kreirao, status, tip, planiraniDatumIzvrsenja, izvrsilac, potrebniMaterijal, lokacija, datumIzvrsenja, utrosenoVrijeme, false, opisPosla);
         			HibernateRadniNalog.pohraniRadniNalog(rn);
@@ -280,7 +300,7 @@ public class RadniNalozi extends JTabbedPane {
         			dispose();
         		}
         		catch (Exception ex) {
-        			JOptionPane.showMessageDialog(null, ex.getMessage());
+        			JOptionPane.showMessageDialog(null, ex.getMessage(), "Greška", JOptionPane.WARNING_MESSAGE);
         		}
         	}
 
@@ -293,7 +313,7 @@ public class RadniNalozi extends JTabbedPane {
 				textAreaPotrebniMaterijal.setText("");
 			}
         });
-        btnKreiraj.setBounds(345, 610, 89, 23);
+        btnKreiraj.setBounds(345, 670, 89, 23);
         panelKreiranjeNaloga.add(btnKreiraj);
 
        

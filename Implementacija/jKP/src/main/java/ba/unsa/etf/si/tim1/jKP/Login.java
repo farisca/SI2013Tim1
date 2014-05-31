@@ -85,7 +85,7 @@ public class Login extends JFrame {
             		setVisible(false);
         		}
         		catch (Exception ex) {
-        			JOptionPane.showMessageDialog(null, ex.getMessage());
+        			JOptionPane.showMessageDialog(null, ex.getMessage(), "Greška", JOptionPane.WARNING_MESSAGE);
         		}
         	}
         });
@@ -114,7 +114,7 @@ public class Login extends JFrame {
 			}
 		}
 		catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, ex.getMessage());
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

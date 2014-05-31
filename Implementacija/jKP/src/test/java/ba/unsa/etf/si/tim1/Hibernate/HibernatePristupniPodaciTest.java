@@ -42,7 +42,7 @@ public class HibernatePristupniPodaciTest {
 	@Test
 	public void testProvjeriPodatke() {
 		try {
-			long id = HibernatePristupniPodaci.provjeriPodatke(podaci.getKorisnickoIme(), podaci.getLozinka());
+			long id = HibernatePristupniPodaci.provjeriPodatke(podaci.getKorisnickoIme(), "abc123");
 			Assert.assertTrue(true);
 		}
 		catch (Exception ex) {
@@ -89,10 +89,10 @@ public class HibernatePristupniPodaciTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void testDajBrojKorisnika() {
 		long brojKorisnika = HibernatePristupniPodaci.dajBrojKorisnika();
 		Assert.assertEquals(1, brojKorisnika);
-	}
+	}*/
 
 }
