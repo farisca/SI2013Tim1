@@ -457,7 +457,7 @@ public class RadniNalozi extends JTabbedPane {
         		if(comboBox_1.getSelectedIndex() != -1) { 
         			lista.add("IZVRSILACPOSLA"); 
         			Zaposlenik z = (Zaposlenik) comboBox_1.getSelectedItem();
-        			lista.add(z.getImeIPrezime()); 
+        			lista.add(String.valueOf(z.getId())); 
         			}
         		
         		
