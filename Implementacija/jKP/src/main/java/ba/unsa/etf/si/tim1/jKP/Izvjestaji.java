@@ -30,6 +30,15 @@ import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.Document;
@@ -150,7 +159,12 @@ public class Izvjestaji extends JPanel {
         			Date date = new Date();
         			if(comboBox.getSelectedIndex() == 0) {
         				file = new File(dateFormat.format(date));
-                		SedmicniRadnici(dateFormat.format(date), (Date) datePicker.getModel().getValue());
+                		try {
+							SedmicniRadnici(dateFormat.format(date), (Date) datePicker.getModel().getValue());
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
                 	}
         			if(comboBox.getSelectedIndex() == 1) {
         				file = new File(dateFormat.format(date));
@@ -164,6 +178,18 @@ public class Izvjestaji extends JPanel {
         				file = new File(dateFormat.format(date));
                 		try {
 							MjesecniStornirani(dateFormat.format(date), comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+						}
+                	}
+        			if(comboBox.getSelectedIndex() == 3) {
+        				file = new File(dateFormat.format(date));
+
+                	}
+        			if(comboBox.getSelectedIndex() == 4) {
+        				file = new File(dateFormat.format(date));
+                		try {
+							Godisnji(dateFormat.format(date), (Date) datePicker.getModel().getValue());
 						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 						}
@@ -383,7 +409,16 @@ public class Izvjestaji extends JPanel {
        
 		
 	}
-	void SedmicniRadnici(String fajl, Date datePicker) {
+	void SedmicniRadnici(String fajl, Date datePicker) throws Exception {
+		Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(new Date());
+        int trenutnaSedmica = cal1.get(Calendar.WEEK_OF_YEAR);
+        int trenutnaGodina = cal1.get(Calendar.YEAR);
+        cal1.setTime(datePicker);
+        int trazenaSedmica = cal1.get(Calendar.WEEK_OF_YEAR);
+        int trazenaGodina = cal1.get(Calendar.YEAR);
+        if(trenutnaSedmica < trazenaSedmica || trenutnaGodina < trazenaGodina) throw new Exception("Pogrešna sedmica!");
+        
 		Document document = new Document();
         try {
         	Session session = HibernateUtil.getSessionFactory().openSession();
@@ -446,10 +481,115 @@ public class Izvjestaji extends JPanel {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-       
-		
+		}	
 	}
-	
+	void Godisnji(String fajl, Date datePicker) throws Exception {
+        try {
+            Calendar calendar = Calendar.getInstance();  
+            calendar.setTime(datePicker);  
+
+            calendar.set(Calendar.DAY_OF_MONTH, 1);  
+            calendar.add(Calendar.DATE, -1);  
+
+            Date lastDayOfMonth = calendar.getTime();
+            JOptionPane.showMessageDialog(getRootPane(), lastDayOfMonth);
+        	Document document = new Document();
+        	Session session = HibernateUtil.getSessionFactory().openSession();
+    		Transaction t = session.beginTransaction();
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		List<Object[]> lq =session.createSQLQuery("select month(datumkreiranja) mj, year(datumkreiranja) god, (select count(r.brojradnognaloga) "
+    				+ "from radninalog r where month(r.datumkreiranja) = mj and year(r.datumkreiranja) = god and r.datumkreiranja <= '" + dateFormat.format(lastDayOfMonth) + "' "
+    						+ "and r.datumkreiranja >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)),"
+    						+ " (select count(r.brojradnognaloga) from radninalog r where r.status = 'zakljucen' and "
+    						+ "month(r.datumkreiranja) = mj and year(r.datumkreiranja) = god and r.datumkreiranja <= '" + dateFormat.format(lastDayOfMonth) + "' and "
+    								+ "r.datumkreiranja >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)), "
+    				+ "(select count(r.brojradnognaloga) from radninalog r where r.status = 'nezakljucen' "
+    				+ "and month(r.datumkreiranja) = mj and year(r.datumkreiranja) = god and r.datumkreiranja <= '" + dateFormat.format(lastDayOfMonth) + "' and r.datumkreiranja >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)),"
+    						+ " (select count(r.brojradnognaloga) from radninalog r "
+    				+ "where r.status = 'storniran' and month(r.datumkreiranja) = mj and year(r.datumkreiranja) = god and r.datumkreiranja <= '" + dateFormat.format(lastDayOfMonth) + "' and r.datumkreiranja >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)) "
+    						+ "from radninalog group by mj, god order by god asc, mj asc").list();
+    		
+    		PdfWriter.getInstance(document, new FileOutputStream(fajl));
+	        document.open();
+	        PdfPTable table = new PdfPTable(6);
+	        
+	        table.setWidthPercentage(95f);
+	        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
+	        	      Font.BOLD);
+	        Font ctFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
+	        	      Font.BOLD);
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(new Date());
+	        int week = cal.get(Calendar.WEEK_OF_YEAR);
+	        int year = cal.get(Calendar.YEAR);
+	        Paragraph parah = new Paragraph("Godisnji sumarni izvjestaj o radnim nalozima", catFont);
+	        parah.setAlignment(Element.ALIGN_CENTER);
+	        document.add(parah);
+	        parah = new Paragraph("Sedmica: " + week + ".  Godina: " + year, ctFont);
+	        parah.setAlignment(Element.ALIGN_CENTER);
+	        document.add(parah);
+	        document.add(new Paragraph(" "));document.add(new Paragraph(" "));
+	        table.setWidths(new float[]{(float) 0.16,(float) 0.16,(float) 0.16,(float) 0.16, (float) 0.16, (float) 0.16});
+	        
+	        PdfPCell cell;
+	        cell = new PdfPCell(new Phrase("R.br.mj. - Godina"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Mjesec")); cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Kreirani radni nalozi"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Zakljuceni radni nalozi"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Nezakljuceni radni nalozi"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Stornirani radni nalozi"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
+	        TimeSeries pop = new TimeSeries("Population", Day.class);
+
+	        int i = 0;
+	        for(Object[] q : lq) {
+	        	pop.add(new Day(1, Integer.valueOf(q[0].toString()), Integer.valueOf(q[1].toString())), Integer.valueOf(q[2].toString()));
+	        	
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[0] + "-" + q[1])));cell.setHorizontalAlignment(Element.ALIGN_CENTER); table.addCell(cell);
+    			if(q[0] == (Object) 1) cell = new PdfPCell(new Phrase("Januar"));
+    			else if(q[0] == (Object) 2) cell = new PdfPCell(new Phrase("Februar"));
+    			else if(q[0] == (Object) 3) cell = new PdfPCell(new Phrase("Mart"));
+    			else if(q[0] == (Object) 4) cell = new PdfPCell(new Phrase("April"));
+    			else if(q[0] == (Object) 5) cell = new PdfPCell(new Phrase("Maj"));
+    			else if(q[0] == (Object) 6) cell = new PdfPCell(new Phrase("Juni"));
+    			else if(q[0] == (Object) 7) cell = new PdfPCell(new Phrase("Juli"));
+    			else if(q[0] == (Object) 8) cell = new PdfPCell(new Phrase("August"));
+    			else if(q[0] == (Object) 9) cell = new PdfPCell(new Phrase("Septembar"));
+    			else if(q[0] == (Object) 10) cell = new PdfPCell(new Phrase("Oktobar"));
+    			else if(q[0] == (Object) 11) cell = new PdfPCell(new Phrase("Novembar"));
+    			else if(q[0] == (Object) 12) cell = new PdfPCell(new Phrase("Decembar"));
+    			cell.setHorizontalAlignment(Element.ALIGN_CENTER); table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[2])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[3])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[4])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[5])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    		}
+		
+	        document.add(table);
+	        
+	        TimeSeriesCollection dataset = new TimeSeriesCollection();
+	        dataset.addSeries(pop);
+	        JFreeChart chart = ChartFactory.createTimeSeriesChart(
+	        "Population of CSC408 Town",
+	        "Date", 
+	        "Population",
+	        dataset,
+	        true,
+	        true,
+	        false);
+	        
+	        try {
+	        ChartUtilities.saveChartAsJPEG(new File("chart.jpg"), chart, 500, 300);
+	        } catch (IOException e) {
+	        System.err.println("Problem occurred creating chart.");
+	        }
+	        document.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
 
