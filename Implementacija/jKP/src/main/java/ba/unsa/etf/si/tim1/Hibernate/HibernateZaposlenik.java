@@ -40,6 +40,7 @@ public class HibernateZaposlenik {
 		s.close();
 		return z;
 	}
+	
 	public static PristupniPodaci dajPristupnePodatkePoId(Zaposlenik z) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
@@ -56,6 +57,7 @@ public class HibernateZaposlenik {
 		s.close();
 		return p;
 	}
+	
 	public static List<Zaposlenik> dajSveZaposlenike() {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
@@ -72,6 +74,7 @@ public class HibernateZaposlenik {
 		s.close();
 		return lista;
 	}
+	
 	public static void pohraniZaposlenika(Zaposlenik z, long podaci) {
 		z.setPristupniPodaci(podaci);
 		Session s = HibernateUtil.getSessionFactory().openSession();
@@ -99,6 +102,10 @@ public class HibernateZaposlenik {
 		s.update(z);
 		t.commit();
 		s.close();
+	}
+	
+	public static void ubijOnogaKoJePravioHibernate() {
+		dajSveZaposlenike();
 	}
 }
 

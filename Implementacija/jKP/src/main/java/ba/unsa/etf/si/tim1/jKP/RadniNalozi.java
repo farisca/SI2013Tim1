@@ -252,7 +252,7 @@ public class RadniNalozi extends JTabbedPane {
         btnKreiraj.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		try {
-        			Date datumKreiranja = datePickerDatumKreiranja.getDate();
+        			Date datumKreiranja = new Date();
             		long kreirao = GlavniProzor.korisnik.getId();
             		StatusRadnogNaloga status = (StatusRadnogNaloga)comboBoxStatusNaloga.getSelectedItem();
             		TipPosla tip = (TipPosla)comboBoxTipPosla.getSelectedItem();
@@ -285,7 +285,6 @@ public class RadniNalozi extends JTabbedPane {
 
 			private void dispose() {
 				// TODO Auto-generated method stub
-				datePickerDatumKreiranja.setDate(null);
 		        datePickerPlaniraniDatumIzvrsenja.setDate(null);
 		        datePickerDatumZavrsetkaRadova.setDate(null);
 		        txtLokacija.setText("");

@@ -2,6 +2,7 @@ package ba.unsa.etf.si.tim1.Hibernate;
 
 import ba.unsa.etf.si.tim1.jKP.HibernateUtil;
 import ba.unsa.etf.si.tim1.jKP.RadniNalog;
+import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -83,6 +84,26 @@ public class HibernateRadniNalog {
 		
 	}
 	
+	public static List<RadniNalog> dajSveRadneNaloge() {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		
+		Query query = s.createQuery("FROM RadniNalog");
+		
+		if(query.list().isEmpty()) {
+			s.close();
+			return null;
+		}
+		
+		List<RadniNalog> lista = (List<RadniNalog>)query.list();
+		
+		s.close();
+		return lista;
+	}
+	
+	public static void ubijOnogaKoJePravioHibernate() {
+		dajSveRadneNaloge();
+	}
 	
 	
 }

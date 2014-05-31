@@ -1,6 +1,7 @@
 package ba.unsa.etf.si.tim1.jKP;
 
 import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
+import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
 
 import javax.swing.ImageIcon;
@@ -35,6 +36,7 @@ public class Login extends JFrame {
 	}*/
 	
 	Login() {
+		ubijOnogaKoJePravioHibernate();
 		inicijalizirajBazu();
 		
 		setTitle("jKP");
@@ -96,19 +98,23 @@ public class Login extends JFrame {
 		
 	}
 	
+	// Djelomično riješava problem spašavanja enumeracija u bazu upotrebom crne magije
+	void ubijOnogaKoJePravioHibernate() {
+		HibernateZaposlenik.ubijOnogaKoJePravioHibernate();
+		HibernateRadniNalog.ubijOnogaKoJePravioHibernate();
+	}
+	
 	// Ukoliko je baza prazna napravi korisnika admin/admin
 	void inicijalizirajBazu() {
-		if (HibernatePristupniPodaci.dajBrojKorisnika() == 0) {
-			try {
+		try {
+			if (HibernatePristupniPodaci.dajBrojKorisnika() == 0) {
 				long podaci = HibernatePristupniPodaci.spremiPodatke("admin", "admin");
 				Zaposlenik z = new Zaposlenik("Administrator", "Administrator", TipUposlenika.privilegirani, podaci);
-				//z.setTipUposlenika(TipUposlenika.privilegirani);
-				JOptionPane.showMessageDialog(null, z.getTipUposlenika());
 				HibernateZaposlenik.pohraniZaposlenika(z, podaci);
 			}
-			catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, ex.getMessage());
-			}
+		}
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
 		}
 	}
 }
