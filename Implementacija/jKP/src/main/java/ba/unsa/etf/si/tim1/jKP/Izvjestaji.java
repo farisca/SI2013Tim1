@@ -464,8 +464,10 @@ public class Izvjestaji extends JPanel {
         cal1.setTime(datePicker);
         int trazenaSedmica = cal1.get(Calendar.WEEK_OF_YEAR);
         int trazenaGodina = cal1.get(Calendar.YEAR);
-        if(trenutnaSedmica < trazenaSedmica || trenutnaGodina < trazenaGodina) throw new Exception("Pogrešna sedmica!");
-        
+        if(trenutnaGodina < trazenaGodina) throw new Exception("Pogrešna sedmica!");
+        else if(trenutnaGodina == trazenaGodina) 
+        	if(trenutnaSedmica < trazenaSedmica) 
+        		throw new Exception("Pogrešna sedmica!");
 		Document document = new Document();
         try {
         	Session session = HibernateUtil.getSessionFactory().openSession();
@@ -529,10 +531,11 @@ public class Izvjestaji extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch(Exception e1) {
-			
+			e1.printStackTrace();
 		}
 	}
 	void Godisnji(String fajl, Date datePicker) throws Exception {
+		
 		if((new Date()).before(datePicker)) throw new Exception("Pogrešan datum!");
         try {
             Calendar calendar = Calendar.getInstance();  
@@ -649,6 +652,9 @@ public class Izvjestaji extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
