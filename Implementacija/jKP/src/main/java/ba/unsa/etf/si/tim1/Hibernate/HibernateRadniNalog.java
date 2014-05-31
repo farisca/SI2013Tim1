@@ -41,70 +41,33 @@ public class HibernateRadniNalog {
 	}
 	
 	
-	
-	public static List<RadniNalog> pretraga1(String kriterij, String unos) {
+
+	public static List<RadniNalog> pretraga(List<String> lista) {
+		
+		String upit = "select * from radninalog where ";
+		int brojac=1;
+		for(int i=0; i<lista.size(); i=i+2){
+			upit = upit + lista.get(i) + "= :unos"+brojac;
+			if(i != lista.size()-2) upit = upit +" and ";
+			brojac++;
+		}
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 	    Transaction t = null;
 	      try{
 	         t = session.beginTransaction();
-	         String upit = "select * from radninalog where " + kriterij + "= :unos";
+	        
 	         SQLQuery query = session.createSQLQuery(upit);
-	 		 query.addEntity(RadniNalog.class);
-	 		 query.setParameter("unos", unos);
-	 		 List result = query.list();
+	         query.addEntity(RadniNalog.class);
+	         
+	         
+	         int br1 = 1 ;
+	         for(int i = 1; i<=lista.size() / 2; i++){
+	        	 String param = "unos"+i;
+	        	 query.setParameter(param, lista.get(br1));	        	 
+	        	 br1=br1+2;
 	 		 
-	 		  
-	 		 t.commit(); 
-	 		 return result;
-
-	      }catch (HibernateException e) {
-	         if (t!=null) t.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
-	      return null;
-	}
-	
-
-	public static List<RadniNalog> pretraga2(String kriterij1, String unos1, String kriterij2, String unos2) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-	    Transaction t = null;
-	      try{
-	         t = session.beginTransaction();
-	         String upit = "select * from radninalog where " + kriterij1 + " = :unos1 and "+ kriterij2 + " = :unos2";
-	         SQLQuery query = session.createSQLQuery(upit);
-	 		 query.addEntity(RadniNalog.class);
-	 		 query.setParameter("unos1", unos1);
-	 		 query.setParameter("unos2", unos2);
-	 		 List result = query.list();
-	 		 
-	 		  
-	 		 t.commit(); 
-	 		 return result;
-
-	      }catch (HibernateException e) {
-	         if (t!=null) t.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
-	      return null;
-	}
-
-	public static List<RadniNalog> pretraga3(String kriterij1, String unos1,
-			String kriterij2, String unos2, String kriterij3, String unos3) {
-	
-		Session session = HibernateUtil.getSessionFactory().openSession();
-	    Transaction t = null;
-	      try{
-	         t = session.beginTransaction();
-	         String upit = "select * from radninalog where " + kriterij1 + " = :unos1 and "+ kriterij2 + " = :unos2 and " + kriterij3 + " = :unos3";
-	         SQLQuery query = session.createSQLQuery(upit);
-	 		 query.addEntity(RadniNalog.class);
-	 		 query.setParameter("unos1", unos1);
-	 		 query.setParameter("unos2", unos2);
-	 		 query.setParameter("unos3", unos3);
+	         }
 	 		 List result = query.list();
 	 		 
 	 		 t.commit(); 
@@ -117,35 +80,7 @@ public class HibernateRadniNalog {
 	         session.close(); 
 	      }
 	      return null;	
-	}
-	
-	public static List<RadniNalog> pretraga4(String kriterij1, String unos1,
-			String kriterij2, String unos2, String kriterij3, String unos3,
-			String kriterij4, String unos4) {
-	
-		Session session = HibernateUtil.getSessionFactory().openSession();
-	    Transaction t = null;
-	      try{
-	         t = session.beginTransaction();
-	         String upit = "select * from radninalog where " + kriterij1 + " = :unos1 and "+ kriterij2 + " = :unos2 and " + kriterij3 + " = :unos3 and " + kriterij4 + "= :unos4";
-	         SQLQuery query = session.createSQLQuery(upit);
-	 		 query.addEntity(RadniNalog.class);
-	 		 query.setParameter("unos1", unos1);
-	 		 query.setParameter("unos2", unos2);
-	 		 query.setParameter("unos3", unos3);
-	 		 query.setParameter("unos4", unos4);
-	 		 List result = query.list();
-	 		 
-	 		 t.commit(); 
-	 		 return result;
-
-	      }catch (HibernateException e) {
-	         if (t!=null) t.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
-	      return null;	
+		
 	}
 	
 	

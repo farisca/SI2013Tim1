@@ -3,6 +3,8 @@ package ba.unsa.etf.si.tim1.jKP;
 import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.Font;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -34,7 +37,19 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilCalendarModel;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 import java.util.Locale;
+
+import javax.swing.ImageIcon;
+import javax.swing.JSpinner;
+import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SpinnerDateModel;
+
+import java.util.Calendar;
+
+import javax.swing.SpringLayout;
 
 public class RadniNalozi extends JTabbedPane {
 
@@ -50,13 +65,13 @@ public class RadniNalozi extends JTabbedPane {
 	private final JTextArea textAreaPotrebniMaterijal;
 	private final JComboBox<StatusRadnogNaloga> comboBoxStatusNaloga;
 	private final JButton btnKreiraj;
-	private final JComboBox comboKriterijPretrage;
-	
+	private final JComboBox comboBox_1;
+	private final JXDatePicker dp_1;
 	
 	
 	private final Object[][] podaci = new Object[10][10];
 	private final JTable tabela = new JTable();
-	private final String[] zaglavlje_tabele = {"Broj naloga", 
+	private final String[] zaglavlje_tabele = {"Broj", 
 			"Kreirao", 
 			"Izvr\u0161ilac", 
 			"Status", 
@@ -67,32 +82,16 @@ public class RadniNalozi extends JTabbedPane {
 			"Tip posla ili usluge", 
 			"Utro\u0161eno vrijeme"};
 	
-	private final String[] kriteriji_pretrage = {"BrojRadnogNaloga", 
-			"KreatorRadnogNaloga", 
-			"IzvrsilacPosla", 
-			"Status", 
-			"Lokacija", 
-			"DatumKreiranja", 
-			"PlaniraniDatumIzvrsenja", 
-			"DatumIzvrsenja"};
+	
 	
 	private GlavniProzor glavni;
-
-
-	private final JTextField textField;
-	private final JTextField textField_2;
-	private final JTextField textField_3;
-	private final JPanel panel_2 = new JPanel();
-	private final JPanel panel_3 = new JPanel();
-	private final JPanel panel_4 = new JPanel();
 	private final JButton btnTrazi_1;
-	private final JButton btnTrazi_2;
-	private final JButton btnTrazi_3;
-	private final JButton btnTrazi_4;
 	
 	private Zaposlenik korisnik;
 	
 	private List<RadniNalog> radni_nalozi = new ArrayList<RadniNalog>();
+	private JTextField textField;
+	private JTextField textField_1;
 	
 	public RadniNalozi() {
 		
@@ -310,61 +309,39 @@ public class RadniNalozi extends JTabbedPane {
         lblPretraga.setFont(new Font("Tahoma", Font.BOLD, 16));
         panelPretraga.add(lblPretraga);
         
-        JLabel lblKriterijPretrage = new JLabel("Kriterij pretrage:");
-        lblKriterijPretrage.setBounds(76, 72, 150, 14);
-        panelPretraga.add(lblKriterijPretrage);
-        
-        JLabel lblKljunaRije = new JLabel("Klju\u010Dna rije\u010D:");
-        lblKljunaRije.setBounds(76, 97, 150, 14);
-        panelPretraga.add(lblKljunaRije);
-        
-        comboKriterijPretrage = new JComboBox();
-        comboKriterijPretrage.setModel(new DefaultComboBoxModel(new String[] {"BrojRadnogNaloga", "KreatorRadnogNaloga", "IzvrsilacPosla", "Status", "Lokacija", "DatumKreiranja", "PlaniraniDatumIzvrsenja", "DatumIzvrsenja"}));
-        comboKriterijPretrage.setBounds(236, 72, 200, 20);
-        panelPretraga.add(comboKriterijPretrage);
-        
-        final JTextField textField_1 = new JTextField();
-        textField_1.setText("1");
-        textField_1.setBounds(236, 94, 200, 20);
-        panelPretraga.add(textField_1);
-        textField_1.setColumns(10);
-        
         JScrollPane scrollPane_3 = new JScrollPane();
-        scrollPane_3.setBounds(76, 335, 638, 136);
+        scrollPane_3.setBounds(39, 244, 732, 199);
         panelPretraga.add(scrollPane_3);
         
        
         
-    //    tabela = new JTable();
         scrollPane_3.setViewportView(tabela);
         tabela.setModel(new DefaultTableModel(podaci, zaglavlje_tabele)); 
         
         
-        
-        
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(60);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(40);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
-        tabela.getColumnModel().getColumn(1).setMinWidth(50);
+        tabela.getColumnModel().getColumn(1).setMinWidth(120);
         tabela.getColumnModel().getColumn(2).setPreferredWidth(120);
-        tabela.getColumnModel().getColumn(2).setMinWidth(50);
-        tabela.getColumnModel().getColumn(4).setPreferredWidth(150);
-        tabela.getColumnModel().getColumn(4).setMinWidth(50);
-        tabela.getColumnModel().getColumn(5).setPreferredWidth(100);
-        tabela.getColumnModel().getColumn(5).setMinWidth(20);
-        tabela.getColumnModel().getColumn(6).setPreferredWidth(100);
-        tabela.getColumnModel().getColumn(6).setMinWidth(20);
-        tabela.getColumnModel().getColumn(7).setPreferredWidth(100);
-        tabela.getColumnModel().getColumn(7).setMinWidth(20);
-        tabela.getColumnModel().getColumn(8).setPreferredWidth(100);
-        tabela.getColumnModel().getColumn(8).setMinWidth(50);
-        tabela.getColumnModel().getColumn(9).setPreferredWidth(100);
-        tabela.getColumnModel().getColumn(9).setMinWidth(20);
+        tabela.getColumnModel().getColumn(2).setMinWidth(120);
+        tabela.getColumnModel().getColumn(4).setPreferredWidth(180);
+        tabela.getColumnModel().getColumn(4).setMinWidth(180);
+        tabela.getColumnModel().getColumn(5).setPreferredWidth(160);
+        tabela.getColumnModel().getColumn(5).setMinWidth(160);
+        tabela.getColumnModel().getColumn(6).setPreferredWidth(160);
+        tabela.getColumnModel().getColumn(6).setMinWidth(160);
+        tabela.getColumnModel().getColumn(7).setPreferredWidth(160);
+        tabela.getColumnModel().getColumn(7).setMinWidth(160);
+        tabela.getColumnModel().getColumn(8).setPreferredWidth(120);
+        tabela.getColumnModel().getColumn(8).setMinWidth(120);
+        tabela.getColumnModel().getColumn(9).setPreferredWidth(120);
+        tabela.getColumnModel().getColumn(9).setMinWidth(120);
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
         //Detaljni prikaz radnog naloga
         
         JButton btnDetaljnije = new JButton("Detaljnije");
-        btnDetaljnije.setBounds(625, 488, 89, 23);
+        btnDetaljnije.setBounds(682, 454, 89, 23);
         btnDetaljnije.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		int i= tabela.getSelectedRow();
@@ -406,13 +383,13 @@ public class RadniNalozi extends JTabbedPane {
         		}
         	}
         });
-        btnModifikuj.setBounds(529, 488, 89, 23);
+        btnModifikuj.setBounds(583, 454, 89, 23);
         panelPretraga.add(btnModifikuj);
         
         //Storniranje radnih naloga
         
         JButton btnStorniraj = new JButton("Storniraj");
-        btnStorniraj.setBounds(432, 488, 89, 23);
+        btnStorniraj.setBounds(484, 454, 89, 23);
         panelPretraga.add(btnStorniraj);
         btnStorniraj.addActionListener(new ActionListener(){
         	
@@ -465,28 +442,26 @@ public class RadniNalozi extends JTabbedPane {
                 
         	}
         });
-        btnZakljui.setBounds(333, 488, 89, 23);
+        btnZakljui.setBounds(385, 454, 89, 23);
         panelPretraga.add(btnZakljui);
-        
-        JButton btnNoviKriterij_1 = new JButton("Novi kriterij");
-        btnNoviKriterij_1.setBounds(604, 68, 110, 23);
-        panelPretraga.add(btnNoviKriterij_1);
-        btnNoviKriterij_1.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		panel_2.setVisible(true);
-        		btnTrazi_1.setVisible(false);
-        	}
-        });
         
         btnTrazi_1 = new JButton("Tra\u017Ei");
         btnTrazi_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		
-        		String kriterij = comboKriterijPretrage.getSelectedItem().toString();
+        		List<String> lista = new ArrayList();
         		
-        		String unos = textField_1.getText();
+        		if(!textField.getText().equals("")){ lista.add("BROJRADNOGNALOGA"); lista.add(textField.getText()); }
+        		if(!textField_1.getText().equals("")){ lista.add("LOKACIJA"); lista.add(textField_1.getText()); }
         		
-				radni_nalozi = HibernateRadniNalog.pretraga1(kriterij, unos);
+        		if(comboBox_1.getSelectedIndex() != -1) { lista.add("IZVRSILACRADNOGNALOGA"); lista.add(comboBox_1.getSelectedItem().toString()); }
+        		
+        		
+        		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        		
+        		if(dp_1.getDate() != null) {lista.add("DATUMKREIRANJA"); lista.add( (String) df.format(dp_1.getDate()));  }
+        		
+        		radni_nalozi = HibernateRadniNalog.pretraga(lista);
                 
                 if (radni_nalozi.size()==0) { 
                 	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
@@ -497,229 +472,53 @@ public class RadniNalozi extends JTabbedPane {
                 }
         	}
         });
-        btnTrazi_1.setBounds(604, 93, 110, 23);
+        btnTrazi_1.setBounds(318, 191, 146, 23);
         panelPretraga.add(btnTrazi_1);
+        
+        JLabel lblBrojRadnogNaloga = new JLabel("Broj radnog naloga:");
+        lblBrojRadnogNaloga.setBounds(50, 70, 188, 14);
+        panelPretraga.add(lblBrojRadnogNaloga);
+        
+        JLabel lblIzvrsilac = new JLabel("Izvrsilac:");
+        lblIzvrsilac.setBounds(50, 160, 187, 14);
+        panelPretraga.add(lblIzvrsilac);
+        
+        JLabel lblLokacija_1 = new JLabel("Lokacija:");
+        lblLokacija_1.setBounds(50, 100, 172, 14);
+        panelPretraga.add(lblLokacija_1);
+        
+		JLabel lblDatumKreiranja_1 = new JLabel("Datum kreiranja:");
+        lblDatumKreiranja_1.setBounds(50, 130, 185, 14);
+        panelPretraga.add(lblDatumKreiranja_1);
 		
-        //--------------
-    //  panel_2 = new JPanel();
-        panel_2.setBounds(76, 122, 638, 60);
-        panel_2.setLayout(null);
-        panel_2.setVisible(false);
-        panelPretraga.add(panel_2);
-        
-        JLabel label = new JLabel("Kriterij pretrage:");
-        label.setBounds(0, 11, 150, 14);
-        panel_2.add(label);
-        
-        JLabel label_1 = new JLabel("Ključna riječ:");
-        label_1.setBounds(0, 36, 150, 14);
-        panel_2.add(label_1);
-        
-        final JComboBox comboBox = new JComboBox();
-        comboBox.setBounds(160, 8, 200, 20);
-        comboBox.setModel(new DefaultComboBoxModel(kriteriji_pretrage));
-        panel_2.add(comboBox);
-        
         textField = new JTextField();
-        textField.setText("1");
+        textField.setBounds(240, 70, 225, 20);
+        panelPretraga.add(textField);
         textField.setColumns(10);
-        textField.setBounds(160, 33, 200, 20);
-        panel_2.add(textField);
+		panelPretraga.add(textField);
         
-        final JButton btnUkloni_2 = new JButton("Ukloni");
-        btnUkloni_2.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		panel_2.setVisible(false);
-        		btnTrazi_1.setVisible(true);
-        	
-        	}
-        });
-        btnUkloni_2.setBounds(366, 32, 88, 23);
-        panel_2.add(btnUkloni_2);
+        textField_1 = new JTextField();
+        textField_1.setBounds(240, 100, 225, 20);
+        panelPretraga.add(textField_1);
+        textField_1.setColumns(10);
+		panelPretraga.add(textField_1);
         
-        JButton btnNoviKriterij_2 = new JButton("Novi kriterij");
-        btnNoviKriterij_2.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent arg0) {
-        		panel_3.setVisible(true);
-        		btnTrazi_2.setVisible(false);
-        		btnUkloni_2.setVisible(false);
-        	}
-        });
-        btnNoviKriterij_2.setBounds(528, 7, 110, 23);
-        panel_2.add(btnNoviKriterij_2);
+        comboBox_1 = new JComboBox();
+        comboBox_1.setBounds(240, 160, 225, 20);
+        comboBox_1.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
+        comboBox_1.setSelectedIndex(-1);
+        panelPretraga.add(comboBox_1);
         
-        btnTrazi_2 = new JButton("Traži");
-        btnTrazi_2.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        	
-        		// 1. kriterij i kljucna rijec
-        		String kriterij_1 = comboKriterijPretrage.getSelectedItem().toString();
-        		String unos_1 = textField_1.getText();
-        		
-        		// 2. kriterij i kljucna rijec
-        		String kriterij_2 = comboBox.getSelectedItem().toString();
-        		String unos_2 = textField.getText();
-        		
-				radni_nalozi = HibernateRadniNalog.pretraga2(kriterij_1, unos_1, kriterij_2, unos_2);
-                
-                if (radni_nalozi.size()==0) { 
-                	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
-                } 
-                else {
-                	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
-                	upisiPodatkeUTabelu();
-                }
-        	}
-        });
-        btnTrazi_2.setBounds(528, 32, 110, 23);
-        panel_2.add(btnTrazi_2);
         
-        //panel_3 = new JPanel();
-        panel_3.setLayout(null);
-        panel_3.setBounds(76, 193, 638, 60);
-        panel_3.setVisible(false);
-        panelPretraga.add(panel_3);
+        // Date Time Pic
+        dp_1 = new JXDatePicker();
+        dp_1.setLocation(240, 130);
+        dp_1.setSize(225, 20);
+        dp_1.setLocale(new java.util.Locale("hr"));
+        dp_1.setFormats(new String[] {"EEEE yyyy-MM-dd"});
+        panelPretraga.add(dp_1);
         
-        JLabel label_2 = new JLabel("Kriterij pretrage:");
-        label_2.setBounds(0, 11, 150, 14);
-        panel_3.add(label_2);
-        
-        JLabel label_3 = new JLabel("Ključna riječ:");
-        label_3.setBounds(0, 36, 150, 14);
-        panel_3.add(label_3);
-        
-        final JComboBox comboBox_1 = new JComboBox();
-        comboBox_1.setBounds(160, 8, 200, 20);
-        comboBox_1.setModel(new DefaultComboBoxModel(kriteriji_pretrage));
-        panel_3.add(comboBox_1);
-        
-        textField_2 = new JTextField();
-        textField_2.setText("1");
-        textField_2.setColumns(10);
-        textField_2.setBounds(160, 33, 200, 20);
-        panel_3.add(textField_2);
-        
-        final JButton btnUkloni_3 = new JButton("Ukloni");
-        btnUkloni_3.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		panel_3.setVisible(false);
-        		btnTrazi_2.setVisible(true);
-        		btnUkloni_2.setVisible(true);
-        	}
-        });
-        btnUkloni_3.setBounds(366, 32, 88, 23);
-        panel_3.add(btnUkloni_3);
-        
-        JButton btnNoviKriterij_3 = new JButton("Novi kriterij");
-        btnNoviKriterij_3.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		panel_4.setVisible(true);
-        		btnTrazi_3.setVisible(false);
-        		btnUkloni_3.setVisible(false);
-        	}
-        });
-        btnNoviKriterij_3.setBounds(528, 7, 110, 23);
-        panel_3.add(btnNoviKriterij_3);
-        
-        btnTrazi_3 = new JButton("Traži");
-        btnTrazi_3.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent arg0) {
-        		// 1. kriterij i kljucna rijec
-        		String kriterij_1 = comboKriterijPretrage.getSelectedItem().toString();
-        		String unos_1 = textField_1.getText();
-        		
-        		// 2. kriterij i kljucna rijec
-        		String kriterij_2 = comboBox.getSelectedItem().toString();
-        		String unos_2 = textField.getText();
-        		
-        		// 3. kriterij i kljucna rijec
-        		String kriterij_3 = comboBox_1.getSelectedItem().toString();
-        		String unos_3 = textField_2.getText(); 
-        		
-				radni_nalozi = HibernateRadniNalog.pretraga3(kriterij_1, unos_1, kriterij_2, unos_2, kriterij_3, unos_3);
-                
-                if (radni_nalozi.size()==0) { 
-                	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
-                } 
-                else {
-                	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
-                	upisiPodatkeUTabelu();
-                }
-        		
-        	}
-        });
-        btnTrazi_3.setBounds(528, 32, 110, 23);
-        panel_3.add(btnTrazi_3);
-        
-        //panel_4 = new JPanel();
-        panel_4.setLayout(null);
-        panel_4.setBounds(76, 264, 638, 60);
-        panel_4.setVisible(false);
-        panelPretraga.add(panel_4);
-        
-        JLabel label_4 = new JLabel("Kriterij pretrage:");
-        label_4.setBounds(0, 11, 150, 14);
-        label_4.setVisible(false);
-        panel_4.add(label_4);
-        
-        JLabel label_5 = new JLabel("Ključna riječ:");
-        label_5.setBounds(0, 36, 150, 14);
-        panel_4.add(label_5);
-        
-        final JComboBox comboBox_2 = new JComboBox();
-        comboBox_2.setBounds(160, 8, 200, 20);
-        comboBox_2.setModel(new DefaultComboBoxModel(kriteriji_pretrage));
-        panel_4.add(comboBox_2);
-        
-        textField_3 = new JTextField();
-        textField_3.setText("1");
-        textField_3.setColumns(10);
-        textField_3.setBounds(160, 33, 200, 20);
-        panel_4.add(textField_3);
-        
-        JButton btnUkloni_4 = new JButton("Ukloni");
-        btnUkloni_4.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		panel_4.setVisible(false);
-        		btnTrazi_3.setVisible(true);
-        		btnUkloni_3.setVisible(true);
-        	}
-        });
-        btnUkloni_4.setBounds(366, 32, 88, 23);
-        panel_4.add(btnUkloni_4);
-        
-        btnTrazi_4 = new JButton("Traži");
-        btnTrazi_4.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		// 1. kriterij i kljucna rijec
-        		String kriterij_1 = comboKriterijPretrage.getSelectedItem().toString();
-        		String unos_1 = textField_1.getText();
-        		
-        		// 2. kriterij i kljucna rijec
-        		String kriterij_2 = comboBox.getSelectedItem().toString();
-        		String unos_2 = textField.getText();
-        		
-        		// 3. kriterij i kljucna rijec
-        		String kriterij_3 = comboBox_1.getSelectedItem().toString();
-        		String unos_3 = textField_2.getText(); 
-        		
-        		// 4. kriterij i kljucna rijec
-        		String kriterij_4 = comboBox_2.getSelectedItem().toString();
-        		String unos_4 = textField_3.getText(); 
-        		
-				radni_nalozi = HibernateRadniNalog.pretraga4(kriterij_1, unos_1, kriterij_2, unos_2, kriterij_3, unos_3, kriterij_4, unos_4);
-                
-                if (radni_nalozi.size()==0) { 
-                	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
-                } 
-                else {
-                	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
-                	upisiPodatkeUTabelu();
-                }
-        	}
-        });
-        btnTrazi_4.setBounds(528, 32, 110, 23);
-        panel_4.add(btnTrazi_4);
+       
 	}
 	
 	Zaposlenik[] ucitajSveZaposlenike() {
