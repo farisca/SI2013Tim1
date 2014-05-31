@@ -30,7 +30,7 @@ public class HibernateRadniNalog {
 		s.close();
 	}
 
-	public void modifikujRadniNalog(RadniNalog nalog) {
+	public static void modifikujRadniNalog(RadniNalog nalog) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = s.beginTransaction();
 		

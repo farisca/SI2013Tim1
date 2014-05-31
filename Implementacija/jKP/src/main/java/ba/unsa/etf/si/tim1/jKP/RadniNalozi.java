@@ -426,7 +426,13 @@ public class RadniNalozi extends JTabbedPane {
         		int i= tabela.getSelectedRow();
         		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
 	        		if (i!=-1){
-	        			new ZakljucivanjeRadnogNaloga(korisnik,radni_nalozi.get(i));
+	        			RadniNalog r= radni_nalozi.get(i);
+	        			if(r.getStatus()==StatusRadnogNaloga.kreiran){
+	        				ZakljuciRadniNalog novi=new ZakljuciRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
+	        				novi.setVisible(true);
+	        			}
+	        			else
+	        				JOptionPane.showMessageDialog(panelPretraga, "Izabrani radni nalog je zaključen ili storniran.");
 	        		}
 	        		else{
 	        			JOptionPane.showMessageDialog(panelPretraga, "Niste izabrali radni nalog iz pretrage");
