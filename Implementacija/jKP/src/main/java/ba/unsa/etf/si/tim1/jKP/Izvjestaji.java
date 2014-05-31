@@ -531,10 +531,11 @@ public class Izvjestaji extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch(Exception e1) {
-			
+			e1.printStackTrace();
 		}
 	}
 	void Godisnji(String fajl, Date datePicker) throws Exception {
+		
 		if((new Date()).before(datePicker)) throw new Exception("Pogrešan datum!");
         try {
             Calendar calendar = Calendar.getInstance();  
