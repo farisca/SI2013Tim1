@@ -1,6 +1,7 @@
 package ba.unsa.etf.si.tim1.jKP;
 
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,8 @@ public class RadniNalozi extends JTabbedPane {
 			"DatumKreiranja", 
 			"PlaniraniDatumIzvrsenja", 
 			"DatumIzvrsenja"};
+	
+	private GlavniProzor glavni;
 
 
 	private final JTextField textField;
@@ -344,27 +347,54 @@ public class RadniNalozi extends JTabbedPane {
         tabela.getColumnModel().getColumn(9).setMinWidth(20);
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
+        //Detaljni prikaz radnog naloga
+        
         JButton btnDetaljnije = new JButton("Detaljnije");
         btnDetaljnije.setBounds(625, 488, 89, 23);
         btnDetaljnije.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		JOptionPane.showMessageDialog(panelPretraga, "Nije implementirano!");
+        		int i= tabela.getSelectedRow();
+        		if(i!=-1){
+        			RadniNalog r= radni_nalozi.get(i);
+	        		if (korisnik.getId() == r.getKreatorRadnogNaloga()){
+	        			DetaljniRadniNalog novi=new DetaljniRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
+	        			novi.setVisible(true);
+	        		}
+	        		else{
+	        			JOptionPane.showMessageDialog(panelPretraga, "Nemate privilegije za prikaz selektovanog radnog naloga");
+	        		}
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(panelPretraga, "Niste izabrali radni nalog iz pretrage");
+        		}
         	}
         });
         	
         panelPretraga.add(btnDetaljnije);
         
+        // Modifikacija izabranog radnog naloga
+        
         JButton btnModifikuj = new JButton("Modifikuj");
         btnModifikuj.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		new ModificiranjeRadnogNaloga();
-        		tabela.setValueAt("Amina Celik", 0, 2);
-        		tabela.setValueAt("05.05.2014.", 0, 5);
-        		
+        		int i= tabela.getSelectedRow();
+        		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
+	        		if (i!=-1){
+	        			new ModificiranjeRadnogNaloga(korisnik,radni_nalozi.get(i));
+	        		}
+	        		else{
+	        			JOptionPane.showMessageDialog(panelPretraga, "Niste izabrali radni nalog iz pretrage");
+	        		}
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(panelPretraga, "Nemate privilegije za modifikovanje radnih naloga");
+        		}
         	}
         });
         btnModifikuj.setBounds(529, 488, 89, 23);
         panelPretraga.add(btnModifikuj);
+        
+        //Storniranje radnih naloga
         
         JButton btnStorniraj = new JButton("Storniraj");
         btnStorniraj.setBounds(432, 488, 89, 23);
@@ -372,18 +402,39 @@ public class RadniNalozi extends JTabbedPane {
         btnStorniraj.addActionListener(new ActionListener(){
         	
         	public void actionPerformed(ActionEvent e){
-        		
-        		new StorniranjeRadnogNaloga();
-        		tabela.setValueAt("Storniran", 0, 3);
+        		int i= tabela.getSelectedRow();
+        		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
+	        		if (i!=-1){
+	        			new StorniranjeRadnogNaloga(korisnik,radni_nalozi.get(i));
+	        		}
+	        		else{
+	        			JOptionPane.showMessageDialog(panelPretraga, "Niste izabrali radni nalog iz pretrage");
+	        		}
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(panelPretraga, "Nemate privilegije za storniranje radnih naloga");
+        		}
         	}
         	
         });
         
-        JButton btnZakljui = new JButton("Zaklju?i");
+      //Zakljucivanje radnih naloga
+        
+        JButton btnZakljui = new JButton("Zaključi");
         btnZakljui.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		new ZakljucivanjeRadnogNaloga();
-        		tabela.setValueAt("Zakljucen", 0, 3);
+        		int i= tabela.getSelectedRow();
+        		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
+	        		if (i!=-1){
+	        			new ZakljucivanjeRadnogNaloga(korisnik,radni_nalozi.get(i));
+	        		}
+	        		else{
+	        			JOptionPane.showMessageDialog(panelPretraga, "Niste izabrali radni nalog iz pretrage");
+	        		}
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(panelPretraga, "Nemate privilegije za zaključivanje radnih naloga");
+        		}
                 
         	}
         });
@@ -670,6 +721,14 @@ public class RadniNalozi extends JTabbedPane {
 	         
      	
      }
+
+	public GlavniProzor getGlavni() {
+		return glavni;
+	}
+
+	public void setGlavni(GlavniProzor glavni) {
+		this.glavni = glavni;
+	}
 }
 
 

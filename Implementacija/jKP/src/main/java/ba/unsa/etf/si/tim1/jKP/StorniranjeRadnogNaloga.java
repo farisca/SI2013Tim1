@@ -5,6 +5,8 @@ import java.awt.Color;
 
 
 
+
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -25,7 +27,13 @@ public class StorniranjeRadnogNaloga extends JFrame {
 	private JLabel lblDodatniKomentaropcionalno;
 	private JTextField textField_2;
 	
-	public StorniranjeRadnogNaloga(){
+	private Zaposlenik korisnik;
+	private RadniNalog nalog;
+	
+	public StorniranjeRadnogNaloga(Zaposlenik kor, RadniNalog r){
+		korisnik=kor;
+		nalog=r;
+		
 		kontejner = new JPanel();
 		kontejner.setBackground(Color.WHITE);
 		kontejner.setLayout(null);

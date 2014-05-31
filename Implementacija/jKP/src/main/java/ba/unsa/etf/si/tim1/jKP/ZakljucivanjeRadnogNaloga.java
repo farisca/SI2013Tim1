@@ -26,7 +26,13 @@ public class ZakljucivanjeRadnogNaloga extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	
-	public ZakljucivanjeRadnogNaloga(){
+	private Zaposlenik korisnik;
+	private RadniNalog nalog;
+	
+	public ZakljucivanjeRadnogNaloga(Zaposlenik kor, RadniNalog r){
+		korisnik=kor;
+		nalog=r;
+		
 		kontejner = new JPanel();
 		kontejner.setBackground(Color.WHITE);
 		kontejner.setLayout(null);

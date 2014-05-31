@@ -30,7 +30,14 @@ public class ModificiranjeRadnogNaloga extends JFrame{
 	private JTextField txtZmajaOdBosne;
 	private JTextField textField_2;
 	
-	public ModificiranjeRadnogNaloga(){
+	private Zaposlenik korisnik;
+	private RadniNalog nalog;
+	
+	public ModificiranjeRadnogNaloga(Zaposlenik kor, RadniNalog r){
+		
+		korisnik=kor;
+		nalog=r;
+		
 		kontejner = new JPanel();
 		kontejner.setBackground(Color.WHITE);
 		kontejner.setLayout(null);
