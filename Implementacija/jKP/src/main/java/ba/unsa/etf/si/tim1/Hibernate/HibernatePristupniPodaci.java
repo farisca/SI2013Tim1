@@ -50,6 +50,16 @@ public class HibernatePristupniPodaci {
 		return digest; 
 	}
 	
+	public static PristupniPodaci dajPristupnePodatke(long id) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		
+		PristupniPodaci podaci = (PristupniPodaci)s.get(PristupniPodaci.class, id);
+		s.close();
+		
+		return podaci;
+	}
+	
 	public static boolean postojiKorisnik(String username) {
 		
 		Session s = HibernateUtil.getSessionFactory().openSession();		
@@ -81,6 +91,7 @@ public class HibernatePristupniPodaci {
 		
 		return ((PristupniPodaci)query.list().get(0)).getId();
 	}
+	
 	public static long spremiPodatke(String username, String password) throws Exception {
 		String uPass = HesirajMD5(password);
 		PristupniPodaci p = new PristupniPodaci(username,uPass);
@@ -90,6 +101,7 @@ public class HibernatePristupniPodaci {
 		t.commit();
 		return id;
 	}
+	
 	public static String dajKorisnickoImePoKriteriju(long id) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
@@ -98,7 +110,8 @@ public class HibernatePristupniPodaci {
 		if (query.list().isEmpty()) 
 			return "";
 		return ((PristupniPodaci)query.list().get(0)).getKorisnickoIme();
-		}
+	}
+	
 	public static void urediPristupnePodatke(PristupniPodaci p) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = s.beginTransaction();

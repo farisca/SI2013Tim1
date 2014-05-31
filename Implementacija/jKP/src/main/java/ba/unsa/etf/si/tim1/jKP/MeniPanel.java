@@ -44,7 +44,7 @@ public class MeniPanel extends JPanel {
         btnRadniNalozi.setBounds(25, 145, 153, 48);
         this.add(btnRadniNalozi);
         
-        JButton btnIzvjetaji = new JButton("Izvje�taji");
+        JButton btnIzvjetaji = new JButton("Izvještaji");
         btnIzvjetaji.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		kontejner.remove(1);  // izmijeniti
@@ -61,7 +61,7 @@ public class MeniPanel extends JPanel {
         btnKorisnickiPodaci.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		kontejner.remove(1);  // izmijeniti
-        		//kontejner.add(new KorisnickiPodaci(korisnik));
+        		kontejner.add(new KorisnickiPodaci(korisnik));
         		kontejner.repaint();
         	}
         });

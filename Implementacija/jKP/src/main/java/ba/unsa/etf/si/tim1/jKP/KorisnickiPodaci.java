@@ -8,15 +8,28 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
+
 public class KorisnickiPodaci extends JPanel {
-	private int korisnik;
+	private Zaposlenik korisnik;
+	private PristupniPodaci podaci;
 	
-	public KorisnickiPodaci(int kor) {
+	final JPanel panelPassword;
+	final JPasswordField pwdStari;
+	final JPasswordField pwdNovi;
+	final JPasswordField pwdPotvrdiNovi;
+	
+	final JButton btnPrikaziPanel;
+	final JButton btnPromijeni;
+	
+	public KorisnickiPodaci(Zaposlenik kor) {
 		korisnik = kor;
+		podaci = HibernatePristupniPodaci.dajPristupnePodatke(korisnik.getId());
 		
 		this.setBounds(280, 71, 800, 529);
         this.setLayout(null);
@@ -37,21 +50,19 @@ public class KorisnickiPodaci extends JPanel {
         
         JTextField txtKorisnickoIme = new JTextField();
         txtKorisnickoIme.setEditable(false);
-        if(korisnik == 0) txtKorisnickoIme.setText("admin");
-        else txtKorisnickoIme.setText("user");
+        txtKorisnickoIme.setText(podaci.getKorisnickoIme());
         txtKorisnickoIme.setBounds(186, 109, 150, 20);
         txtKorisnickoIme.setColumns(10);
         this.add(txtKorisnickoIme);
         
         JTextField txtImeIPrezime = new JTextField();
         txtImeIPrezime.setEditable(false);
-        if(korisnik == 0) txtImeIPrezime.setText("admin admin");
-        else txtImeIPrezime.setText("user user");
+        txtImeIPrezime.setText(korisnik.toString());
         txtImeIPrezime.setColumns(10);
         txtImeIPrezime.setBounds(186, 134, 150, 20);
         this.add(txtImeIPrezime);
         
-        final JPanel panelPassword = new JPanel(); // potraziti alternativu za ovo final
+        panelPassword = new JPanel();
         panelPassword.setBounds(39, 187, 345, 187);
         this.add(panelPassword);
         panelPassword.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -75,37 +86,71 @@ public class KorisnickiPodaci extends JPanel {
         lblPotvrdiNovuSifru.setBounds(47, 106, 110, 14);
         panelPassword.add(lblPotvrdiNovuSifru);
         
-        JPasswordField pwdStari = new JPasswordField();
+        pwdStari = new JPasswordField();
         pwdStari.setBounds(167, 53, 130, 20);
         panelPassword.add(pwdStari);
         
-        JPasswordField pwdNovi = new JPasswordField();
+        pwdNovi = new JPasswordField();
         pwdNovi.setBounds(167, 78, 130, 20);
         panelPassword.add(pwdNovi);
         
-        JPasswordField pwdPotvrdiNovi = new JPasswordField();
+        pwdPotvrdiNovi = new JPasswordField();
         pwdPotvrdiNovi.setBounds(167, 103, 130, 20);
         panelPassword.add(pwdPotvrdiNovi);
         
-        JButton btnPromijeni = new JButton("Promijeni");
+        btnPromijeni = new JButton("Promijeni");
         btnPromijeni.setBounds(208, 140, 89, 23);
         panelPassword.add(btnPromijeni);
         
-        final JButton btnPrikaziPanel = new JButton("Promijeni \u0161ifru"); // potraziti alternativu za ovo final
+        btnPrikaziPanel = new JButton("Promijeni \u0161ifru");
+        btnPrikaziPanel.setBounds(216, 180, 120, 23);
+        this.add(btnPrikaziPanel);
+        
+        // Prikazuje panel za promjenu lozinke
         btnPrikaziPanel.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		btnPrikaziPanel.setVisible(false);
         		panelPassword.setVisible(true);
         	}
         });
-        btnPrikaziPanel.setBounds(216, 180, 120, 23);
-        this.add(btnPrikaziPanel);
-
+        
+        // Mijenja lozinku
         btnPromijeni.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		panelPassword.setVisible(false);
-        		btnPrikaziPanel.setVisible(true);
+        		try {
+        			promijeniSifru();
+        			JOptionPane.showMessageDialog(null, "Šifra je uspješno promijenjena!");
+        			panelPassword.setVisible(false);
+            		btnPrikaziPanel.setVisible(true);
+            		
+            		dispose();
+        		}
+        		catch (Exception ex) {
+        			JOptionPane.showMessageDialog(null, ex.getMessage());
+        		}
+        	}
+        	
+        	public void dispose() {
+        		pwdStari.setText("");
+        		pwdNovi.setText("");
+        		pwdPotvrdiNovi.setText("");
         	}
         });
+	}
+	
+	void promijeniSifru() throws Exception {
+		String stari = pwdStari.getText();
+		String novi = pwdNovi.getText();
+		String potvrda = pwdPotvrdiNovi.getText();
+		
+		if (!HibernatePristupniPodaci.HesirajMD5(stari).equals(podaci.getLozinka()))
+			throw new Exception("Stara šifra je pogrešna!");
+		if (!novi.matches(".*[A-Za-z].*") || !novi.matches(".*[0-9].*") || novi.length() < 6)
+			throw new Exception("Šifra mora imati barem 6 znakova i mora sadržavati i slova i brojeve!");
+		if (!novi.equals(potvrda))
+			throw new Exception("Nova šifra i potvrda nove šifre se ne slažu!");
+		
+		podaci.setLozinka(HibernatePristupniPodaci.HesirajMD5(novi));
+		HibernatePristupniPodaci.urediPristupnePodatke(podaci);
 	}
 }
