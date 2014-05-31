@@ -94,6 +94,7 @@ public class StornirajRadniNalog extends JDialog {
 							r.setRazlogStorniranja(textField_1.getText());
 							r.setOsobaKojaStornira(korisnik.getId());
 							r.setStatus(StatusRadnogNaloga.storniran);
+							r.setDodatniKomentar(textField_2.getText());
 							HibernateRadniNalog.modifikujRadniNalog(r);
 							JOptionPane.showMessageDialog(contentPanel, "Uspješno ste stornirali radni nalog");
 							ovaj.dispose();

@@ -141,7 +141,7 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			JLabel lblPlaniraniDatumIzvrenja = new JLabel("Planirani datum izvršenja:");
 			lblPlaniraniDatumIzvrenja.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblPlaniraniDatumIzvrenja.setBounds(10, 142, 154, 14);
+			lblPlaniraniDatumIzvrenja.setBounds(10, 314, 154, 14);
 			contentPanel.add(lblPlaniraniDatumIzvrenja);
 		}
 		{
@@ -149,13 +149,13 @@ public class DetaljniRadniNalog extends JDialog {
 			textField_5.setEditable(false);
 			textField_5.setText(String.valueOf(r.getPlaniraniDatumIzvrsenja()));
 			textField_5.setColumns(10);
-			textField_5.setBounds(170, 136, 201, 20);
+			textField_5.setBounds(170, 308, 201, 20);
 			contentPanel.add(textField_5);
 		}
 		{
 			JLabel lblIdIzvriocaRadnog = new JLabel("ID izvršioca radnog naloga:");
 			lblIdIzvriocaRadnog.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblIdIzvriocaRadnog.setBounds(10, 167, 154, 14);
+			lblIdIzvriocaRadnog.setBounds(10, 364, 154, 14);
 			contentPanel.add(lblIdIzvriocaRadnog);
 		}
 		{
@@ -163,13 +163,13 @@ public class DetaljniRadniNalog extends JDialog {
 			textField_6.setEditable(false);
 			textField_6.setText(Long.toString(r.getIzvrsilacPosla()));
 			textField_6.setColumns(10);
-			textField_6.setBounds(170, 161, 201, 20);
+			textField_6.setBounds(170, 358, 201, 20);
 			contentPanel.add(textField_6);
 		}
 		{
 			JLabel lblNewLabel_2 = new JLabel("Potrebni materijal:");
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblNewLabel_2.setBounds(42, 192, 122, 14);
+			lblNewLabel_2.setBounds(42, 227, 122, 14);
 			contentPanel.add(lblNewLabel_2);
 		}
 		{
@@ -177,13 +177,13 @@ public class DetaljniRadniNalog extends JDialog {
 			textField_7.setEditable(false);
 			textField_7.setText(r.getPotrebniMaterijal());
 			textField_7.setColumns(10);
-			textField_7.setBounds(170, 186, 201, 82);
+			textField_7.setBounds(170, 221, 201, 82);
 			contentPanel.add(textField_7);
 		}
 		{
 			JLabel lblNewLabel_3 = new JLabel("Lokacija:");
 			lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblNewLabel_3.setBounds(81, 280, 83, 14);
+			lblNewLabel_3.setBounds(81, 389, 83, 14);
 			contentPanel.add(lblNewLabel_3);
 		}
 		{
@@ -191,13 +191,13 @@ public class DetaljniRadniNalog extends JDialog {
 			textField_8.setEditable(false);
 			textField_8.setText(r.getLokacija());
 			textField_8.setColumns(10);
-			textField_8.setBounds(170, 274, 201, 20);
+			textField_8.setBounds(170, 383, 201, 20);
 			contentPanel.add(textField_8);
 		}
 		{
 			JLabel lblDatumIzvrenja = new JLabel("Datum izvršenja: ");
 			lblDatumIzvrenja.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblDatumIzvrenja.setBounds(27, 305, 137, 14);
+			lblDatumIzvrenja.setBounds(27, 339, 137, 14);
 			contentPanel.add(lblDatumIzvrenja);
 		}
 		{
@@ -205,13 +205,13 @@ public class DetaljniRadniNalog extends JDialog {
 			textField_9.setEditable(false);
 			textField_9.setText(String.valueOf(r.getDatumIzvrsenja()));
 			textField_9.setColumns(10);
-			textField_9.setBounds(170, 299, 201, 20);
+			textField_9.setBounds(170, 333, 201, 20);
 			contentPanel.add(textField_9);
 		}
 		{
 			JLabel lblNewLabel_4 = new JLabel("Utrošeno vrijeme:");
 			lblNewLabel_4.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblNewLabel_4.setBounds(42, 330, 122, 14);
+			lblNewLabel_4.setBounds(42, 414, 122, 14);
 			contentPanel.add(lblNewLabel_4);
 		}
 		{
@@ -220,13 +220,13 @@ public class DetaljniRadniNalog extends JDialog {
 			Time t=r.getUtrosenoVrijeme();
 			textField_10.setText(t.toString());
 			textField_10.setColumns(10);
-			textField_10.setBounds(170, 324, 201, 20);
+			textField_10.setBounds(170, 408, 201, 20);
 			contentPanel.add(textField_10);
 		}
 		{
 			JLabel lblOpisPosla = new JLabel("Opis posla:");
 			lblOpisPosla.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblOpisPosla.setBounds(71, 355, 93, 14);
+			lblOpisPosla.setBounds(71, 138, 93, 14);
 			contentPanel.add(lblOpisPosla);
 		}
 		{
@@ -234,7 +234,7 @@ public class DetaljniRadniNalog extends JDialog {
 			textField_11.setEditable(false);
 			textField_11.setText(r.getOpisPosla());
 			textField_11.setColumns(10);
-			textField_11.setBounds(170, 350, 201, 82);
+			textField_11.setBounds(170, 133, 201, 82);
 			contentPanel.add(textField_11);
 		}
 		{
@@ -302,6 +302,7 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_16 = new JTextField();
 			textField_16.setEditable(false);
+			textField_16.setText(r.getDodatniKomentar());
 			textField_16.setColumns(10);
 			textField_16.setBounds(519, 265, 201, 82);
 			contentPanel.add(textField_16);
@@ -309,6 +310,10 @@ public class DetaljniRadniNalog extends JDialog {
 		{
 			textField_17 = new JTextField();
 			textField_17.setEditable(false);
+			if(r.getOsobaKojaZakljucuje()!=-1)
+				textField_17.setText(Long.toString(r.getOsobaKojaZakljucuje()));
+			else
+				textField_17.setText("");
 			textField_17.setColumns(10);
 			textField_17.setBounds(519, 239, 201, 20);
 			contentPanel.add(textField_17);

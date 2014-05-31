@@ -29,6 +29,8 @@ import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
+import java.awt.Component;
 
 public class ModificirajRadniNalog extends JDialog {
 
@@ -50,6 +52,9 @@ public class ModificirajRadniNalog extends JDialog {
 	private JTextField textField_8;
 	private JTextField textField_9;
 	private JTextField textField_10;
+	private JLabel lblNewLabel;
+	private JButton modifikujButton;
+	private JPanel buttonPane;
 	
 	public ModificirajRadniNalog(Zaposlenik kor, final RadniNalog r, Dialog.ModalityType m, GlavniProzor parent) {
 		super(parent);
@@ -64,7 +69,7 @@ public class ModificirajRadniNalog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblNewLabel = new JLabel("Broj radnog naloga:");
+			lblNewLabel = new JLabel("Broj radnog naloga:");
 			lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblNewLabel.setBounds(37, 14, 119, 14);
 			contentPanel.add(lblNewLabel);
@@ -110,7 +115,7 @@ public class ModificirajRadniNalog extends JDialog {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
 	    final JDatePickerImpl datePickerPlaniraniDatumIzvrsenja = new JDatePickerImpl(datePanel);
 	    datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField().setBackground(Color.WHITE);
-	    datePickerPlaniraniDatumIzvrsenja.setLocation(166, 104);
+	    datePickerPlaniraniDatumIzvrsenja.setLocation(166, 285);
 	    datePickerPlaniraniDatumIzvrsenja.setSize(200, 20);
 	    model.setValue(r.getPlaniraniDatumIzvrsenja());
 	    model.setSelected(true);
@@ -129,40 +134,40 @@ public class ModificirajRadniNalog extends JDialog {
         
         JLabel lblPlaniraniDatumIzvrenja = new JLabel("Planirani datum izvršenja:");
         lblPlaniraniDatumIzvrenja.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblPlaniraniDatumIzvrenja.setBounds(10, 104, 146, 14);
+        lblPlaniraniDatumIzvrenja.setBounds(10, 285, 146, 14);
         contentPanel.add(lblPlaniraniDatumIzvrenja);
         
         JLabel label = new JLabel("ID izvršioca radnog naloga:");
         label.setHorizontalAlignment(SwingConstants.RIGHT);
-        label.setBounds(2, 138, 154, 14);
+        label.setBounds(2, 350, 154, 14);
         contentPanel.add(label);
         
         textField_1 = new JTextField();
-        textField_1.setBounds(166, 135, 200, 20);
+        textField_1.setBounds(166, 347, 200, 20);
         textField_1.setText(Long.toString(r.getIzvrsilacPosla()));
         contentPanel.add(textField_1);
         textField_1.setColumns(10);
         
         textField_2 = new JTextField();
         textField_2.setColumns(10);
-        textField_2.setBounds(166, 166, 200, 82);
+        textField_2.setBounds(166, 192, 200, 82);
         textField_2.setText(r.getPotrebniMaterijal());
         contentPanel.add(textField_2);
         
         JLabel label_1 = new JLabel("Potrebni materijal:");
         label_1.setHorizontalAlignment(SwingConstants.RIGHT);
-        label_1.setBounds(34, 163, 122, 14);
+        label_1.setBounds(34, 193, 122, 14);
         contentPanel.add(label_1);
         
         textField_3 = new JTextField();
         textField_3.setColumns(10);
-        textField_3.setBounds(166, 256, 200, 20);
+        textField_3.setBounds(166, 378, 200, 20);
         textField_3.setText(r.getLokacija());
         contentPanel.add(textField_3);
         
         JLabel label_2 = new JLabel("Lokacija:");
         label_2.setHorizontalAlignment(SwingConstants.RIGHT);
-        label_2.setBounds(73, 259, 83, 14);
+        label_2.setBounds(73, 381, 83, 14);
         contentPanel.add(label_2);
         
      // Datepicker
@@ -170,7 +175,7 @@ public class ModificirajRadniNalog extends JDialog {
 		JDatePanelImpl datePanel1 = new JDatePanelImpl(model1);
 	    final JDatePickerImpl datePickerDatumIzvrsenja = new JDatePickerImpl(datePanel1);
 	    datePickerDatumIzvrsenja.getJFormattedTextField().setBackground(Color.WHITE);
-	    datePickerDatumIzvrsenja.setLocation(166, 287);
+	    datePickerDatumIzvrsenja.setLocation(166, 316);
 	    datePickerDatumIzvrsenja.setSize(200, 20);
 	    model.setValue(r.getDatumIzvrsenja());
 	    model.setSelected(true);
@@ -178,45 +183,45 @@ public class ModificirajRadniNalog extends JDialog {
 	    
 	    JLabel lblDatumIzvrenja = new JLabel("Datum izvršenja:");
 	    lblDatumIzvrenja.setHorizontalAlignment(SwingConstants.RIGHT);
-	    lblDatumIzvrenja.setBounds(59, 293, 97, 14);
+	    lblDatumIzvrenja.setBounds(59, 322, 97, 14);
 	    contentPanel.add(lblDatumIzvrenja);
 	    
 	    JLabel label_3 = new JLabel("Utrošeno vrijeme:");
 	    label_3.setHorizontalAlignment(SwingConstants.RIGHT);
-	    label_3.setBounds(31, 321, 125, 14);
+	    label_3.setBounds(33, 414, 125, 14);
 	    contentPanel.add(label_3);
 	    
 	    Time t=r.getUtrosenoVrijeme();
 	    
 	    final JSpinner spinner = new JSpinner();
 	    spinner.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-	    spinner.setBounds(166, 318, 35, 20);
+	    spinner.setBounds(168, 411, 35, 20);
 	    spinner.setValue(t.getHours());
 	    contentPanel.add(spinner);
 	    
 	    JLabel label_4 = new JLabel("Sati");
-	    label_4.setBounds(211, 324, 46, 14);
+	    label_4.setBounds(213, 417, 46, 14);
 	    contentPanel.add(label_4);
 	    
 	    final JSpinner spinner_1 = new JSpinner();
 	    spinner_1.setModel(new SpinnerNumberModel(0, 0, 59, 1));
-	    spinner_1.setBounds(262, 318, 37, 20);
+	    spinner_1.setBounds(264, 411, 37, 20);
 	    spinner_1.setValue(t.getMinutes());
 	    contentPanel.add(spinner_1);
 	    
 	    JLabel label_5 = new JLabel("Minuta");
-	    label_5.setBounds(309, 324, 46, 14);
+	    label_5.setBounds(311, 417, 46, 14);
 	    contentPanel.add(label_5);
 	    
 	    textField_4 = new JTextField();
 	    textField_4.setColumns(10);
-	    textField_4.setBounds(166, 349, 200, 82);
+	    textField_4.setBounds(166, 101, 200, 82);
 	    textField_4.setText(r.getOpisPosla());
 	    contentPanel.add(textField_4);
 	    
 	    JLabel label_6 = new JLabel("Opis posla:");
 	    label_6.setHorizontalAlignment(SwingConstants.RIGHT);
-	    label_6.setBounds(63, 352, 93, 14);
+	    label_6.setBounds(63, 104, 93, 14);
 	    contentPanel.add(label_6);
 	    
 	    JLabel label_7 = new JLabel("ID osobe koja stornira:");
@@ -232,51 +237,54 @@ public class ModificirajRadniNalog extends JDialog {
 	    
 	    JLabel label_8 = new JLabel("Razlog storniranja:");
 	    label_8.setHorizontalAlignment(SwingConstants.RIGHT);
-	    label_8.setBounds(391, 42, 122, 14);
+	    label_8.setBounds(391, 47, 122, 14);
 	    contentPanel.add(label_8);
 	    
 	    textField_6 = new JTextField();
 	    textField_6.setColumns(10);
-	    textField_6.setBounds(519, 37, 201, 82);
+	    textField_6.setBounds(519, 42, 201, 82);
 	    textField_6.setText(r.getRazlogStorniranja());
 	    contentPanel.add(textField_6);
 	    
 	    JLabel label_10 = new JLabel("Razlog modifikovanja:");
 	    label_10.setHorizontalAlignment(SwingConstants.RIGHT);
-	    label_10.setBounds(381, 131, 132, 14);
+	    label_10.setBounds(381, 170, 132, 14);
 	    contentPanel.add(label_10);
 	    
 	    textField_8 = new JTextField();
 	    textField_8.setColumns(10);
-	    textField_8.setBounds(519, 125, 201, 82);
+	    textField_8.setBounds(519, 164, 201, 82);
 	    textField_8.setText(r.getRazlogModifikovanja());
 	    contentPanel.add(textField_8);
 	    
 	    JLabel label_11 = new JLabel("ID osobe koja zaključuje:");
 	    label_11.setHorizontalAlignment(SwingConstants.RIGHT);
-	    label_11.setBounds(376, 217, 137, 14);
+	    label_11.setBounds(376, 139, 137, 14);
 	    contentPanel.add(label_11);
 	    
 	    textField_9 = new JTextField();
 	    textField_9.setColumns(10);
-	    textField_9.setBounds(519, 213, 201, 20);
+	    textField_9.setText(Long.toString(r.getOsobaKojaZakljucuje()));
+	    textField_9.setBounds(519, 135, 201, 20);
 	    contentPanel.add(textField_9);
 	    
 	    JLabel label_12 = new JLabel("Dodatni komentar:");
 	    label_12.setHorizontalAlignment(SwingConstants.RIGHT);
-	    label_12.setBounds(391, 244, 122, 14);
+	    label_12.setBounds(391, 262, 122, 14);
 	    contentPanel.add(label_12);
 	    
 	    textField_10 = new JTextField();
 	    textField_10.setColumns(10);
-	    textField_10.setBounds(519, 239, 201, 82);
+	    textField_10.setText(r.getDodatniKomentar());
+	    textField_10.setBounds(519, 257, 201, 82);
 	    contentPanel.add(textField_10);
+	    contentPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, comboBoxStatusNaloga, comboBoxTipPosla, textField_4, textField_2, datePickerPlaniraniDatumIzvrsenja, datePickerDatumIzvrsenja, datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField(), lblNewLabel, datePickerDatumIzvrsenja.getJFormattedTextField(), lblStatus, lblPosao, textField_1, textField_3, spinner, spinner_1, textField_5, textField_6, textField_9, textField_8, textField_10, lblPlaniraniDatumIzvrenja, label, label_1, label_2, lblDatumIzvrenja, label_3, label_4, label_5, label_6, label_7, label_8, label_10, label_11, label_12}));
 		{
-			JPanel buttonPane = new JPanel();
+			buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton modifikujButton = new JButton("Modifikuj");
+				modifikujButton = new JButton("Modifikuj");
 				modifikujButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if(comboBoxStatusNaloga.getSelectedIndex()==0)
@@ -318,16 +326,23 @@ public class ModificirajRadniNalog extends JDialog {
 						r.setOpisPosla(textField_4.getText());
 						r.setOsobaKojaStornira(Long.parseLong(textField_5.getText()));
 						r.setRazlogStorniranja(textField_6.getText());
-						r.setRazlogModifikovanja(textField_8.getText());
 						r.setOsobaKojaModifikuje(korisnik.getId());
 						r.setDatumModifikovanja(new Date());
-						HibernateRadniNalog.modifikujRadniNalog(r);
-						JOptionPane.showMessageDialog(contentPanel, "Uspješno ste modifikovali radni nalog");
-						ovaj.dispose();
+						r.setOsobaKojaModifikuje(Long.parseLong(textField_9.getText()));
+						r.setDodatniKomentar(textField_10.getText());
+						if(textField_8.getText()=="" || textField_8.getText()==null)
+							JOptionPane.showMessageDialog(contentPanel, "Niste unijeli razlog modifikovanja");
+						else{
+							r.setRazlogModifikovanja(textField_8.getText());
+							HibernateRadniNalog.modifikujRadniNalog(r);
+							JOptionPane.showMessageDialog(contentPanel, "Uspješno ste modifikovali radni nalog");
+							ovaj.dispose();
+						}
 					}
 				});
 				buttonPane.add(modifikujButton);
 			}
 		}
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, comboBoxStatusNaloga, comboBoxTipPosla, textField_4, textField_2, datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField(), datePickerDatumIzvrsenja.getJFormattedTextField(), getContentPane(), contentPanel, lblNewLabel, lblStatus, lblPosao, datePickerPlaniraniDatumIzvrsenja, lblPlaniraniDatumIzvrenja, datePickerDatumIzvrsenja, label, textField_1, textField_3, spinner, spinner_1, textField_5, textField_6, textField_9, textField_8, textField_10, modifikujButton, label_1, label_2, lblDatumIzvrenja, label_3, label_4, label_5, label_6, label_7, label_8, label_10, label_11, label_12, buttonPane}));
 	}
 }
