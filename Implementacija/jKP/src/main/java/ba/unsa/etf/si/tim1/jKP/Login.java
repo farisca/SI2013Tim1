@@ -86,14 +86,13 @@ public class Login extends JFrame {
         });
         jp.add(btnPrijava);
         
-        //pack();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
 	}
 	
-	// Djelomično riješava problem spašavanja enumeracija u bazu upotrebom crne magije
+	// /*Djelomično*/ Potpuno riješava problem spašavanja enumeracija u bazu upotrebom crne magije
 	void ubijOnogaKoJePravioHibernate() {
 		HibernateZaposlenik.ubijOnogaKoJePravioHibernate();
 		HibernateRadniNalog.ubijOnogaKoJePravioHibernate();
@@ -104,7 +103,7 @@ public class Login extends JFrame {
 		try {
 			if (HibernatePristupniPodaci.dajBrojKorisnika() == 0) {
 				long podaci = HibernatePristupniPodaci.spremiPodatke("admin", "admin");
-				HibernateZaposlenik.ubijOnogaKoJePravioHibernate();
+				HibernateZaposlenik.ubijOnogaKoJePravioHibernate(); // danas smo brutalni...
 				Zaposlenik z = new Zaposlenik("Administrator", "Administrator", TipUposlenika.privilegirani, podaci);
 				HibernateZaposlenik.pohraniZaposlenika(z, podaci);
 			}

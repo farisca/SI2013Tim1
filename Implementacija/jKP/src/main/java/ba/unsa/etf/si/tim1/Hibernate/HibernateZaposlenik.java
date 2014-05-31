@@ -18,10 +18,6 @@ import org.hibernate.Transaction;
 public class HibernateZaposlenik {
 	public HibernateZaposlenik() {}
 	
-	public static boolean postojiZaposlenik() {
-		
-		return true;
-	}
 	
 	public static Zaposlenik dajZaposlenikaPoPristupnimPodacima(long id) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
@@ -75,13 +71,14 @@ public class HibernateZaposlenik {
 		return lista;
 	}
 	
-	public static void pohraniZaposlenika(Zaposlenik z, long podaci) {
+	public static long pohraniZaposlenika(Zaposlenik z, long podaci) {
 		z.setPristupniPodaci(podaci);
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = s.beginTransaction();
-		s.save(z);
+		long id = (Long)s.save(z);
 		t.commit();
 		s.close();
+		return id;
 	}
 	public static List<Zaposlenik> dajZaposlenikePoKriteriju(String kriterij) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
