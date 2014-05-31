@@ -1,0 +1,41 @@
+package ba.unsa.etf.si.tim1.jKP;
+
+import static org.junit.Assert.*;
+
+import java.awt.Dialog;
+import java.sql.Time;
+import java.util.Date;
+
+import org.junit.Test;
+
+public class StornirajRadniNalogTest {
+
+	@Test
+	public void testNapraviStorniranRN() {
+		Date d=new Date(2014,5,5);
+		long kn = 1;
+		StatusRadnogNaloga s = StatusRadnogNaloga.kreiran;
+		TipPosla tp = TipPosla.UgradnjaVodomjera;
+		Date dpi=new Date(2014,5,6);
+		long ip = 1;
+		String pm="masina";
+		String l="sarajevo";
+		String o="ja";
+		RadniNalog r;
+		try {
+			r = new RadniNalog(d, kn, s, tp, dpi, ip, pm, l, null, null, false, o);
+			Zaposlenik z= new Zaposlenik("ja","ja", TipUposlenika.privilegirani, 2);
+			GlavniProzor g = new GlavniProzor(z);
+			StornirajRadniNalog srn=new StornirajRadniNalog(z, r, Dialog.ModalityType.APPLICATION_MODAL, g);
+			RadniNalog a = srn.NapraviStorniranRN(r, "zato",2, "" );
+			r.setRazlogStorniranja("zato");
+			r.setOsobaKojaStornira(2);
+			r.setDodatniKomentar("");
+			r.setStatus(StatusRadnogNaloga.storniran);
+			assertEquals(a,r);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+}
