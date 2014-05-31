@@ -19,6 +19,7 @@ public class GlavniProzor extends JFrame {
 		kontejner.add(meni);
 		
 		RadniNalozi radniNalozi = new RadniNalozi();
+		radniNalozi.setGlavni(this);
 		kontejner.add(radniNalozi);
 			
 		getContentPane().add(kontejner);

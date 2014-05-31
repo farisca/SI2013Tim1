@@ -27,6 +27,10 @@ public class Zaposlenik implements java.io.Serializable {
 	public String getIme() {
 		return ime;
 	}
+	
+	public String getImeIPrezime(){
+		return ime + " " + prezime;
+	}
 	public void setIme(String ime) {
 		this.ime = ime;
 	}

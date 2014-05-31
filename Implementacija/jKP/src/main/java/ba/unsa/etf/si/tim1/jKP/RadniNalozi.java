@@ -1,6 +1,7 @@
 package ba.unsa.etf.si.tim1.jKP;
 
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,8 @@ public class RadniNalozi extends JTabbedPane {
 			"DatumKreiranja", 
 			"PlaniraniDatumIzvrsenja", 
 			"DatumIzvrsenja"};
+	
+	private GlavniProzor glavni;
 
 
 	private final JTextField textField;
@@ -358,27 +361,55 @@ public class RadniNalozi extends JTabbedPane {
         tabela.getColumnModel().getColumn(9).setMinWidth(20);
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
+        //Detaljni prikaz radnog naloga
+        
         JButton btnDetaljnije = new JButton("Detaljnije");
         btnDetaljnije.setBounds(625, 488, 89, 23);
         btnDetaljnije.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		JOptionPane.showMessageDialog(panelPretraga, "Nije implementirano!");
+        		int i= tabela.getSelectedRow();
+        		if(i!=-1){
+        			RadniNalog r= radni_nalozi.get(i);
+	        		if (korisnik.getId() == r.getKreatorRadnogNaloga()){
+	        			DetaljniRadniNalog novi=new DetaljniRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
+	        			novi.setVisible(true);
+	        		}
+	        		else{
+	        			JOptionPane.showMessageDialog(panelPretraga, "Nemate privilegije za prikaz selektovanog radnog naloga");
+	        		}
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(panelPretraga, "Niste izabrali radni nalog iz pretrage");
+        		}
         	}
         });
         	
         panelPretraga.add(btnDetaljnije);
         
+        // Modifikacija izabranog radnog naloga
+        
         JButton btnModifikuj = new JButton("Modifikuj");
         btnModifikuj.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		new ModificiranjeRadnogNaloga();
-        		tabela.setValueAt("Amina Celik", 0, 2);
-        		tabela.setValueAt("05.05.2014.", 0, 5);
-        		
+        		int i= tabela.getSelectedRow();
+        		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
+	        		if (i!=-1){
+	        			ModificirajRadniNalog novi=new ModificirajRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
+	        			novi.setVisible(true);
+	        		}
+	        		else{
+	        			JOptionPane.showMessageDialog(panelPretraga, "Niste izabrali radni nalog iz pretrage");
+	        		}
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(panelPretraga, "Nemate privilegije za modifikovanje radnih naloga");
+        		}
         	}
         });
         btnModifikuj.setBounds(529, 488, 89, 23);
         panelPretraga.add(btnModifikuj);
+        
+        //Storniranje radnih naloga
         
         JButton btnStorniraj = new JButton("Storniraj");
         btnStorniraj.setBounds(432, 488, 89, 23);
@@ -386,18 +417,51 @@ public class RadniNalozi extends JTabbedPane {
         btnStorniraj.addActionListener(new ActionListener(){
         	
         	public void actionPerformed(ActionEvent e){
-        		
-        		new StorniranjeRadnogNaloga();
-        		tabela.setValueAt("Storniran", 0, 3);
+        		int i= tabela.getSelectedRow();
+        		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
+	        		if (i!=-1){
+	        			RadniNalog r= radni_nalozi.get(i);
+	        			if(r.getStatus()==StatusRadnogNaloga.kreiran){
+	        				StornirajRadniNalog novi=new StornirajRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
+	        				novi.setVisible(true);
+	        			}
+	        			else
+	        				JOptionPane.showMessageDialog(panelPretraga, "Izabrani radni nalog je zaključen ili storniran.");
+	        		}
+	        		else{
+	        			JOptionPane.showMessageDialog(panelPretraga, "Niste izabrali radni nalog iz pretrage");
+	        		}
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(panelPretraga, "Nemate privilegije za storniranje radnih naloga");
+        		}
         	}
         	
         });
         
-        JButton btnZakljui = new JButton("Zaklju?i");
+      //Zakljucivanje radnih naloga
+        
+        JButton btnZakljui = new JButton("Zaključi");
         btnZakljui.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		new ZakljucivanjeRadnogNaloga();
-        		tabela.setValueAt("Zakljucen", 0, 3);
+        		int i= tabela.getSelectedRow();
+        		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
+	        		if (i!=-1){
+	        			RadniNalog r= radni_nalozi.get(i);
+	        			if(r.getStatus()==StatusRadnogNaloga.kreiran){
+	        				ZakljuciRadniNalog novi=new ZakljuciRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
+	        				novi.setVisible(true);
+	        			}
+	        			else
+	        				JOptionPane.showMessageDialog(panelPretraga, "Izabrani radni nalog je zaključen ili storniran.");
+	        		}
+	        		else{
+	        			JOptionPane.showMessageDialog(panelPretraga, "Niste izabrali radni nalog iz pretrage");
+	        		}
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(panelPretraga, "Nemate privilegije za zaključivanje radnih naloga");
+        		}
                 
         	}
         });
@@ -422,7 +486,7 @@ public class RadniNalozi extends JTabbedPane {
         		
         		String unos = textField_1.getText();
         		
-				radni_nalozi = HibernateRadniNalog.pretraga(kriterij, unos);
+				radni_nalozi = HibernateRadniNalog.pretraga1(kriterij, unos);
                 
                 if (radni_nalozi.size()==0) { 
                 	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
@@ -524,7 +588,7 @@ public class RadniNalozi extends JTabbedPane {
         label_3.setBounds(0, 36, 150, 14);
         panel_3.add(label_3);
         
-        JComboBox comboBox_1 = new JComboBox();
+        final JComboBox comboBox_1 = new JComboBox();
         comboBox_1.setBounds(160, 8, 200, 20);
         comboBox_1.setModel(new DefaultComboBoxModel(kriteriji_pretrage));
         panel_3.add(comboBox_1);
@@ -560,6 +624,28 @@ public class RadniNalozi extends JTabbedPane {
         btnTrazi_3 = new JButton("Traži");
         btnTrazi_3.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
+        		// 1. kriterij i kljucna rijec
+        		String kriterij_1 = comboKriterijPretrage.getSelectedItem().toString();
+        		String unos_1 = textField_1.getText();
+        		
+        		// 2. kriterij i kljucna rijec
+        		String kriterij_2 = comboBox.getSelectedItem().toString();
+        		String unos_2 = textField.getText();
+        		
+        		// 3. kriterij i kljucna rijec
+        		String kriterij_3 = comboBox_1.getSelectedItem().toString();
+        		String unos_3 = textField_2.getText(); 
+        		
+				radni_nalozi = HibernateRadniNalog.pretraga3(kriterij_1, unos_1, kriterij_2, unos_2, kriterij_3, unos_3);
+                
+                if (radni_nalozi.size()==0) { 
+                	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
+                } 
+                else {
+                	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
+                	upisiPodatkeUTabelu();
+                }
+        		
         	}
         });
         btnTrazi_3.setBounds(528, 32, 110, 23);
@@ -580,7 +666,7 @@ public class RadniNalozi extends JTabbedPane {
         label_5.setBounds(0, 36, 150, 14);
         panel_4.add(label_5);
         
-        JComboBox comboBox_2 = new JComboBox();
+        final JComboBox comboBox_2 = new JComboBox();
         comboBox_2.setBounds(160, 8, 200, 20);
         comboBox_2.setModel(new DefaultComboBoxModel(kriteriji_pretrage));
         panel_4.add(comboBox_2);
@@ -603,6 +689,35 @@ public class RadniNalozi extends JTabbedPane {
         panel_4.add(btnUkloni_4);
         
         btnTrazi_4 = new JButton("Traži");
+        btnTrazi_4.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		// 1. kriterij i kljucna rijec
+        		String kriterij_1 = comboKriterijPretrage.getSelectedItem().toString();
+        		String unos_1 = textField_1.getText();
+        		
+        		// 2. kriterij i kljucna rijec
+        		String kriterij_2 = comboBox.getSelectedItem().toString();
+        		String unos_2 = textField.getText();
+        		
+        		// 3. kriterij i kljucna rijec
+        		String kriterij_3 = comboBox_1.getSelectedItem().toString();
+        		String unos_3 = textField_2.getText(); 
+        		
+        		// 4. kriterij i kljucna rijec
+        		String kriterij_4 = comboBox_2.getSelectedItem().toString();
+        		String unos_4 = textField_3.getText(); 
+        		
+				radni_nalozi = HibernateRadniNalog.pretraga4(kriterij_1, unos_1, kriterij_2, unos_2, kriterij_3, unos_3, kriterij_4, unos_4);
+                
+                if (radni_nalozi.size()==0) { 
+                	JOptionPane.showMessageDialog(panelPretraga, "Za unesene podatke nije pronadjen niti jedan radni nalog!"); 
+                } 
+                else {
+                	JOptionPane.showMessageDialog(panelPretraga, "Pronadjeni rezultati");
+                	upisiPodatkeUTabelu();
+                }
+        	}
+        });
         btnTrazi_4.setBounds(528, 32, 110, 23);
         panel_4.add(btnTrazi_4);
 	}
@@ -618,8 +733,8 @@ public class RadniNalozi extends JTabbedPane {
 	        	 RadniNalog rn = radni_nalozi.get(red); 
 	        	 
 	        	 podaci[red][0] = rn.getBrojRadnogNaloga();
-	        	 podaci[red][1] = rn.getKreatorRadnogNaloga();
-	        	 podaci[red][2] = rn.getIzvrsilacPosla();
+	        	 podaci[red][1] = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(rn.getKreatorRadnogNaloga()).getImeIPrezime(); 
+	        	 podaci[red][2] = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(rn.getIzvrsilacPosla()).getImeIPrezime();
 	        	 podaci[red][3] = rn.getStatus();
 	        	 podaci[red][4] = rn.getLokacija();
 	        	 podaci[red][5] = rn.getDatumKreiranja();
@@ -633,6 +748,14 @@ public class RadniNalozi extends JTabbedPane {
 	         
      	
      }
+
+	public GlavniProzor getGlavni() {
+		return glavni;
+	}
+
+	public void setGlavni(GlavniProzor glavni) {
+		this.glavni = glavni;
+	}
 }
 
 

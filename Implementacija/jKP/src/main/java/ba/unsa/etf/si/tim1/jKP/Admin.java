@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
@@ -21,6 +22,9 @@ public class Admin extends JPanel {
 	private JTable table;
 	private JComboBox textField_5;
 	private Boolean nemaTaba;
+	private DefaultTableModel tablemodel;
+	private Object[][] data = {{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""}};
+	
 
 	public Admin() {
 		this.setLayout(null);
@@ -42,33 +46,25 @@ public class Admin extends JPanel {
 		textField_4.setBounds(210, 31, 388, 19);
 		panelPretraga.add(textField_4);
 		textField_4.setColumns(10);
-		textField_4.setText("Faris");
+		
+		
+		Model();
 
 		JButton btnTrai = new JButton("Traži");
 		btnTrai.setBackground(Color.LIGHT_GRAY);
 		btnTrai.setBounds(610, 28, 117, 25);
 		panelPretraga.add(btnTrai);
-		final Object[][] data = {{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""}};
+		
 		btnTrai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(textField_4.getText());
-			for(int i=0;i<=lz.size();i++) {
-				data[i][0] = lz.get(i).getIme() + " " + lz.get(i).getPrezime();
-				data[i][1] = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
-				if(lz.get(i).getTipUposlenika()==TipUposlenika.neaktivan)
-					data[i][2] = "Deaktiviran";
-				else if(lz.get(i).getTipUposlenika()==TipUposlenika.obicni)
-					data[i][2] = "Obični";
-				else
-					data[i][2] = "Privilegirani";
-			}
-		}
+				PopuniTabelu();
+				}
 		});
 		JLabel lblRezultatiPretrage = new JLabel("Rezultati pretrage:");
 		lblRezultatiPretrage.setBounds(90, 121, 162, 15);
 		panelPretraga.add(lblRezultatiPretrage);
-		String[] columnNames = { "Ime i prezime", "Korisničko ime", "Status" };
-		table = new JTable((Object[][]) data, columnNames);
+		table = new JTable();
+		table.setModel(tablemodel);
 		JScrollPane jsp = new JScrollPane(table);
 		jsp.setBounds(171, 152, 431, 106);
 		panelPretraga.add(jsp);
@@ -107,6 +103,7 @@ public class Admin extends JPanel {
 						novi.getPrezime(), "Potvrda",
 						JOptionPane.INFORMATION_MESSAGE);
 				dispose();
+				PopuniTabelu();
 			}
 
 			private void dispose() {
@@ -124,7 +121,8 @@ public class Admin extends JPanel {
 		panelPretraga.add(bModifikuj);
 		bModifikuj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(textField_4.getText());
+				
+				final List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(textField_4.getText());
 				final Zaposlenik novi = lz.get(table.getSelectedRow());
 				final JPanel panelNovi = new JPanel();
 				panelNovi.setLayout(null);
@@ -132,6 +130,8 @@ public class Admin extends JPanel {
 					tabovi.addTab("Modifikuj", panelNovi);
 					nemaTaba=false;
 				}
+				tabovi.setSelectedComponent(panelNovi);
+				
 				final JLabel lblImeIPrezime_1 = new JLabel("Ime i prezime:");
 				lblImeIPrezime_1.setBounds(243, 181, 102, 15);
 				lblImeIPrezime_1
@@ -214,6 +214,9 @@ public class Admin extends JPanel {
 							JOptionPane.showMessageDialog(panelNovi, e1.getMessage(),
 									"Potvrda", JOptionPane.INFORMATION_MESSAGE);
 						}
+						
+						
+						PopuniTabelu();
 					}
 
 					private void dispose() {
@@ -264,6 +267,8 @@ public class Admin extends JPanel {
 
 				setBounds(190, 0, 1000, 700);
 				setVisible(true);
+				
+				
 			}
 		});
 
@@ -395,5 +400,66 @@ public class Admin extends JPanel {
 
 		setBounds(190, 0, 1000, 700);
 		setVisible(true);
+		
+	
+		
 	}
+
+	public void Model() {
+		
+		tablemodel=new DefaultTableModel(
+				new Object[][] {}, new String[] {"Ime i Prezime", "Korisničko ime", "Status"})
+		{
+			Class[] columnTypes = new Class[]{
+					String.class, String.class, String.class
+					
+			};
+			public Class getColumnClass (int columnIndex){
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[]{
+					true, true, true
+			};
+			public boolean isCellEditable(int row, int column){
+				return columnEditables[column];
+			}
+			
+		};
+		
+	}
+	
+private void PopuniTabelu()
+{
+	IzbrisiTabelu();
+	List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(textField_4.getText());
+	for(int i=0;i<lz.size();i++) {
+		data[i][0] = lz.get(i).getIme() + " " + lz.get(i).getPrezime();
+		data[i][1] = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
+		if(lz.get(i).getTipUposlenika()==TipUposlenika.neaktivan)
+			data[i][2] = "Deaktiviran";
+		else if(lz.get(i).getTipUposlenika()==TipUposlenika.obicni)
+			data[i][2] = "Obični";
+		else
+			data[i][2] = "Privilegirani";
+	}
+	if(data.length==0)
+	{
+		JOptionPane.showMessageDialog(null, "Nema rezultata pretrage","Info",JOptionPane.INFORMATION_MESSAGE);
+		return;
+	}
+	for(int j=0;j<lz.size();j++)
+	{
+		
+		tablemodel.addRow(data[j]);
+	}
+	
+	
+}
+
+private void IzbrisiTabelu(){
+	tablemodel.getDataVector().removeAllElements();
+	tablemodel.fireTableDataChanged();
+	
+}
+
 }
