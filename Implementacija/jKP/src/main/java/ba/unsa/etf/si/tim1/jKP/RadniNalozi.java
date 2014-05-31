@@ -69,7 +69,7 @@ public class RadniNalozi extends JTabbedPane {
 	private final JXDatePicker dp_1;
 	
 	
-	private final Object[][] podaci = new Object[10][10];
+	private final Object[][] podaci = new Object[100][10];
 	private final JTable tabela = new JTable();
 	private final String[] zaglavlje_tabele = {"Broj", 
 			"Kreirao", 
@@ -453,7 +453,11 @@ public class RadniNalozi extends JTabbedPane {
         		if(!textField.getText().equals("")){ lista.add("BROJRADNOGNALOGA"); lista.add(textField.getText()); }
         		if(!textField_1.getText().equals("")){ lista.add("LOKACIJA"); lista.add(textField_1.getText()); }
         		
-        		if(comboBox_1.getSelectedIndex() != -1) { lista.add("IZVRSILACRADNOGNALOGA"); lista.add(comboBox_1.getSelectedItem().toString()); }
+        		if(comboBox_1.getSelectedIndex() != -1) { 
+        			lista.add("IZVRSILACPOSLA"); 
+        			Zaposlenik z = (Zaposlenik) comboBox_1.getSelectedItem();
+        			lista.add(z.getImeIPrezime()); 
+        			}
         		
         		
         		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
