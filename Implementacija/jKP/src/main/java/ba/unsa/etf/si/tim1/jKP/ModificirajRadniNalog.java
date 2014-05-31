@@ -298,9 +298,18 @@ public class ModificirajRadniNalog extends JDialog {
 						if(comboBoxTipPosla.getSelectedIndex()==4)
 							r.setPosao(TipPosla.Ostalo);
 						Date d = (Date) datePickerPlaniraniDatumIzvrsenja.getModel().getValue();
-						r.setDatumIzvrsenja(d);
 						Date d1 = (Date) datePickerDatumIzvrsenja.getModel().getValue();
-						r.setDatumIzvrsenja(d1);
+						try {
+							r.setPlaniraniDatumIzvrsenja(d);
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(contentPanel, "Greška u dodjeli planiranog datuma izvršenja");
+						}
+						try {
+							r.setDatumIzvrsenja(d1);
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(contentPanel, "Greška u dodjeli datuma izvršenja");
+						}
+						
 						r.setIzvrsilacPosla(Long.parseLong(textField_1.getText()));
 						r.setPotrebniMaterijal(textField_2.getText());
 						r.setLokacija(textField_3.getText());

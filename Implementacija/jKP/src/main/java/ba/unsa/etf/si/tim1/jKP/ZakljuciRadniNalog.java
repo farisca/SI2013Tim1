@@ -123,7 +123,11 @@ public class ZakljuciRadniNalog extends JDialog {
 				zakljuciButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						Date d = (Date) datePickerDatumIzvrsenja.getModel().getValue();
-						r.setDatumIzvrsenja(d);
+						try {
+							r.setDatumIzvrsenja(d);
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(contentPanel, "Greška u dodjeli datuma izvršenja");
+						}
 						if((Integer)spinner.getValue()==0 && (Integer)spinner_1.getValue()==0)
 							JOptionPane.showMessageDialog(contentPanel, "Niste unijeli utrošeno vrijeme");
 						else{
