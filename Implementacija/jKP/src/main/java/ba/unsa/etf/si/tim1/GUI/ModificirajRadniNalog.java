@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,6 +25,7 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 
 import java.awt.event.ActionListener;

@@ -1,19 +1,9 @@
 package ba.unsa.etf.si.tim1.Hibernate;
 
-import ba.unsa.etf.si.tim1.jKP.HibernateUtil;
-import ba.unsa.etf.si.tim1.jKP.PristupniPodaci;
-import ba.unsa.etf.si.tim1.jKP.RadniNalog;
-import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
+import ba.unsa.etf.si.tim1.util.HibernateUtil;
+import ba.unsa.etf.si.tim1.Entiteti.RadniNalog;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
-
-import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;

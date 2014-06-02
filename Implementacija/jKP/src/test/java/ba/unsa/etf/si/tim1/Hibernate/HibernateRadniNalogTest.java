@@ -10,9 +10,9 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 
-import ba.unsa.etf.si.tim1.jKP.RadniNalog;
-import ba.unsa.etf.si.tim1.jKP.StatusRadnogNaloga;
-import ba.unsa.etf.si.tim1.jKP.TipPosla;
+import ba.unsa.etf.si.tim1.Entiteti.RadniNalog;
+import ba.unsa.etf.si.tim1.Entiteti.StatusRadnogNaloga;
+import ba.unsa.etf.si.tim1.Entiteti.TipPosla;
 
 
 public class HibernateRadniNalogTest {

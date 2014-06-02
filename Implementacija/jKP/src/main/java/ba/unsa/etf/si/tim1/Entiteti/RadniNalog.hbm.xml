@@ -3,7 +3,7 @@
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated May 28, 2014 5:16:39 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
- <class name="ba.unsa.etf.si.tim1.jKP.RadniNalog" table="RADNINALOG">
+ <class name="ba.unsa.etf.si.tim1.Entiteti.RadniNalog" table="RADNINALOG">
   <id name="brojRadnogNaloga" type="long">
    <column name="BROJRADNOGNALOGA"/>
    <generator class="native"/>

@@ -1,7 +1,8 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
+import ba.unsa.etf.si.tim1.Entiteti.Zaposlenik;
+import ba.unsa.etf.si.tim1.Entiteti.TipUposlenika;
 import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
-import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
 
 import javax.swing.ImageIcon;
@@ -16,23 +17,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Date;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 
 public class Login extends JFrame {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private Zaposlenik korisnik;
 	
-	Login() {
+	public Login() {
 		//ubijOnogaKoJePravioHibernate();
 		inicijalizirajBazu();
 		

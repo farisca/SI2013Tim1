@@ -1,8 +1,8 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import java.awt.Color;
-
 import javax.swing.*;
+import ba.unsa.etf.si.tim1.Entiteti.*;
 
 public class GlavniProzor extends JFrame {
 	private JPanel kontejner;

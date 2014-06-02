@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.Entiteti;
 
 public class PristupniPodaci implements java.io.Serializable {
 	private long id;

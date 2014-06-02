@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
-import ba.unsa.etf.si.tim1.jKP.PristupniPodaci;
-import ba.unsa.etf.si.tim1.jKP.TipUposlenika;
-import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
+import ba.unsa.etf.si.tim1.Entiteti.PristupniPodaci;
+import ba.unsa.etf.si.tim1.Entiteti.TipUposlenika;
+import ba.unsa.etf.si.tim1.Entiteti.Zaposlenik;
 
 public class HibernateZaposlenikTest {
 	

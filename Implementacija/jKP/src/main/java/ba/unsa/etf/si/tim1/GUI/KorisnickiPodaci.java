@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
 
 public class KorisnickiPodaci extends JPanel {

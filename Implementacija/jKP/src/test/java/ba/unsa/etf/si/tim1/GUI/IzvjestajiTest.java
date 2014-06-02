@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import java.util.Calendar;
 import java.util.Date;

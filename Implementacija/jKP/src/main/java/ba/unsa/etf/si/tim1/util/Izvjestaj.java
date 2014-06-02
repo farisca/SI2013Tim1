@@ -1,6 +1,7 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.util;
 
 import java.util.Date;
+import ba.unsa.etf.si.tim1.Entiteti.Zaposlenik;
 
 public class Izvjestaj {
 	public void mjesecniIzvjestaj(Date odDatuma, Date doDatuma) {}

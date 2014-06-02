@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.Entiteti;
 
 import java.awt.List;
 import java.sql.Time;

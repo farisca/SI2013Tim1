@@ -1,10 +1,12 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import static org.junit.Assert.*;
 
 import java.awt.Dialog;
 import java.sql.Time;
 import java.util.Date;
+
+import ba.unsa.etf.si.tim1.Entiteti.*;
 
 import org.junit.Test;
 

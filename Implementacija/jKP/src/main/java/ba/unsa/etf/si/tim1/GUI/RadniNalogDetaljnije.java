@@ -1,4 +1,6 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
+
+import ba.unsa.etf.si.tim1.util.HibernateUtil;
 
 import java.awt.Color;
 import java.io.File;

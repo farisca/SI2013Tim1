@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
-import ba.unsa.etf.si.tim1.jKP.PristupniPodaci;
+import ba.unsa.etf.si.tim1.Entiteti.PristupniPodaci;
 
 public class HibernatePristupniPodaciTest {
 	PristupniPodaci podaci;

@@ -3,7 +3,7 @@
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated May 28, 2014 6:15:27 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
- <class name="ba.unsa.etf.si.tim1.jKP.PristupniPodaci" table="PRISTUPNIPODACI">
+ <class name="ba.unsa.etf.si.tim1.Entiteti.PristupniPodaci" table="PRISTUPNIPODACI">
   <id name="id" type="long">
    <column name="ID"/>
    <generator class="native"/>

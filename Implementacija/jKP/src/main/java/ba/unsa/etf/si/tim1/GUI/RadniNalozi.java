@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import java.awt.Color;
 import java.awt.Dialog;
@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
 import net.sourceforge.jdatepicker.DateModel;

@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import ba.unsa.etf.si.tim1.Entiteti.*;
 
 import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;

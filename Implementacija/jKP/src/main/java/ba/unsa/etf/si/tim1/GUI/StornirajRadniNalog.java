@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 
+import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 
 import java.awt.event.ActionListener;

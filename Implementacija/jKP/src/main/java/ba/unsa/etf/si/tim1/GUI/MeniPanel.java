@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import java.awt.Color;
 
@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import ba.unsa.etf.si.tim1.Entiteti.*;
 
 public class MeniPanel extends JPanel {
 	

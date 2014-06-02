@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.jKP;
+package ba.unsa.etf.si.tim1.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
@@ -17,6 +17,8 @@ import javax.swing.JTextField;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import ba.unsa.etf.si.tim1.Entiteti.*;
 
 
 public class DetaljniRadniNalog extends JDialog {

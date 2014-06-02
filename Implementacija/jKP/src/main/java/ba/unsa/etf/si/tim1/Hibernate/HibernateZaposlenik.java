@@ -1,15 +1,10 @@
 package ba.unsa.etf.si.tim1.Hibernate;
 
-import ba.unsa.etf.si.tim1.jKP.HibernateUtil;
-import ba.unsa.etf.si.tim1.jKP.PristupniPodaci;
-import ba.unsa.etf.si.tim1.jKP.RadniNalog;
-import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
+import ba.unsa.etf.si.tim1.util.HibernateUtil;
+import ba.unsa.etf.si.tim1.Entiteti.PristupniPodaci;
+import ba.unsa.etf.si.tim1.Entiteti.Zaposlenik;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
-import javax.swing.JOptionPane;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
