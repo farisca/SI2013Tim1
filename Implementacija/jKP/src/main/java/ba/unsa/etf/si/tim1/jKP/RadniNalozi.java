@@ -174,7 +174,7 @@ public class RadniNalozi extends JTabbedPane {
         
         comboBoxIzvrsilac = new JComboBox<Zaposlenik>();
         //comboBoxIzvrsilac.setEditable(true);
-        if (korisnik.getTipUposlenika() != TipUposlenika.privilegirani) {
+        if (korisnik.dajTipUposlenika() != TipUposlenika.privilegirani) {
         	comboBoxIzvrsilac.setEnabled(false);
         	comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(new Zaposlenik[]{korisnik}));
         }
@@ -217,7 +217,7 @@ public class RadniNalozi extends JTabbedPane {
         textAreaPotrebniMaterijal.setLineWrap(true);
                 
         comboBoxStatusNaloga = new JComboBox<StatusRadnogNaloga>();
-        if (korisnik.getTipUposlenika() == TipUposlenika.privilegirani)
+        if (korisnik.dajTipUposlenika() == TipUposlenika.privilegirani)
         	comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran, StatusRadnogNaloga.zakljucen, StatusRadnogNaloga.nezakljucen, StatusRadnogNaloga.storniran}));
         else
         	comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran}));
@@ -266,8 +266,8 @@ public class RadniNalozi extends JTabbedPane {
         		try {
         			Date datumKreiranja = new Date();
             		long kreirao = GlavniProzor.korisnik.getId();
-            		StatusRadnogNaloga status = (StatusRadnogNaloga)comboBoxStatusNaloga.getSelectedItem();
-            		TipPosla tip = (TipPosla)comboBoxTipPosla.getSelectedItem();
+            		String status = comboBoxStatusNaloga.getSelectedItem().toString();
+            		String tip = comboBoxTipPosla.getSelectedItem().toString();
             		Date planiraniDatumIzvrsenja = datePickerPlaniraniDatumIzvrsenja.getDate();
             		long izvrsilac = ((Zaposlenik)comboBoxIzvrsilac.getSelectedItem()).getId();
             		String potrebniMaterijal = textAreaPotrebniMaterijal.getText();
@@ -389,7 +389,7 @@ public class RadniNalozi extends JTabbedPane {
         btnModifikuj.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		int i= tabela.getSelectedRow();
-        		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
+        		if(korisnik.dajTipUposlenika()==TipUposlenika.privilegirani){
 	        		if (i!=-1){
 	        			ModificirajRadniNalog novi=new ModificirajRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
 	        			novi.setVisible(true);
@@ -415,10 +415,10 @@ public class RadniNalozi extends JTabbedPane {
         	
         	public void actionPerformed(ActionEvent e){
         		int i= tabela.getSelectedRow();
-        		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
+        		if(korisnik.dajTipUposlenika()==TipUposlenika.privilegirani){
 	        		if (i!=-1){
 	        			RadniNalog r= radni_nalozi.get(i);
-	        			if(r.getStatus()==StatusRadnogNaloga.kreiran){
+	        			if(r.dajStatus()==StatusRadnogNaloga.kreiran){
 	        				StornirajRadniNalog novi=new StornirajRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
 	        				novi.setVisible(true);
 	        			}
@@ -442,10 +442,10 @@ public class RadniNalozi extends JTabbedPane {
         btnZakljui.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		int i= tabela.getSelectedRow();
-        		if(korisnik.getTipUposlenika()==TipUposlenika.privilegirani){
+        		if(korisnik.dajTipUposlenika()==TipUposlenika.privilegirani){
 	        		if (i!=-1){
 	        			RadniNalog r= radni_nalozi.get(i);
-	        			if(r.getStatus()==StatusRadnogNaloga.kreiran){
+	        			if(r.dajStatus()==StatusRadnogNaloga.kreiran){
 	        				ZakljuciRadniNalog novi=new ZakljuciRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
 	        				novi.setVisible(true);
 	        			}

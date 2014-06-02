@@ -308,8 +308,8 @@ public class DetaljniRadniNalog extends JDialog {
 		}
 		try{
 			PopunjavanjePolja(nalog.getBrojRadnogNaloga(),nalog.getDatumKreiranja(),
-				nalog.getKreatorRadnogNaloga(), nalog.getStatus(),
-				nalog.getPosao(), nalog.getPlaniraniDatumIzvrsenja(), nalog.getIzvrsilacPosla(),
+				nalog.getKreatorRadnogNaloga(), nalog.dajStatus(),
+				nalog.dajPosao(), nalog.getPlaniraniDatumIzvrsenja(), nalog.getIzvrsilacPosla(),
 				nalog.getPotrebniMaterijal(), nalog.getLokacija(), nalog.getDatumIzvrsenja(), 
 				nalog.getUtrosenoVrijeme(),  nalog.getOpisPosla(),  nalog.getOsobaKojaStornira(),
 				nalog.getRazlogStorniranja(), nalog.getRazlogModifikovanja(), 

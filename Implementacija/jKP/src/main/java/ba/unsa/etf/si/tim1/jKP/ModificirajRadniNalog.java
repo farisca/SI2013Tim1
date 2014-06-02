@@ -85,28 +85,28 @@ public class ModificirajRadniNalog extends JDialog {
 		comboBoxStatusNaloga = new JComboBox<StatusRadnogNaloga>();
         comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran, StatusRadnogNaloga.zakljucen, StatusRadnogNaloga.nezakljucen, StatusRadnogNaloga.storniran}));
         comboBoxStatusNaloga.setBounds(166, 42, 200, 20);
-        if(r.getStatus()==StatusRadnogNaloga.kreiran)
+        if(r.dajStatus()==StatusRadnogNaloga.kreiran)
         	comboBoxStatusNaloga.setSelectedIndex(0);
-        if(r.getStatus()==StatusRadnogNaloga.nezakljucen)
+        if(r.dajStatus()==StatusRadnogNaloga.nezakljucen)
         	comboBoxStatusNaloga.setSelectedIndex(2);
-        if(r.getStatus()==StatusRadnogNaloga.storniran)
+        if(r.dajStatus()==StatusRadnogNaloga.storniran)
         	comboBoxStatusNaloga.setSelectedIndex(3);
-        if(r.getStatus()==StatusRadnogNaloga.zakljucen)
+        if(r.dajStatus()==StatusRadnogNaloga.zakljucen)
         	comboBoxStatusNaloga.setSelectedIndex(1);
         contentPanel.add(comboBoxStatusNaloga);
         
         comboBoxTipPosla = new JComboBox<TipPosla>();
         comboBoxTipPosla.setModel(new DefaultComboBoxModel<TipPosla>(new TipPosla[] {TipPosla.WomaMasina, TipPosla.UgradnjaVodomjera, TipPosla.ZamjenaVodomjera, TipPosla.ZamjenaCijevi, TipPosla.Ostalo}));
         comboBoxTipPosla.setBounds(166, 73, 200, 20);
-        if(r.getPosao()==TipPosla.WomaMasina)
+        if(r.dajPosao()==TipPosla.WomaMasina)
         	comboBoxStatusNaloga.setSelectedIndex(0);
-        if(r.getPosao()==TipPosla.UgradnjaVodomjera)
+        if(r.dajPosao()==TipPosla.UgradnjaVodomjera)
         	comboBoxStatusNaloga.setSelectedIndex(1);
-        if(r.getPosao()==TipPosla.ZamjenaVodomjera)
+        if(r.dajPosao()==TipPosla.ZamjenaVodomjera)
         	comboBoxStatusNaloga.setSelectedIndex(2);
-        if(r.getPosao()==TipPosla.ZamjenaCijevi)
+        if(r.dajPosao()==TipPosla.ZamjenaCijevi)
         	comboBoxStatusNaloga.setSelectedIndex(3);
-        if(r.getPosao()==TipPosla.Ostalo)
+        if(r.dajPosao()==TipPosla.Ostalo)
         	comboBoxStatusNaloga.setSelectedIndex(4);
         contentPanel.add(comboBoxTipPosla);
         
@@ -288,23 +288,23 @@ public class ModificirajRadniNalog extends JDialog {
 				modifikujButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if(comboBoxStatusNaloga.getSelectedIndex()==0)
-							r.setStatus(StatusRadnogNaloga.kreiran);
+							r.postaviStatus(StatusRadnogNaloga.kreiran);
 						if(comboBoxStatusNaloga.getSelectedIndex()==1)
-							r.setStatus(StatusRadnogNaloga.zakljucen);
+							r.postaviStatus(StatusRadnogNaloga.zakljucen);
 						if(comboBoxStatusNaloga.getSelectedIndex()==2)
-							r.setStatus(StatusRadnogNaloga.nezakljucen);
+							r.postaviStatus(StatusRadnogNaloga.nezakljucen);
 						if(comboBoxStatusNaloga.getSelectedIndex()==3)
-							r.setStatus(StatusRadnogNaloga.storniran);
+							r.postaviStatus(StatusRadnogNaloga.storniran);
 						if(comboBoxTipPosla.getSelectedIndex()==0)
-							r.setPosao(TipPosla.WomaMasina);
+							r.postaviPosao(TipPosla.WomaMasina);
 						if(comboBoxTipPosla.getSelectedIndex()==1)
-							r.setPosao(TipPosla.UgradnjaVodomjera);
+							r.postaviPosao(TipPosla.UgradnjaVodomjera);
 						if(comboBoxTipPosla.getSelectedIndex()==2)
-							r.setPosao(TipPosla.ZamjenaVodomjera);
+							r.postaviPosao(TipPosla.ZamjenaVodomjera);
 						if(comboBoxTipPosla.getSelectedIndex()==3)
-							r.setPosao(TipPosla.ZamjenaCijevi);
+							r.postaviPosao(TipPosla.ZamjenaCijevi);
 						if(comboBoxTipPosla.getSelectedIndex()==4)
-							r.setPosao(TipPosla.Ostalo);
+							r.postaviPosao(TipPosla.Ostalo);
 						Date d = (Date) datePickerPlaniraniDatumIzvrsenja.getModel().getValue();
 						Date d1 = (Date) datePickerDatumIzvrsenja.getModel().getValue();
 						try {

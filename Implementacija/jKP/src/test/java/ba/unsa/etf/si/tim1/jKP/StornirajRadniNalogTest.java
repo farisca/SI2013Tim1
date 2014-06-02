@@ -14,8 +14,8 @@ public class StornirajRadniNalogTest {
 	public void testNapraviStorniranRN() {
 		Date d=new Date(2014,5,5);
 		long kn = 1;
-		StatusRadnogNaloga s = StatusRadnogNaloga.kreiran;
-		TipPosla tp = TipPosla.UgradnjaVodomjera;
+		String s = StatusRadnogNaloga.kreiran.toString();
+		String tp = TipPosla.UgradnjaVodomjera.toString();
 		Date dpi=new Date(2014,5,6);
 		long ip = 1;
 		String pm="masina";
@@ -24,14 +24,14 @@ public class StornirajRadniNalogTest {
 		RadniNalog r;
 		try {
 			r = new RadniNalog(d, kn, s, tp, dpi, ip, pm, l, null, null, false, o);
-			Zaposlenik z= new Zaposlenik("ja","ja", TipUposlenika.privilegirani, 2);
+			Zaposlenik z= new Zaposlenik("ja","ja", TipUposlenika.privilegirani.toString(), 2);
 			GlavniProzor g = new GlavniProzor(z);
 			StornirajRadniNalog srn=new StornirajRadniNalog(z, r, Dialog.ModalityType.APPLICATION_MODAL, g);
 			RadniNalog a = srn.NapraviStorniranRN(r, "zato",2, "" );
 			r.setRazlogStorniranja("zato");
 			r.setOsobaKojaStornira(2);
 			r.setDodatniKomentar("");
-			r.setStatus(StatusRadnogNaloga.storniran);
+			r.postaviStatus(StatusRadnogNaloga.storniran);
 			assertEquals(a,r);
 		} catch (Exception e) {
 			fail(e.getMessage());

@@ -105,7 +105,7 @@ public class StornirajRadniNalog extends JDialog {
 	public RadniNalog NapraviStorniranRN(RadniNalog nalog, String razlogS,long idOsobeS, String komentar ){
 		nalog.setRazlogStorniranja(razlogS);
 		nalog.setOsobaKojaStornira(idOsobeS);
-		nalog.setStatus(StatusRadnogNaloga.storniran);
+		nalog.postaviStatus(StatusRadnogNaloga.storniran);
 		nalog.setDodatniKomentar(komentar);
 		return nalog;
 	}

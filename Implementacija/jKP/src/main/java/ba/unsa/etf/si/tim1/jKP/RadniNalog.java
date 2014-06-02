@@ -11,8 +11,8 @@ public class RadniNalog implements java.io.Serializable {
 	private long brojRadnogNaloga;
 	private Date datumKreiranja;
 	private long kreatorRadnogNaloga;
-	private StatusRadnogNaloga status;
-	private TipPosla posao;
+	private String status;
+	private String posao;
 	private Date planiraniDatumIzvrsenja;
 	private long izvrsilacPosla;
 	private String potrebniMaterijal;
@@ -33,7 +33,7 @@ public class RadniNalog implements java.io.Serializable {
 
 	public RadniNalog() {}
 	
-	public RadniNalog(Date datumKreiranja, long kreatorNaloga, StatusRadnogNaloga status, TipPosla tip, Date planiraniDatumIzvrsenja, 
+	public RadniNalog(Date datumKreiranja, long kreatorNaloga, String status, String tip, Date planiraniDatumIzvrsenja, 
 						long izvrsilacPosla, String potrebniMaterijal, String lokacija, Date datumIzvrsenja, Time utrosenoVrijeme, Boolean odobren, String opis) throws Exception {
 		//setBrojRadnogNaloga(BRN);
 		setDatumKreiranja(datumKreiranja);
@@ -56,13 +56,33 @@ public class RadniNalog implements java.io.Serializable {
 		setOsobaKojaZakljucuje(-1);
 		setDodatniKomentar(null);
 	}
+	
 	void Obrisi() {};
+	
 	void Zakljuci() {
-		setStatus(StatusRadnogNaloga.zakljucen);
+		setStatus(StatusRadnogNaloga.zakljucen.toString());
 	}
+	
 	void Odobri() {
 		setOdobren(true);
 	}
+	
+	public StatusRadnogNaloga dajStatus() {
+		return StatusRadnogNaloga.valueOf(getStatus());
+	}
+	
+	public void postaviStatus(StatusRadnogNaloga status) {
+		setStatus(status.toString());
+	}
+	
+	public TipPosla dajPosao() {
+		return TipPosla.valueOf(getPosao());
+	}
+	
+	public void postaviPosao(TipPosla tipPosla) {
+		setPosao(tipPosla.toString());
+	}
+	
 	public long getBrojRadnogNaloga() {
 		return brojRadnogNaloga;
 	}
@@ -81,16 +101,16 @@ public class RadniNalog implements java.io.Serializable {
 	public void setDatumKreiranja(Date vrijemeRadnogNaloga) {
 		datumKreiranja = vrijemeRadnogNaloga;
 	}
-	public StatusRadnogNaloga getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(StatusRadnogNaloga status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
-	public TipPosla getPosao() {
+	public String getPosao() {
 		return posao;
 	}
-	public void setPosao(TipPosla posao) {
+	public void setPosao(String posao) {
 		this.posao = posao;
 	}
 	public long getIzvrsilacPosla() {
@@ -194,12 +214,4 @@ public class RadniNalog implements java.io.Serializable {
 		this.dodatniKomentar = dodatniKomentar;
 	}
 
-	
-	/*public void spasiUBazu() {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction t = session.beginTransaction();
-		session.save(this);
-		t.commit();
-		session.close();
-	}*/
 }

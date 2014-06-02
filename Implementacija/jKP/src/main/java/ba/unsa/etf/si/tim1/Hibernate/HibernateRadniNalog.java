@@ -1,6 +1,7 @@
 package ba.unsa.etf.si.tim1.Hibernate;
 
 import ba.unsa.etf.si.tim1.jKP.HibernateUtil;
+import ba.unsa.etf.si.tim1.jKP.PristupniPodaci;
 import ba.unsa.etf.si.tim1.jKP.RadniNalog;
 import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
 
@@ -110,7 +111,17 @@ public class HibernateRadniNalog {
 		return brojNaloga;
 	}
 	
-	private static void inicijalizirajTabelu() {
+	public static void izbrisiRadniNalog(RadniNalog nalog) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = s.beginTransaction();
+		
+		s.delete(nalog);
+		t.commit();
+		
+		s.close();
+	}
+	
+	/*private static void inicijalizirajTabelu() {
 		String url = "jdbc:mysql://localhost/jkp"; 
 		try { 
 			Class.forName("com.mysql.jdbc.Driver"); 
@@ -136,7 +147,7 @@ public class HibernateRadniNalog {
 		if (dajBrojRadnihNaloga() == 0)
 			inicijalizirajTabelu();
 		dajSveRadneNaloge();
-	}
+	}*/
 	
 	
 }

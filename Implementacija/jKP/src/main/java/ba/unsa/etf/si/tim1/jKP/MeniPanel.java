@@ -55,7 +55,7 @@ public class MeniPanel extends JPanel {
         });
         btnIzvjetaji.setBackground(Color.LIGHT_GRAY);
         btnIzvjetaji.setBounds(25, 208, 153, 48);
-        if(korisnik.getTipUposlenika() == TipUposlenika.privilegirani) this.add(btnIzvjetaji); //ako je privilegirani
+        if(korisnik.dajTipUposlenika() == TipUposlenika.privilegirani) this.add(btnIzvjetaji); //ako je privilegirani
         
         JButton btnKorisnickiPodaci = new JButton("Korisni\u010Dki podaci");
         btnKorisnickiPodaci.addActionListener(new ActionListener() {
@@ -66,7 +66,7 @@ public class MeniPanel extends JPanel {
         	}
         });
         btnKorisnickiPodaci.setBackground(Color.LIGHT_GRAY);
-        if(korisnik.getTipUposlenika() == TipUposlenika.privilegirani) btnKorisnickiPodaci.setBounds(25, 268, 153, 48);
+        if(korisnik.dajTipUposlenika() == TipUposlenika.privilegirani) btnKorisnickiPodaci.setBounds(25, 268, 153, 48);
         else btnKorisnickiPodaci.setBounds(25, 208, 153, 48);
         this.add(btnKorisnickiPodaci);
         
@@ -80,7 +80,7 @@ public class MeniPanel extends JPanel {
         });
         btnAdmin.setBackground(Color.LIGHT_GRAY);
         btnAdmin.setBounds(25, 328, 153, 48);
-        if(korisnik.getTipUposlenika() == TipUposlenika.privilegirani) this.add(btnAdmin);
+        if(korisnik.dajTipUposlenika() == TipUposlenika.privilegirani) this.add(btnAdmin);
         
         JButton btnIzlaz = new JButton("Izlaz");
         btnIzlaz.addActionListener(new ActionListener() {

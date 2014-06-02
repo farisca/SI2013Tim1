@@ -14,19 +14,11 @@
   <property generated="never" lazy="false" name="kreatorRadnogNaloga" type="long">
    <column name="KREATORRADNOGNALOGA"/>
   </property>
-  <property generated="never" lazy="false" name="status">
+  <property generated="never" lazy="false" name="status" type="java.lang.String">
    <column name="STATUS"/>
-   <type name="org.hibernate.type.EnumType">
-    <param name="type">12</param>
-    <param name="enumClass">ba.unsa.etf.si.tim1.jKP.StatusRadnogNaloga</param>
-   </type>
   </property>
-  <property generated="never" lazy="false" name="posao">
+  <property generated="never" lazy="false" name="posao" type="java.lang.String">
    <column name="POSAO"/>
-   <type name="org.hibernate.type.EnumType">
-    <param name="type">12</param>
-    <param name="enumClass">ba.unsa.etf.si.tim1.jKP.TipPosla</param>
-   </type>
   </property>
   <property generated="never" lazy="false"
    name="planiraniDatumIzvrsenja" type="java.util.Date">

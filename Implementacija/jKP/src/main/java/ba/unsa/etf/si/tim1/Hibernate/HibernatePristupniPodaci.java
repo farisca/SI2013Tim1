@@ -129,4 +129,14 @@ public class HibernatePristupniPodaci {
 		return brojKorisnika;
 	}
 	
+	public static void izbrisiPristupnePodatke(PristupniPodaci podaci) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = s.beginTransaction();
+		
+		s.delete(podaci);
+		t.commit();
+		
+		s.close();
+	}
+	
 }

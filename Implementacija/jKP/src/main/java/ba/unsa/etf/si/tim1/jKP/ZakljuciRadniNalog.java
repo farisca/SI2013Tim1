@@ -133,7 +133,7 @@ public class ZakljuciRadniNalog extends JDialog {
 						else{
 							Time t = new Time((Integer)spinner.getValue(),(Integer)spinner_1.getValue(), 0);
 							r.setUtrosenoVrijeme(t);
-							r.setStatus(StatusRadnogNaloga.zakljucen);
+							r.postaviStatus(StatusRadnogNaloga.zakljucen);
 							r.setOsobaKojaZakljucuje(korisnik.getId());
 							r.setDodatniKomentar(textField_1.getText());
 							HibernateRadniNalog.modifikujRadniNalog(r);

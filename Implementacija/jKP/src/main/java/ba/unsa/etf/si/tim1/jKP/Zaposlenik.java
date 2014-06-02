@@ -5,12 +5,12 @@ public class Zaposlenik implements java.io.Serializable {
 	private long id;
 	private String ime;
 	private String prezime;
-	private TipUposlenika tipUposlenika;
+	private String tipUposlenika;
 	private long pristupniPodaci;
 	
 	public Zaposlenik() {}
 	
-	public Zaposlenik(String ime, String prezime, TipUposlenika tipUposlenika, long podaci) {
+	public Zaposlenik(String ime, String prezime, String tipUposlenika, long podaci) {
 		setIme(ime);
 		setPrezime(prezime);
 		setTipUposlenika(tipUposlenika);
@@ -18,12 +18,21 @@ public class Zaposlenik implements java.io.Serializable {
 	}
 
 	void DeaktivirajKorisnickiRacun() {
-		setTipUposlenika(TipUposlenika.neaktivan);
+		setTipUposlenika(TipUposlenika.neaktivan.toString());
 	}
 
-	void PromjeniTipUposlenika(TipUposlenika ntu) {
+	void PromjeniTipUposlenika(String ntu) {
 		setTipUposlenika(ntu);
 	}
+	
+	public TipUposlenika dajTipUposlenika() {
+		return TipUposlenika.valueOf(tipUposlenika);
+	}
+	
+	public void postaviTipUposlenika(TipUposlenika tip) {
+		setTipUposlenika(tip.toString());
+	}
+	
 	public String getIme() {
 		return ime;
 	}
@@ -40,10 +49,10 @@ public class Zaposlenik implements java.io.Serializable {
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
-	public TipUposlenika getTipUposlenika() {
+	public String getTipUposlenika() {
 		return tipUposlenika;
 	}
-	public void setTipUposlenika(TipUposlenika tipUposlenika) {
+	public void setTipUposlenika(String tipUposlenika) {
 		this.tipUposlenika = tipUposlenika;
 	}
 	public long getId() {

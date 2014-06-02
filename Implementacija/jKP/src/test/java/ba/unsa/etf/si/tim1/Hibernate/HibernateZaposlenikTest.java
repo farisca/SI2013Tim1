@@ -11,16 +11,19 @@ import ba.unsa.etf.si.tim1.jKP.Zaposlenik;
 public class HibernateZaposlenikTest {
 	
 	private Zaposlenik zaposlenik;
+	private PristupniPodaci podaci;
 
 	@Before
 	public void inicijalizirajTest() {
 		try {
+			podaci = new PristupniPodaci("1civonizad", "password");
+			podaci.setId(HibernatePristupniPodaci.spremiPodatke(podaci.getKorisnickoIme(), podaci.getLozinka()));
 			zaposlenik = new Zaposlenik();
 			zaposlenik.setIme("Dejan");
 			zaposlenik.setPrezime("Azinovic");
-			zaposlenik.setPristupniPodaci(65535);
-			zaposlenik.setTipUposlenika(TipUposlenika.privilegirani);
-			long id = HibernateZaposlenik.pohraniZaposlenika(zaposlenik, 65535);
+			zaposlenik.setPristupniPodaci(podaci.getId());
+			zaposlenik.postaviTipUposlenika(TipUposlenika.privilegirani);
+			long id = HibernateZaposlenik.pohraniZaposlenika(zaposlenik, podaci.getId());
 			zaposlenik.setId(id);
 		}
 		catch (Exception e) {
@@ -30,34 +33,20 @@ public class HibernateZaposlenikTest {
 	
 	@Test
 	public void testDajZaposlenikaPoPristupnimPodacima() {
-		Zaposlenik z = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(65535);
+		Zaposlenik z = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(podaci.getId());
 		Assert.assertEquals(zaposlenik.getId(), z.getId());
 	}
 
 	@Test
 	public void testDajPristupnePodatkePoId() {
-		PristupniPodaci podaci = HibernateZaposlenik.dajPristupnePodatkePoId(zaposlenik);
-		Assert.assertEquals(zaposlenik.getPristupniPodaci(), podaci.getId());
+		PristupniPodaci p = HibernateZaposlenik.dajPristupnePodatkePoId(zaposlenik);
+		Assert.assertEquals(p.getId(), podaci.getId());
 	}
 
 	@Test
 	public void testDajSveZaposlenike() {
 		java.util.List<Zaposlenik> zaposlenici = HibernateZaposlenik.dajSveZaposlenike();
 		Assert.assertTrue(zaposlenici.size() > 0);
-	}
-
-	@Test
-	public void testPohraniZaposlenika() {
-		Zaposlenik z = new Zaposlenik();
-		z.setIme("Faris");
-		z.setPrezime("Cakaric");
-		z.setPristupniPodaci(65534);
-		z.setTipUposlenika(TipUposlenika.privilegirani);
-		long id = HibernateZaposlenik.pohraniZaposlenika(z, 65534);
-		z.setId(id);
-		
-		Zaposlenik zap = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(65534);
-		Assert.assertEquals(z.getId(), zap.getId());
 	}
 
 	@Test
@@ -71,26 +60,24 @@ public class HibernateZaposlenikTest {
 		Zaposlenik z = new Zaposlenik();
 		z.setIme("Faris");
 		z.setPrezime("Cakaric");
-		z.setPristupniPodaci(65533);
-		z.setTipUposlenika(TipUposlenika.privilegirani);
-		long id = HibernateZaposlenik.pohraniZaposlenika(z, 65533);
+		z.setPristupniPodaci(65534);
+		z.postaviTipUposlenika(TipUposlenika.privilegirani);
+		long id = HibernateZaposlenik.pohraniZaposlenika(z, 65534);
 		z.setId(id);
 		
-		z.setTipUposlenika(TipUposlenika.obicni);
+		z.postaviTipUposlenika(TipUposlenika.obicni);
 		HibernateZaposlenik.urediZaposlenika(z);
 		
-		Zaposlenik zap = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(65533);
+		Zaposlenik zap = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(65534);
 		Assert.assertEquals(z.getId(), zap.getId());
+		
+		HibernateZaposlenik.izbrisiZaposlenika(zap);
 	}
 
-	/*@Test
-	public void testDajBrojZaposlenika() {
-		fail("Not yet implemented"); // TODO
-	}*/
-
-	@Test
-	public void testUbijOnogaKoJePravioHibernate() {
-		Assert.assertTrue(true); // Because I can...
+	@After
+	public void ocistiBazu() {
+		HibernateZaposlenik.izbrisiZaposlenika(zaposlenik);
+		HibernatePristupniPodaci.izbrisiPristupnePodatke(podaci);
 	}
 
 }

@@ -87,16 +87,16 @@ public class Admin extends JPanel {
 									options,
 									options[2]);
 					if(n==0) {
-						novi.setTipUposlenika(TipUposlenika.obicni);
+						novi.postaviTipUposlenika(TipUposlenika.obicni);
 						HibernateZaposlenik.urediZaposlenika(novi);
 					}
 					else if(n==1) {
-						novi.setTipUposlenika(TipUposlenika.privilegirani);
+						novi.postaviTipUposlenika(TipUposlenika.privilegirani);
 						HibernateZaposlenik.urediZaposlenika(novi);
 					}
 				}
 				else {
-					novi.setTipUposlenika(TipUposlenika.neaktivan);
+					novi.postaviTipUposlenika(TipUposlenika.neaktivan);
 					HibernateZaposlenik.urediZaposlenika(novi);
 				}
 				JOptionPane.showMessageDialog(panelPretraga,
@@ -193,9 +193,9 @@ public class Admin extends JPanel {
 							novi.setIme(ime_i_prezime[0]);
 							novi.setPrezime(ime_i_prezime[1]);
 							if(textField_5.getSelectedIndex()==1)
-								novi.setTipUposlenika(TipUposlenika.privilegirani);
+								novi.postaviTipUposlenika(TipUposlenika.privilegirani);
 							else
-								novi.setTipUposlenika(TipUposlenika.obicni);
+								novi.postaviTipUposlenika(TipUposlenika.obicni);
 							PristupniPodaci p = HibernateZaposlenik.dajPristupnePodatkePoId(novi);
 							p.setKorisnickoIme(ki);
 							p.setLozinka(HibernatePristupniPodaci.HesirajMD5(pass1));
@@ -335,11 +335,11 @@ public class Admin extends JPanel {
 						throw new Exception("Niste upisali lozinku!");
 					if (!Arrays.equals(textField_2.getPassword(), textField_3.getPassword()))
 						throw new Exception("Lozinke nisu iste!");
-					Zaposlenik z = new Zaposlenik(ime_i_prezime[0],ime_i_prezime[1],TipUposlenika.obicni,1);
+					Zaposlenik z = new Zaposlenik(ime_i_prezime[0],ime_i_prezime[1],TipUposlenika.obicni.toString(),1);
 					if(textField_5.getSelectedIndex()==1)
-						z.setTipUposlenika(TipUposlenika.privilegirani);
+						z.postaviTipUposlenika(TipUposlenika.privilegirani);
 					else
-						z.setTipUposlenika(TipUposlenika.obicni);
+						z.postaviTipUposlenika(TipUposlenika.obicni);
 					HibernateZaposlenik.pohraniZaposlenika(z, HibernatePristupniPodaci.spremiPodatke(ki, pass1));
 					JOptionPane.showMessageDialog(panelNovi,
 							"Uspjesno ste kreirali novog korisnika "
@@ -435,9 +435,9 @@ private void PopuniTabelu()
 	for(int i=0;i<lz.size();i++) {
 		data[i][0] = lz.get(i).getIme() + " " + lz.get(i).getPrezime();
 		data[i][1] = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
-		if(lz.get(i).getTipUposlenika()==TipUposlenika.neaktivan)
+		if(lz.get(i).dajTipUposlenika()==TipUposlenika.neaktivan)
 			data[i][2] = "Deaktiviran";
-		else if(lz.get(i).getTipUposlenika()==TipUposlenika.obicni)
+		else if(lz.get(i).dajTipUposlenika()==TipUposlenika.obicni)
 			data[i][2] = "Obični";
 		else
 			data[i][2] = "Privilegirani";

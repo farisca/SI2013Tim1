@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Date;
 
 import javax.swing.JTextField;
@@ -31,7 +33,7 @@ public class Login extends JFrame {
 	private Zaposlenik korisnik;
 	
 	Login() {
-		ubijOnogaKoJePravioHibernate();
+		//ubijOnogaKoJePravioHibernate();
 		inicijalizirajBazu();
 		
 		setTitle("jKP");
@@ -61,29 +63,46 @@ public class Login extends JFrame {
         txtUsername.setBounds(112, 221, 150, 20);
         jp.add(txtUsername);
         txtUsername.setColumns(10);
+        txtUsername.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+	            if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+	            {
+	                prijava();
+	            }
+			}
+		});
         
         txtPassword = new JPasswordField();
         txtPassword.setBounds(112, 246, 150, 20);
         jp.add(txtPassword);
+        txtPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+	            if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+	            {
+	                prijava();
+	            }
+			}
+		});
         
         JButton btnPrijava = new JButton("Prijava");
         btnPrijava.setBackground(Color.LIGHT_GRAY);
         btnPrijava.setBounds(87, 301, 117, 25);
         btnPrijava.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		try {
-        			long id = HibernatePristupniPodaci.provjeriPodatke(txtUsername.getText(), txtPassword.getText());
-        			korisnik = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(id);
-        			if (korisnik.getTipUposlenika()==TipUposlenika.neaktivan) throw new Exception("Neaktivan korisnik !");
-        			GlavniProzor prozor = new GlavniProzor(korisnik);
-            		prozor.setVisible(true);
-            		setVisible(false);
-        		}
-        		catch (Exception ex) {
-        			JOptionPane.showMessageDialog(null, ex.getMessage());
-        		}
+        		prijava();
         	}
         });
+        btnPrijava.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+	            if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+	            {
+	                prijava();
+	            }
+			}
+		});
         jp.add(btnPrijava);
         
 		setVisible(true);
@@ -92,19 +111,33 @@ public class Login extends JFrame {
 		
 	}
 	
+	public void prijava() {
+		try {
+			long id = HibernatePristupniPodaci.provjeriPodatke(txtUsername.getText(), txtPassword.getText());
+			korisnik = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(id);
+			//if (korisnik.getTipUposlenika()==TipUposlenika.neaktivan) throw new Exception("Neaktivan korisnik !");
+			GlavniProzor prozor = new GlavniProzor(korisnik);
+    		prozor.setVisible(true);
+    		setVisible(false);
+		}
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
+	}
+	
 	// /*Djelomično*/ Potpuno riješava problem spašavanja enumeracija u bazu upotrebom crne magije
-	void ubijOnogaKoJePravioHibernate() {
+	/*void ubijOnogaKoJePravioHibernate() {
 		HibernateZaposlenik.ubijOnogaKoJePravioHibernate();
 		HibernateRadniNalog.ubijOnogaKoJePravioHibernate();
-	}
+	}*/
 	
 	// Ukoliko je baza prazna napravi korisnika admin/admin
 	void inicijalizirajBazu() {
 		try {
 			if (HibernatePristupniPodaci.dajBrojKorisnika() == 0) {
 				long podaci = HibernatePristupniPodaci.spremiPodatke("admin", "admin");
-				HibernateZaposlenik.ubijOnogaKoJePravioHibernate(); // danas smo brutalni...
-				Zaposlenik z = new Zaposlenik("Administrator", "Administrator", TipUposlenika.privilegirani, podaci);
+				//HibernateZaposlenik.ubijOnogaKoJePravioHibernate(); // danas smo brutalni...
+				Zaposlenik z = new Zaposlenik("Administrator", "Administrator", TipUposlenika.privilegirani.toString(), podaci);
 				HibernateZaposlenik.pohraniZaposlenika(z, podaci);
 			}
 		}

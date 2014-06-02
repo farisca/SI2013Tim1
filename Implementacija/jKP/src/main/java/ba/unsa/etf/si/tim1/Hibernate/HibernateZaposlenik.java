@@ -110,7 +110,17 @@ public class HibernateZaposlenik {
 		return brojKorisnika;
 	}
 	
-	private static void inicijalizirajTabelu() {
+	public static void izbrisiZaposlenika(Zaposlenik z) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = s.beginTransaction();
+		
+		s.delete(z);
+		t.commit();
+		
+		s.close();
+	}
+	
+	/*private static void inicijalizirajTabelu() {
 		String url = "jdbc:mysql://localhost/jkp"; 
 		try { 
 			Class.forName("com.mysql.jdbc.Driver"); 
@@ -136,6 +146,6 @@ public class HibernateZaposlenik {
 		if (dajBrojZaposlenika() == 0)
 			inicijalizirajTabelu();
 		dajSveZaposlenike();
-	}
+	}*/
 }
 

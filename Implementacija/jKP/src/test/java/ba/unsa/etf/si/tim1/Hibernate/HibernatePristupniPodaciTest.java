@@ -12,7 +12,7 @@ public class HibernatePristupniPodaciTest {
 	@Before
 	public void inicijalizirajTest() {
 		try {
-			long id = HibernatePristupniPodaci.spremiPodatke("dazinovic", HibernatePristupniPodaci.HesirajMD5("password"));
+			long id = HibernatePristupniPodaci.spremiPodatke("civonizad", "abc123");
 			podaci = HibernatePristupniPodaci.dajPristupnePodatke(id);
 		}
 		catch (Exception e) {
@@ -30,7 +30,7 @@ public class HibernatePristupniPodaciTest {
 
 	@Test
 	public void testDajPristupnePodatke() {
-		Assert.assertEquals("dazinovic", podaci.getKorisnickoIme());
+		Assert.assertEquals("civonizad", podaci.getKorisnickoIme());
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class HibernatePristupniPodaciTest {
 	@Test
 	public void testProvjeriPodatke() {
 		try {
-			long id = HibernatePristupniPodaci.provjeriPodatke(podaci.getKorisnickoIme(), "abc123");
+			HibernatePristupniPodaci.provjeriPodatke(podaci.getKorisnickoIme(), "abc123");
 			Assert.assertTrue(true);
 		}
 		catch (Exception ex) {
@@ -51,48 +51,31 @@ public class HibernatePristupniPodaciTest {
 	}
 
 	@Test
-	public void testSpremiPodatke() {
-		try {
-			long id = HibernatePristupniPodaci.spremiPodatke("dazinovic", HibernatePristupniPodaci.HesirajMD5("password"));
-			podaci = HibernatePristupniPodaci.dajPristupnePodatke(id);
-			Assert.assertEquals("dazinovic", podaci.getKorisnickoIme());
-		}
-		catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
-
-	@Test
 	public void testDajKorisnickoImePoKriteriju() {
-		try {
-			long id = HibernatePristupniPodaci.spremiPodatke("dazinovic", HibernatePristupniPodaci.HesirajMD5("password"));
-			String ime = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(id);
-			Assert.assertEquals("dazinovic", ime);
-		}
-		catch (Exception e) {
-			fail(e.getMessage());
-		}
+		String ime = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(podaci.getId());
+		Assert.assertEquals("civonizad", ime);
 	}
 
 	@Test
 	public void testUrediPristupnePodatke() {
 		try {
-			long id = HibernatePristupniPodaci.spremiPodatke("dazinovic", HibernatePristupniPodaci.HesirajMD5("password"));
+			long id = HibernatePristupniPodaci.spremiPodatke("dazinovic999", "password");
 			PristupniPodaci p = HibernatePristupniPodaci.dajPristupnePodatke(id);
-			p.setKorisnickoIme("fcakaric");
+			p.setKorisnickoIme("fcakaric999");
 			HibernatePristupniPodaci.urediPristupnePodatke(p);
 			String ime = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(id);
-			Assert.assertEquals("fcakaric", ime);
+			Assert.assertEquals("fcakaric999", ime);
+			
+			HibernatePristupniPodaci.izbrisiPristupnePodatke(p);
 		}
 		catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
 
-	/*@Test
-	public void testDajBrojKorisnika() {
-		long brojKorisnika = HibernatePristupniPodaci.dajBrojKorisnika();
-		Assert.assertEquals(1, brojKorisnika);
-	}*/
+	@After
+	public void ocistiBazu() {
+		HibernatePristupniPodaci.izbrisiPristupnePodatke(podaci);
+	}
 
 }
