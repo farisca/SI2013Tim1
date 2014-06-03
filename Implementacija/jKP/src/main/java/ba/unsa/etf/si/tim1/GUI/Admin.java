@@ -329,7 +329,7 @@ public class Admin extends JPanel {
 		btnSpasiti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(!textField.getText().contains(" ") || textField.getText().split("[0-9]",2).length!=1 || textField.getText().split("[^a-zA-Z0-9_ ]",2).length!=1)
+					if(!textField.getText().contains(" ") || textField.getText().split(" {2,}",2).length!=1 || textField.getText().split("[0-9]",2).length!=1 || textField.getText().split("[^a-zA-Z0-9_ ]",2).length!=1)
 						throw new Exception("Niste pravilno unijeli ime i prezime!");
 						String[] temp = textField.getText().split(" ");
 					String ime = temp[0].toString();
@@ -337,12 +337,7 @@ public class Admin extends JPanel {
 					String ki = textField_1.getText();
 					String pass1 = textField_2.getText();
 					String pass2 = textField_3.getText();
-					if (ime.length()==0 || prezime.length()==0){
-						JOptionPane.showMessageDialog(panelNovi,"Niste upisali ime i prezime!",
-								"Potvrda", JOptionPane.INFORMATION_MESSAGE);
-						throw new Exception("Niste upisali ime i prezime!");
-					}
-					if (ki.length()==0 || ki.split("[^a-zA-Z0-9_]",2).length!=1)
+					if (ki.length()==0 || ki.split("[^a-zA-Z0-9_]",2).length!=1 || ki.split(" {2,}",2).length!=1)
 						throw new Exception("Niste pravilno upisali korisničko ime!");
 					if(pass1.length()==0 || pass2.length()==0)
 						throw new Exception("Niste upisali šifru!");
