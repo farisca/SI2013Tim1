@@ -179,20 +179,25 @@ public class Admin extends JPanel {
 				btnSpasiti.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try {
-							String[] ime_i_prezime = textField.getText().split(" ");
+							String[] temp = textField.getText().split(" ");
+							String ime = temp[0].toString();
+							String prezime = temp[1].toString();
 							String ki = textField_1.getText();
 							String pass1 = textField_2.getText();
 							String pass2 = textField_3.getText();
-							if (ime_i_prezime[0].length()==0 || ime_i_prezime[1].length()==0)
+							if (ime.length()==0 || prezime.length()==0){
+								JOptionPane.showMessageDialog(panelNovi,"Niste upisali ime i prezime!",
+										"Potvrda", JOptionPane.INFORMATION_MESSAGE);
 								throw new Exception("Niste upisali ime i prezime!");
+							}
 							if (ki.length()==0)
 								throw new Exception("Niste upisali korisničko ime!");
 							if(pass1.length()==0 || pass2.length()==0)
-								throw new Exception("Niste upisali lozinku!");
+								throw new Exception("Niste upisali šifru!");
 							if (!Arrays.equals(textField_2.getPassword(), textField_3.getPassword()))
-								throw new Exception("Lozinke nisu iste!");
-							novi.setIme(ime_i_prezime[0]);
-							novi.setPrezime(ime_i_prezime[1]);
+								throw new Exception("Šifre nisu iste!");
+							novi.setIme(ime);
+							novi.setPrezime(prezime);
 							if(textField_5.getSelectedIndex()==1)
 								novi.postaviTipUposlenika(TipUposlenika.privilegirani);
 							else
@@ -324,19 +329,26 @@ public class Admin extends JPanel {
 		btnSpasiti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String[] ime_i_prezime = textField.getText().split(" ");
+					if(!textField.getText().contains(" ") || textField.getText().split("[0-9]",2).length!=1 || textField.getText().split("[^a-zA-Z0-9_ ]",2).length!=1)
+						throw new Exception("Niste pravilno unijeli ime i prezime!");
+						String[] temp = textField.getText().split(" ");
+					String ime = temp[0].toString();
+					String prezime = temp[1].toString();
 					String ki = textField_1.getText();
 					String pass1 = textField_2.getText();
 					String pass2 = textField_3.getText();
-					if (ime_i_prezime[0].length()==0 || ime_i_prezime[1].length()==0)
-						throw new Exception("Niste Upisali Ime i Prezime!");
-					if (ki.length()==0)
-						throw new Exception("Niste Upisali Korisničko ime!");
+					if (ime.length()==0 || prezime.length()==0){
+						JOptionPane.showMessageDialog(panelNovi,"Niste upisali ime i prezime!",
+								"Potvrda", JOptionPane.INFORMATION_MESSAGE);
+						throw new Exception("Niste upisali ime i prezime!");
+					}
+					if (ki.length()==0 || ki.split("[^a-zA-Z0-9_ ]",2).length!=1)
+						throw new Exception("Niste pravilno upisali korisničko ime!");
 					if(pass1.length()==0 || pass2.length()==0)
-						throw new Exception("Niste upisali lozinku!");
+						throw new Exception("Niste upisali šifru!");
 					if (!Arrays.equals(textField_2.getPassword(), textField_3.getPassword()))
-						throw new Exception("Lozinke nisu iste!");
-					Zaposlenik z = new Zaposlenik(ime_i_prezime[0],ime_i_prezime[1],TipUposlenika.obicni.toString(),1);
+						throw new Exception("Šifre nisu iste!");
+					Zaposlenik z = new Zaposlenik(temp[0],temp[1],TipUposlenika.obicni.toString(),1);
 					if(textField_5.getSelectedIndex()==1)
 						z.postaviTipUposlenika(TipUposlenika.privilegirani);
 					else
