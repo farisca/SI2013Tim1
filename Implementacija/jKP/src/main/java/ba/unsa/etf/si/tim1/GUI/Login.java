@@ -110,7 +110,7 @@ public class Login extends JFrame {
 		try {
 			long id = HibernatePristupniPodaci.provjeriPodatke(txtUsername.getText(), txtPassword.getText());
 			korisnik = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(id);
-			//if (korisnik.getTipUposlenika()==TipUposlenika.neaktivan) throw new Exception("Neaktivan korisnik !");
+			if ((korisnik.getTipUposlenika().equals(TipUposlenika.neaktivan.toString()))) throw new Exception("Neaktivan korisnik !");
 			GlavniProzor prozor = new GlavniProzor(korisnik);
     		prozor.setVisible(true);
     		setVisible(false);
