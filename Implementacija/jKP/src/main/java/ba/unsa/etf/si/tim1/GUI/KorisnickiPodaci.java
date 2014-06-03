@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
+import ba.unsa.etf.si.tim1.util.Validacija;
 
 public class KorisnickiPodaci extends JPanel {
 	private Zaposlenik korisnik;
@@ -168,8 +169,7 @@ public class KorisnickiPodaci extends JPanel {
 		
 		if (!HibernatePristupniPodaci.HesirajMD5(stari).equals(podaci.getLozinka()))
 			throw new Exception("Stara šifra je pogrešna!");
-		if (!novi.matches(".*[A-Za-z].*") || !novi.matches(".*[0-9].*") || novi.length() < 6)
-			throw new Exception("Šifra mora imati barem 6 znakova i mora sadržavati i slova i brojeve!");
+		Validacija.validirajPassword(novi);
 		if (!novi.equals(potvrda))
 			throw new Exception("Nova šifra i potvrda nove šifre se ne slažu!");
 		

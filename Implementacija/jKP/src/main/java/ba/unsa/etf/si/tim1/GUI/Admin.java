@@ -13,15 +13,17 @@ import javax.swing.table.DefaultTableModel;
 import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
+import ba.unsa.etf.si.tim1.util.Util;
+import ba.unsa.etf.si.tim1.util.Validacija;
 
 public class Admin extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JPasswordField textField_2;
-	private JPasswordField textField_3;
+	private JTextField txtImePrezime;
+	private JTextField txtUsername;
+	private JPasswordField pwdSifra;
+	private JPasswordField pwdPotvrda;
 	private JTextField textField_4;
 	private JTable table;
-	private JComboBox textField_5;
+	private JComboBox comboBoxTip;
 	private Boolean nemaTaba;
 	private DefaultTableModel tablemodel;
 	private Object[][] data = {{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},{"","",""}};
@@ -155,36 +157,36 @@ public class Admin extends JPanel {
 				lblPotvrdaifre.setBounds(243, 274, 102, 15);
 				panelNovi.add(lblPotvrdaifre);
 
-				textField = new JTextField();
-				textField.setBounds(363, 179, 196, 19);
-				panelNovi.add(textField);
-				textField.setColumns(10);
-				textField.setText(novi.getIme()+" "+novi.getPrezime());
-				textField_1 = new JTextField();
-				textField_1.setColumns(10);
-				textField_1.setBounds(363, 210, 196, 19);
-				panelNovi.add(textField_1);
-				textField_1.setText(HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(novi.getPristupniPodaci()).toString());
-				textField_2 = new JPasswordField();
-				textField_2.setColumns(10);
-				textField_2.setBounds(363, 241, 196, 19);
-				panelNovi.add(textField_2);
+				txtImePrezime = new JTextField();
+				txtImePrezime.setBounds(363, 179, 196, 19);
+				panelNovi.add(txtImePrezime);
+				txtImePrezime.setColumns(10);
+				txtImePrezime.setText(novi.getIme()+" "+novi.getPrezime());
+				txtUsername = new JTextField();
+				txtUsername.setColumns(10);
+				txtUsername.setBounds(363, 210, 196, 19);
+				panelNovi.add(txtUsername);
+				txtUsername.setText(HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(novi.getPristupniPodaci()).toString());
+				pwdSifra = new JPasswordField();
+				pwdSifra.setColumns(10);
+				pwdSifra.setBounds(363, 241, 196, 19);
+				panelNovi.add(pwdSifra);
 
-				textField_3 = new JPasswordField();
-				textField_3.setColumns(10);
-				textField_3.setBounds(363, 272, 196, 19);
-				panelNovi.add(textField_3);
+				pwdPotvrda = new JPasswordField();
+				pwdPotvrda.setColumns(10);
+				pwdPotvrda.setBounds(363, 272, 196, 19);
+				panelNovi.add(pwdPotvrda);
 
 				JButton btnSpasiti = new JButton("Spasiti");
 				btnSpasiti.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try {
-							String[] temp = textField.getText().split(" ");
+							String[] temp = txtImePrezime.getText().split(" ");
 							String ime = temp[0].toString();
 							String prezime = temp[1].toString();
-							String ki = textField_1.getText();
-							String pass1 = textField_2.getText();
-							String pass2 = textField_3.getText();
+							String ki = txtUsername.getText();
+							String pass1 = pwdSifra.getText();
+							String pass2 = pwdPotvrda.getText();
 							if (ime.length()==0 || prezime.length()==0){
 								JOptionPane.showMessageDialog(panelNovi,"Niste upisali ime i prezime!",
 										"Potvrda", JOptionPane.INFORMATION_MESSAGE);
@@ -194,11 +196,11 @@ public class Admin extends JPanel {
 								throw new Exception("Niste upisali korisničko ime!");
 							if(pass1.length()==0 || pass2.length()==0)
 								throw new Exception("Niste upisali šifru!");
-							if (!Arrays.equals(textField_2.getPassword(), textField_3.getPassword()))
+							if (!Arrays.equals(pwdSifra.getPassword(), pwdPotvrda.getPassword()))
 								throw new Exception("Šifre nisu iste!");
 							novi.setIme(ime);
 							novi.setPrezime(prezime);
-							if(textField_5.getSelectedIndex()==1)
+							if(comboBoxTip.getSelectedIndex()==1)
 								novi.postaviTipUposlenika(TipUposlenika.privilegirani);
 							else
 								novi.postaviTipUposlenika(TipUposlenika.obicni);
@@ -227,10 +229,10 @@ public class Admin extends JPanel {
 
 					private void dispose() {
 						// TODO Auto-generated method stub
-						textField.setText("");
-						textField_1.setText("");
-						textField_2.setText("");
-						textField_3.setText("");
+						txtImePrezime.setText("");
+						txtUsername.setText("");
+						pwdSifra.setText("");
+						pwdPotvrda.setText("");
 					}
 				});
 				btnSpasiti.setBackground(Color.LIGHT_GRAY);
@@ -250,10 +252,10 @@ public class Admin extends JPanel {
 
 					private void dispose() {
 						// TODO Auto-generated method stub
-						textField.setText("");
-						textField_1.setText("");
-						textField_2.setText("");
-						textField_3.setText("");
+						txtImePrezime.setText("");
+						txtUsername.setText("");
+						pwdSifra.setText("");
+						pwdPotvrda.setText("");
 					}
 				});
 				btnOtkazati.setBackground(Color.LIGHT_GRAY);
@@ -265,11 +267,11 @@ public class Admin extends JPanel {
 				label.setBounds(243, 302, 102, 15);
 				panelNovi.add(label);
 
-				textField_5 = new JComboBox();
-				textField_5.addItem("Obični korisnik");
-				textField_5.addItem("Privilegirani korisnik");
-				textField_5.setBounds(363, 300, 196, 19);
-				panelNovi.add(textField_5);
+				comboBoxTip = new JComboBox();
+				comboBoxTip.addItem("Obični korisnik");
+				comboBoxTip.addItem("Privilegirani korisnik");
+				comboBoxTip.setBounds(363, 300, 196, 19);
+				panelNovi.add(comboBoxTip);
 
 				setBounds(190, 0, 1000, 700);
 				setVisible(true);
@@ -278,21 +280,19 @@ public class Admin extends JPanel {
 			}
 		});
 
-		// glavni dio
+		// Tab za kreiranje novog korisnika
 		final JPanel panelNovi = new JPanel();
 		tabovi.addTab("Novi korisnik", panelNovi);
 		panelNovi.setLayout(null);
 
 		final JLabel lblImeIPrezime_1 = new JLabel("Ime i prezime:");
 		lblImeIPrezime_1.setBounds(243, 181, 102, 15);
-		lblImeIPrezime_1
-				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		lblImeIPrezime_1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		panelNovi.add(lblImeIPrezime_1);
 
 		JLabel lblKorisnikoIme = new JLabel("Korisničko ime:");
 		lblKorisnikoIme.setBounds(232, 212, 113, 15);
-		lblKorisnikoIme
-				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		lblKorisnikoIme.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		panelNovi.add(lblKorisnikoIme);
 
 		JLabel lblifra = new JLabel("Šifra:");
@@ -305,75 +305,74 @@ public class Admin extends JPanel {
 		lblPotvrdaifre.setBounds(243, 274, 102, 15);
 		panelNovi.add(lblPotvrdaifre);
 
-		textField = new JTextField();
-		textField.setBounds(363, 179, 196, 19);
-		panelNovi.add(textField);
-		textField.setColumns(10);
+		txtImePrezime = new JTextField();
+		txtImePrezime.setBounds(363, 179, 196, 19);
+		panelNovi.add(txtImePrezime);
+		txtImePrezime.setColumns(10);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(363, 210, 196, 19);
-		panelNovi.add(textField_1);
+		txtUsername = new JTextField();
+		txtUsername.setColumns(10);
+		txtUsername.setBounds(363, 210, 196, 19);
+		panelNovi.add(txtUsername);
 
-		textField_2 = new JPasswordField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(363, 241, 196, 19);
-		panelNovi.add(textField_2);
+		pwdSifra = new JPasswordField();
+		pwdSifra.setColumns(10);
+		pwdSifra.setBounds(363, 241, 196, 19);
+		panelNovi.add(pwdSifra);
 
-		textField_3 = new JPasswordField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(363, 272, 196, 19);
-		panelNovi.add(textField_3);
+		pwdPotvrda = new JPasswordField();
+		pwdPotvrda.setColumns(10);
+		pwdPotvrda.setBounds(363, 272, 196, 19);
+		panelNovi.add(pwdPotvrda);
 
 		JButton btnSpasiti = new JButton("Spasiti");
 		btnSpasiti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(!textField.getText().contains(" ") || textField.getText().split("[0-9]",2).length!=1 || textField.getText().split("[^a-zA-Z0-9_ ]",2).length!=1)
-						throw new Exception("Niste pravilno unijeli ime i prezime!");
-						String[] temp = textField.getText().split(" ");
-					String ime = temp[0].toString();
-					String prezime = temp[1].toString();
-					String ki = textField_1.getText();
-					String pass1 = textField_2.getText();
-					String pass2 = textField_3.getText();
-					if (ime.length()==0 || prezime.length()==0){
-						JOptionPane.showMessageDialog(panelNovi,"Niste upisali ime i prezime!",
-								"Potvrda", JOptionPane.INFORMATION_MESSAGE);
-						throw new Exception("Niste upisali ime i prezime!");
-					}
-					if (ki.length()==0 || ki.split("[^a-zA-Z0-9_ ]",2).length!=1)
-						throw new Exception("Niste pravilno upisali korisničko ime!");
-					if(pass1.length()==0 || pass2.length()==0)
-						throw new Exception("Niste upisali šifru!");
-					if (!Arrays.equals(textField_2.getPassword(), textField_3.getPassword()))
+					String imePrezime = txtImePrezime.getText();
+					String username = txtUsername.getText();
+					String sifra = pwdSifra.getText();
+					String potvrdaSifre = pwdPotvrda.getText();
+					
+					
+					Validacija.validirajImeIPrezime(imePrezime);
+					Validacija.validirajUsername(username);
+					Validacija.validirajPassword(sifra);
+					if (!sifra.equals(potvrdaSifre))
 						throw new Exception("Šifre nisu iste!");
-					Zaposlenik z = new Zaposlenik(temp[0],temp[1],TipUposlenika.obicni.toString(),1);
-					if(textField_5.getSelectedIndex()==1)
+					
+					String[] temp = imePrezime.split(" ");
+					temp = Util.remove(temp, "");
+					String ime = temp[0].toString();
+					temp = Util.remove(temp, 0);
+					String prezime = Util.join(temp, " ");
+					
+					Zaposlenik z = new Zaposlenik(ime, prezime, TipUposlenika.obicni.toString(), 1);
+					if(comboBoxTip.getSelectedIndex() == 1)
 						z.postaviTipUposlenika(TipUposlenika.privilegirani);
 					else
 						z.postaviTipUposlenika(TipUposlenika.obicni);
-					HibernateZaposlenik.pohraniZaposlenika(z, HibernatePristupniPodaci.spremiPodatke(ki, pass1));
+					HibernateZaposlenik.pohraniZaposlenika(z, HibernatePristupniPodaci.spremiPodatke(username, sifra));
 					JOptionPane.showMessageDialog(panelNovi,
 							"Uspjesno ste kreirali novog korisnika "
 									+ z.getIme() + " "
 									+ z.getPrezime() + " koji je "
 									+ z.getTipUposlenika() + " uposlenik!",
 							"Potvrda", JOptionPane.INFORMATION_MESSAGE);
-					System.out.println(z.getPrezime());
+					
 					dispose();
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(panelNovi, e1.getMessage(),
-							"Potvrda", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch (Exception e1) {
+					JOptionPane.showMessageDialog(panelNovi, e1.getMessage(), "Potvrda", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 
 			private void dispose() {
 				// TODO Auto-generated method stub
-				textField.setText("");
-				textField_1.setText("");
-				textField_2.setText("");
-				textField_3.setText("");
+				txtImePrezime.setText("");
+				txtUsername.setText("");
+				pwdSifra.setText("");
+				pwdPotvrda.setText("");
 			}
 		});
 		btnSpasiti.setBackground(Color.LIGHT_GRAY);
@@ -391,10 +390,10 @@ public class Admin extends JPanel {
 
 			private void dispose() {
 				// TODO Auto-generated method stub
-				textField.setText("");
-				textField_1.setText("");
-				textField_2.setText("");
-				textField_3.setText("");
+				txtImePrezime.setText("");
+				txtUsername.setText("");
+				pwdSifra.setText("");
+				pwdPotvrda.setText("");
 			}
 		});
 		btnOtkazati.setBackground(Color.LIGHT_GRAY);
@@ -406,11 +405,11 @@ public class Admin extends JPanel {
 		label.setBounds(243, 302, 102, 15);
 		panelNovi.add(label);
 
-		textField_5 = new JComboBox();
-		textField_5.addItem("Obični korisnik");
-		textField_5.addItem("Privilegirani korisnik");
-		textField_5.setBounds(363, 300, 196, 19);
-		panelNovi.add(textField_5);
+		comboBoxTip = new JComboBox();
+		comboBoxTip.addItem("Obični korisnik");
+		comboBoxTip.addItem("Privilegirani korisnik");
+		comboBoxTip.setBounds(363, 300, 196, 19);
+		panelNovi.add(comboBoxTip);
 
 		setBounds(190, 0, 1000, 700);
 		setVisible(true);
