@@ -27,10 +27,13 @@ import javax.swing.SpinnerNumberModel;
 
 import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
+import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
 import java.awt.Component;
 
 public class ModificirajRadniNalog extends JDialog {
@@ -44,18 +47,18 @@ public class ModificirajRadniNalog extends JDialog {
 	private JTextField textField;
 	private JComboBox<StatusRadnogNaloga> comboBoxStatusNaloga;
 	private JComboBox<TipPosla> comboBoxTipPosla;
-	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_8;
-	private JTextField textField_9;
 	private JTextField textField_10;
 	private JLabel lblNewLabel;
 	private JButton modifikujButton;
 	private JPanel buttonPane;
+	private JTextField textField_1;
+	private JTextField textField_5;
+	private JTextField textField_9;
 	
 	public ModificirajRadniNalog(Zaposlenik kor, final RadniNalog r, Dialog.ModalityType m, GlavniProzor parent) {
 		super(parent);
@@ -86,29 +89,29 @@ public class ModificirajRadniNalog extends JDialog {
 		comboBoxStatusNaloga = new JComboBox<StatusRadnogNaloga>();
         comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran, StatusRadnogNaloga.zakljucen, StatusRadnogNaloga.nezakljucen, StatusRadnogNaloga.storniran}));
         comboBoxStatusNaloga.setBounds(166, 42, 200, 20);
-        if(r.dajStatus()==StatusRadnogNaloga.kreiran)
+        if(r.getStatus()=="kreiran")
         	comboBoxStatusNaloga.setSelectedIndex(0);
-        if(r.dajStatus()==StatusRadnogNaloga.nezakljucen)
+        if(r.getStatus()=="nezakljucen")
         	comboBoxStatusNaloga.setSelectedIndex(2);
-        if(r.dajStatus()==StatusRadnogNaloga.storniran)
+        if(r.getStatus()=="storniran")
         	comboBoxStatusNaloga.setSelectedIndex(3);
-        if(r.dajStatus()==StatusRadnogNaloga.zakljucen)
+        if(r.getStatus()=="zakljucen")
         	comboBoxStatusNaloga.setSelectedIndex(1);
         contentPanel.add(comboBoxStatusNaloga);
         
         comboBoxTipPosla = new JComboBox<TipPosla>();
         comboBoxTipPosla.setModel(new DefaultComboBoxModel<TipPosla>(new TipPosla[] {TipPosla.WomaMasina, TipPosla.UgradnjaVodomjera, TipPosla.ZamjenaVodomjera, TipPosla.ZamjenaCijevi, TipPosla.Ostalo}));
         comboBoxTipPosla.setBounds(166, 73, 200, 20);
-        if(r.dajPosao()==TipPosla.WomaMasina)
-        	comboBoxStatusNaloga.setSelectedIndex(0);
-        if(r.dajPosao()==TipPosla.UgradnjaVodomjera)
-        	comboBoxStatusNaloga.setSelectedIndex(1);
-        if(r.dajPosao()==TipPosla.ZamjenaVodomjera)
-        	comboBoxStatusNaloga.setSelectedIndex(2);
-        if(r.dajPosao()==TipPosla.ZamjenaCijevi)
-        	comboBoxStatusNaloga.setSelectedIndex(3);
-        if(r.dajPosao()==TipPosla.Ostalo)
-        	comboBoxStatusNaloga.setSelectedIndex(4);
+        if(r.getPosao()=="WomaMasina")
+        	comboBoxTipPosla.setSelectedIndex(0);
+        if(r.getPosao()=="UgradnjaVodomjera")
+        	comboBoxTipPosla.setSelectedIndex(1);
+        if(r.getPosao()=="ZamjenaVodomjera")
+        	comboBoxTipPosla.setSelectedIndex(2);
+        if(r.getPosao()=="ZamjenaCijevi")
+        	comboBoxTipPosla.setSelectedIndex(3);
+        if(r.getPosao()=="Ostalo")
+        	comboBoxTipPosla.setSelectedIndex(4);
         contentPanel.add(comboBoxTipPosla);
         
      // Datepicker
@@ -142,12 +145,6 @@ public class ModificirajRadniNalog extends JDialog {
         label.setHorizontalAlignment(SwingConstants.RIGHT);
         label.setBounds(2, 350, 154, 14);
         contentPanel.add(label);
-        
-        textField_1 = new JTextField();
-        textField_1.setBounds(166, 347, 200, 20);
-        textField_1.setText(Long.toString(r.getIzvrsilacPosla()));
-        contentPanel.add(textField_1);
-        textField_1.setColumns(10);
         
         textField_2 = new JTextField();
         textField_2.setColumns(10);
@@ -197,7 +194,10 @@ public class ModificirajRadniNalog extends JDialog {
 	    final JSpinner spinner = new JSpinner();
 	    spinner.setModel(new SpinnerNumberModel(0, 0, 23, 1));
 	    spinner.setBounds(168, 411, 35, 20);
-	    spinner.setValue(t.getHours());
+	    if (t!=null)
+	    	spinner.setValue(t.getHours());
+	    else
+	    	spinner.setValue(0);
 	    contentPanel.add(spinner);
 	    
 	    JLabel label_4 = new JLabel("Sati");
@@ -207,7 +207,10 @@ public class ModificirajRadniNalog extends JDialog {
 	    final JSpinner spinner_1 = new JSpinner();
 	    spinner_1.setModel(new SpinnerNumberModel(0, 0, 59, 1));
 	    spinner_1.setBounds(264, 411, 37, 20);
-	    spinner_1.setValue(t.getMinutes());
+	    if (t!=null)
+	    	spinner_1.setValue(t.getMinutes());
+	    else
+	    	spinner_1.setValue(0);
 	    contentPanel.add(spinner_1);
 	    
 	    JLabel label_5 = new JLabel("Minuta");
@@ -229,12 +232,6 @@ public class ModificirajRadniNalog extends JDialog {
 	    label_7.setHorizontalAlignment(SwingConstants.RIGHT);
 	    label_7.setBounds(381, 17, 132, 14);
 	    contentPanel.add(label_7);
-	    
-	    textField_5 = new JTextField();
-	    textField_5.setColumns(10);
-	    textField_5.setBounds(519, 11, 201, 20);
-		textField_5.setText(Long.toString(r.getOsobaKojaStornira()));
-	    contentPanel.add(textField_5);
 	    
 	    JLabel label_8 = new JLabel("Razlog storniranja:");
 	    label_8.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -260,14 +257,8 @@ public class ModificirajRadniNalog extends JDialog {
 	    
 	    JLabel label_11 = new JLabel("ID osobe koja zaključuje:");
 	    label_11.setHorizontalAlignment(SwingConstants.RIGHT);
-	    label_11.setBounds(376, 139, 137, 14);
+	    label_11.setBounds(359, 135, 154, 14);
 	    contentPanel.add(label_11);
-	    
-	    textField_9 = new JTextField();
-	    textField_9.setColumns(10);
-	    textField_9.setText(Long.toString(r.getOsobaKojaZakljucuje()));
-	    textField_9.setBounds(519, 135, 201, 20);
-	    contentPanel.add(textField_9);
 	    
 	    JLabel label_12 = new JLabel("Dodatni komentar:");
 	    label_12.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -279,7 +270,31 @@ public class ModificirajRadniNalog extends JDialog {
 	    textField_10.setText(r.getDodatniKomentar());
 	    textField_10.setBounds(519, 257, 201, 82);
 	    contentPanel.add(textField_10);
-	    contentPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, comboBoxStatusNaloga, comboBoxTipPosla, textField_4, textField_2, datePickerPlaniraniDatumIzvrsenja, datePickerDatumIzvrsenja, datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField(), lblNewLabel, datePickerDatumIzvrsenja.getJFormattedTextField(), lblStatus, lblPosao, textField_1, textField_3, spinner, spinner_1, textField_5, textField_6, textField_9, textField_8, textField_10, lblPlaniraniDatumIzvrenja, label, label_1, label_2, lblDatumIzvrenja, label_3, label_4, label_5, label_6, label_7, label_8, label_10, label_11, label_12}));
+	    
+	    textField_1 = new JTextField();
+	    textField_1.setBounds(166, 347, 200, 20);
+	    textField_1.setText(Long.toString(r.getIzvrsilacPosla()));
+	    contentPanel.add(textField_1);
+	    textField_1.setColumns(10);
+	    
+	    textField_5 = new JTextField();
+	    textField_5.setBounds(519, 14, 201, 20);
+	    textField_5.setText(Long.toString(r.getOsobaKojaStornira()));
+	    contentPanel.add(textField_5);
+	    textField_5.setColumns(10);
+	    
+	    textField_9 = new JTextField();
+	    textField_9.setBounds(519, 132, 201, 20);
+	    textField_9.setText(Long.toString(r.getOsobaKojaZakljucuje()));
+	    contentPanel.add(textField_9);
+	    textField_9.setColumns(10);
+	    
+	    java.util.List<Zaposlenik> listaZaposlenika = HibernateZaposlenik.dajSveZaposlenike();
+        Zaposlenik[] zaposlenici = listaZaposlenika.toArray(new Zaposlenik[listaZaposlenika.size()]);
+	    
+	   
+	    
+	    contentPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, comboBoxStatusNaloga, comboBoxTipPosla, textField_4, textField_2, datePickerPlaniraniDatumIzvrsenja, datePickerDatumIzvrsenja, datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField(), lblNewLabel, datePickerDatumIzvrsenja.getJFormattedTextField(), lblStatus, lblPosao, textField_3, spinner, spinner_1, textField_6, textField_8, textField_10, lblPlaniraniDatumIzvrenja, label, label_1, label_2, lblDatumIzvrenja, label_3, label_4, label_5, label_6, label_7, label_8, label_10, label_11, label_12}));
 		{
 			buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -288,6 +303,8 @@ public class ModificirajRadniNalog extends JDialog {
 				modifikujButton = new JButton("Modifikuj");
 				modifikujButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						java.util.List<Zaposlenik> listaZaposlenika = HibernateZaposlenik.dajSveZaposlenike();
+				        Zaposlenik[] zaposlenici = listaZaposlenika.toArray(new Zaposlenik[listaZaposlenika.size()]);
 						if(comboBoxStatusNaloga.getSelectedIndex()==0)
 							r.postaviStatus(StatusRadnogNaloga.kreiran);
 						if(comboBoxStatusNaloga.getSelectedIndex()==1)
@@ -308,32 +325,74 @@ public class ModificirajRadniNalog extends JDialog {
 							r.postaviPosao(TipPosla.Ostalo);
 						Date d = (Date) datePickerPlaniraniDatumIzvrsenja.getModel().getValue();
 						Date d1 = (Date) datePickerDatumIzvrsenja.getModel().getValue();
-						try {
-							r.setPlaniraniDatumIzvrsenja(d);
-						} catch (Exception e) {
-							JOptionPane.showMessageDialog(contentPanel, "Greška u dodjeli planiranog datuma izvršenja");
-						}
+						Date temp = new Date();
+						int temp4=1;
+						d1.setHours(temp.getHours());
+						d1.setMinutes(temp.getMinutes());
+						d1.setSeconds(temp.getSeconds());
+						r.setPlaniraniDatumIzvrsenja(d);
 						try {
 							r.setDatumIzvrsenja(d1);
+							
 						} catch (Exception e) {
-							JOptionPane.showMessageDialog(contentPanel, "Greška u dodjeli datuma izvršenja");
+							JOptionPane.showMessageDialog(contentPanel, "Datuma izvršenja ne može biti u budućnosti");		
+							temp4=0;
 						}
-						
-						r.setIzvrsilacPosla(Long.parseLong(textField_1.getText()));
+						int temp1=0;
+						for(Zaposlenik z:zaposlenici){
+							if(z.getId()==Long.parseLong(textField_1.getText())){
+								r.setIzvrsilacPosla(Long.parseLong(textField_1.getText()));
+								temp1=1;
+							}
+						}
+						if(Long.parseLong(textField_1.getText())==-1){
+							r.setIzvrsilacPosla(Long.parseLong(textField_1.getText()));
+							temp1=1;
+						}
+						if(temp1==0)
+							JOptionPane.showMessageDialog(contentPanel, "Unijeli ste nepostojeći ID zaposlenika za izvršioca radnog naloga");
+						Time t;
 						r.setPotrebniMaterijal(textField_2.getText());
 						r.setLokacija(textField_3.getText());
-						Time t = new Time((Integer)spinner.getValue(),(Integer)spinner_1.getValue(), 0);
+						if((Integer)spinner.getValue()==0 && (Integer)spinner_1.getValue()==0)
+							t=null;
+						else
+							t = new Time((Integer)spinner.getValue(),(Integer)spinner_1.getValue(), 0);
 						r.setUtrosenoVrijeme(t);
 						r.setOpisPosla(textField_4.getText());
-						r.setOsobaKojaStornira(Long.parseLong(textField_5.getText()));
+						int temp2=0;
+						for(Zaposlenik z:zaposlenici){
+							if(z.getId()==Long.parseLong(textField_5.getText())){
+								r.setOsobaKojaStornira(Long.parseLong(textField_5.getText()));
+								temp2=1;
+							}
+						}
+						if(Long.parseLong(textField_5.getText())==-1){
+							r.setOsobaKojaStornira(Long.parseLong(textField_5.getText()));
+							temp2=1;
+						}
+						if(temp2==0)
+							JOptionPane.showMessageDialog(contentPanel, "Unijeli ste nepostojeći ID zaposlenika koji stornira radni nalog");
 						r.setRazlogStorniranja(textField_6.getText());
 						r.setOsobaKojaModifikuje(korisnik.getId());
 						r.setDatumModifikovanja(new Date());
-						r.setOsobaKojaModifikuje(Long.parseLong(textField_9.getText()));
+						int temp3=0;
+						for(Zaposlenik z:zaposlenici){
+							if(z.getId()==Long.parseLong(textField_9.getText())){
+								r.setOsobaKojaModifikuje(Long.parseLong(textField_9.getText()));
+								temp3=1;
+							}
+						}
+						if(Long.parseLong(textField_9.getText())==-1){
+							r.setOsobaKojaModifikuje(Long.parseLong(textField_9.getText()));
+							temp3=1;
+						}
+						if(temp3==0)
+							JOptionPane.showMessageDialog(contentPanel, "Unijeli ste nepostojeći ID zaposlenika koji zaključuje radni nalog");
 						r.setDodatniKomentar(textField_10.getText());
 						if(textField_8.getText()=="" || textField_8.getText()==null)
 							JOptionPane.showMessageDialog(contentPanel, "Niste unijeli razlog modifikovanja");
-						else{
+						else if(temp1==1 && temp2==1 && temp3==1 && temp4==1){
 							r.setRazlogModifikovanja(textField_8.getText());
 							HibernateRadniNalog.modifikujRadniNalog(r);
 							JOptionPane.showMessageDialog(contentPanel, "Uspješno ste modifikovali radni nalog");
@@ -344,6 +403,6 @@ public class ModificirajRadniNalog extends JDialog {
 				buttonPane.add(modifikujButton);
 			}
 		}
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, comboBoxStatusNaloga, comboBoxTipPosla, textField_4, textField_2, datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField(), datePickerDatumIzvrsenja.getJFormattedTextField(), getContentPane(), contentPanel, lblNewLabel, lblStatus, lblPosao, datePickerPlaniraniDatumIzvrsenja, lblPlaniraniDatumIzvrenja, datePickerDatumIzvrsenja, label, textField_1, textField_3, spinner, spinner_1, textField_5, textField_6, textField_9, textField_8, textField_10, modifikujButton, label_1, label_2, lblDatumIzvrenja, label_3, label_4, label_5, label_6, label_7, label_8, label_10, label_11, label_12, buttonPane}));
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, comboBoxStatusNaloga, comboBoxTipPosla, textField_4, textField_2, datePickerPlaniraniDatumIzvrsenja.getJFormattedTextField(), datePickerDatumIzvrsenja.getJFormattedTextField(), getContentPane(), contentPanel, lblNewLabel, lblStatus, lblPosao, datePickerPlaniraniDatumIzvrsenja, lblPlaniraniDatumIzvrenja, datePickerDatumIzvrsenja, label, textField_3, spinner, spinner_1, textField_6, textField_8, textField_10, modifikujButton, label_1, label_2, lblDatumIzvrenja, label_3, label_4, label_5, label_6, label_7, label_8, label_10, label_11, label_12, buttonPane}));
 	}
 }

@@ -124,14 +124,27 @@ public class ZakljuciRadniNalog extends JDialog {
 				zakljuciButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						Date d = (Date) datePickerDatumIzvrsenja.getModel().getValue();
-						try {
-							r.setDatumIzvrsenja(d);
-						} catch (Exception e) {
-							JOptionPane.showMessageDialog(contentPanel, "Greška u dodjeli datuma izvršenja");
+						Date temp = new Date();
+						d.setHours(temp.getHours());
+						d.setMinutes(temp.getMinutes());
+						d.setSeconds(temp.getSeconds());
+						int temp1=0;
+						int temp2=1;
+						if(d.compareTo(r.getDatumKreiranja())<0){
+							JOptionPane.showMessageDialog(contentPanel, "Datum izvršenja je stariji od datuma kreiranja radnog naloga");
+						}
+						else{
+							try {
+								r.setDatumIzvrsenja(d);
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(contentPanel, "Datuma izvršenja ne može biti u budućnosti");
+								temp2=0;
+							}
+							temp1=1;
 						}
 						if((Integer)spinner.getValue()==0 && (Integer)spinner_1.getValue()==0)
 							JOptionPane.showMessageDialog(contentPanel, "Niste unijeli utrošeno vrijeme");
-						else{
+						else if(temp1==1 && temp2==1){
 							Time t = new Time((Integer)spinner.getValue(),(Integer)spinner_1.getValue(), 0);
 							r.setUtrosenoVrijeme(t);
 							r.postaviStatus(StatusRadnogNaloga.zakljucen);
