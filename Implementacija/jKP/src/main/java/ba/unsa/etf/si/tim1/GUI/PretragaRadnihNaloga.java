@@ -87,8 +87,14 @@ public class PretragaRadnihNaloga extends JPanel {
 		
         comboBoxIzvrsilac = new JComboBox<Zaposlenik>();
         comboBoxIzvrsilac.setBounds(240, 160, 225, 20);
-        comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
-        comboBoxIzvrsilac.setSelectedIndex(-1);
+        if (korisnik.dajTipUposlenika() == TipUposlenika.privilegirani) {
+        	comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(zaposlenici));
+        	comboBoxIzvrsilac.setSelectedIndex(-1);
+        }
+        else {
+        	comboBoxIzvrsilac.setEnabled(false);
+        	comboBoxIzvrsilac.setModel(new DefaultComboBoxModel<Zaposlenik>(new Zaposlenik[]{korisnik}));
+        }
         this.add(comboBoxIzvrsilac);
         
         
