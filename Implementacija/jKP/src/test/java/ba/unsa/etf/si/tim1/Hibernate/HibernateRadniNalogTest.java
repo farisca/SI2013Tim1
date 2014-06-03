@@ -74,7 +74,7 @@ public class HibernateRadniNalogTest {
 			podaci.add("LOKACIJA");
 			podaci.add("Bascarsija");
 			
-			List<RadniNalog> nalozi = HibernateRadniNalog.pretraga(podaci);
+			List<RadniNalog> nalozi = HibernateRadniNalog.pretragaPoListiKriterija(podaci);
 			Assert.assertEquals("Bascarsija", nalozi.get(0).getLokacija());
 		}catch(Exception e){
 			e.printStackTrace();

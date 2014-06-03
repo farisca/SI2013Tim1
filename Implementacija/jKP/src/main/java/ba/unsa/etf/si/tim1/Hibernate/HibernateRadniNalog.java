@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class HibernateRadniNalog {
+	
 	public static void pohraniRadniNalog(RadniNalog nalog) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = s.beginTransaction();
@@ -32,47 +33,48 @@ public class HibernateRadniNalog {
 		s.close();
 	}
 	
-	
-
-	public static List<RadniNalog> pretraga(List<String> lista) {
+	public static List<RadniNalog> pretragaPoListiKriterija(List<String> lista) {
+		if (lista.isEmpty()) return null;
 		
-		String upit = "select * from radninalog where ";
-		int brojac=1;
-		for(int i=0; i<lista.size(); i=i+2){
-			upit = upit + lista.get(i) + "= :unos"+brojac;
-			if(i != lista.size()-2) upit = upit +" and ";
+		String upit = "SELECT * FROM radninalog WHERE ";
+		int brojac = 1;
+		for(int i = 0; i < lista.size(); i += 2) {
+			if (lista.get(i).equals("DATUMKREIRANJA"))
+				upit += "DATE_FORMAT(DATUMKREIRANJA, '%Y-%m-%d')";
+			else
+				upit += lista.get(i);
+			upit += " = :unos" + brojac;
+			if (i != lista.size() - 2) upit += " AND ";
 			brojac++;
 		}
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 	    Transaction t = null;
-	      try{
-	         t = session.beginTransaction();
-	        
-	         SQLQuery query = session.createSQLQuery(upit);
-	         query.addEntity(RadniNalog.class);
-	         
-	         
-	         int br1 = 1 ;
-	         for(int i = 1; i<=lista.size() / 2; i++){
-	        	 String param = "unos"+i;
-	        	 query.setParameter(param, lista.get(br1));	        	 
-	        	 br1=br1+2;
-	 		 
-	         }
-	 		 List result = query.list();
-	 		 
-	 		 t.commit(); 
-	 		 return result;
+		try {
+			t = session.beginTransaction();
+		    
+		    SQLQuery query = session.createSQLQuery(upit);
+		    query.addEntity(RadniNalog.class);
+		    
+		    int br1 = 1 ;
+		    for (int i = 1; i <= lista.size() / 2; i++) {
+		    	String param = "unos" + i;
+		    	query.setParameter(param, lista.get(br1));	        	 
+		    	br1 = br1 + 2;
+		    }
+			List<RadniNalog> result = (List<RadniNalog>)query.list();
+			
+			t.commit();
+			session.close();
+			return result;
+		}
+		catch (HibernateException e) {
+			if (t != null) t.rollback();
+		    e.printStackTrace();
+		    session.close();
+		}
 
-	      }catch (HibernateException e) {
-	         if (t!=null) t.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
-	      return null;	
-		
+		return null;
 	}
 	
 	public static List<RadniNalog> dajSveRadneNaloge() {
@@ -110,34 +112,5 @@ public class HibernateRadniNalog {
 		
 		s.close();
 	}
-	
-	/*private static void inicijalizirajTabelu() {
-		String url = "jdbc:mysql://localhost/jkp"; 
-		try { 
-			Class.forName("com.mysql.jdbc.Driver"); 
-			java.sql.Connection c = java.sql.DriverManager.getConnection(url, "root", ""); 
-		 
-				try { 
-					java.sql.Statement st = c.createStatement(); 
-					st.execute("INSERT INTO radninalog (BROJRADNOGNALOGA, STATUS, POSAO, KREATORRADNOGNALOGA, IZVRSILACPOSLA, OSOBAKOJASTORNIRA, OSOBAKOJAMODIFIKUJE, OSOBAKOJAZAKLJUCUJE)  VALUES (NULL, 'zakljucen', 'Ostalo', '1', '1', '1', '1', '1');");
-				} 
-				catch (Exception e) { 
-					System.out.println("Greska pri radu sa bazom: "+e.getMessage()); 
-				}
-				finally {
-					c.close(); 
-				}
-		 }
-		 catch (Exception e) {
-			 System.out.println("Greska pri radu sa bazom: "+e.getMessage()); 
-		 }
-	}
-	
-	public static void ubijOnogaKoJePravioHibernate() {
-		if (dajBrojRadnihNaloga() == 0)
-			inicijalizirajTabelu();
-		dajSveRadneNaloge();
-	}*/
-	
-	
+
 }
