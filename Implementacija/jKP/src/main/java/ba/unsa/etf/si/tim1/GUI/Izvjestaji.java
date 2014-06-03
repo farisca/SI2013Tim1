@@ -190,8 +190,7 @@ public class Izvjestaji extends JPanel {
                 		try {
 							SedmicniRadnici(dateFormat.format(date) + ".pdf", (Date) datePicker.getModel().getValue());
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 						}
                 	}
         			if(comboBox.getSelectedIndex() == 1) {

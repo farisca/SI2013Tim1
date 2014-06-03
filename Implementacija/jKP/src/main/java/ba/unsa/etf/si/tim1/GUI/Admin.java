@@ -11,7 +11,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import ba.unsa.etf.si.tim1.Entiteti.*;
-
 import ba.unsa.etf.si.tim1.Hibernate.HibernatePristupniPodaci;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
 
@@ -349,6 +348,7 @@ public class Admin extends JPanel {
 									+ z.getPrezime() + " koji je "
 									+ z.getTipUposlenika() + " uposlenik!",
 							"Potvrda", JOptionPane.INFORMATION_MESSAGE);
+					System.out.println(z.getPrezime());
 					dispose();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(panelNovi, e1.getMessage(),

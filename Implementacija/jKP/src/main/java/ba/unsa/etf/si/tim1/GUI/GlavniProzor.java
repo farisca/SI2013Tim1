@@ -9,6 +9,7 @@ public class GlavniProzor extends JFrame {
 	protected static Zaposlenik korisnik;
 	
 	public GlavniProzor(Zaposlenik kor) {
+		this.setResizable(false);
 		korisnik = kor;
 		
 		kontejner = new JPanel();
