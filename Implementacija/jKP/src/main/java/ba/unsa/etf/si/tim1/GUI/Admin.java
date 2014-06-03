@@ -80,7 +80,7 @@ public class Admin extends JPanel {
 					List<Zaposlenik> lz = HibernateZaposlenik
 							.dajZaposlenikePoKriteriju(textField_4.getText());
 					Zaposlenik novi = lz.get(table.getSelectedRow());
-					if (novi.getTipUposlenika().toString() == "neaktivan") {
+					if (novi.getTipUposlenika().equals("neaktivan")) {
 						Object[] options = { "Obični", "Privilegirani",
 								"Otkazujem aktivaciju!" };
 						int n = JOptionPane.showOptionDialog(panelPretraga,
@@ -99,9 +99,6 @@ public class Admin extends JPanel {
 						novi.postaviTipUposlenika(TipUposlenika.neaktivan);
 						HibernateZaposlenik.urediZaposlenika(novi);
 					}
-					JOptionPane.showMessageDialog(panelPretraga,
-							novi.getPrezime(), "Potvrda",
-							JOptionPane.INFORMATION_MESSAGE);
 					dispose();
 					PopuniTabelu();
 				} catch (Exception e1) {
@@ -124,6 +121,7 @@ public class Admin extends JPanel {
 		bModifikuj.setBounds(354, 270, 117, 25);
 		panelPretraga.add(bModifikuj);
 		bModifikuj.addActionListener(new ActionListener() {
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (table.getSelectedRow() == -1)
@@ -201,7 +199,7 @@ public class Admin extends JPanel {
 										|| textField.getText()
 												.split("[0-9]", 2).length != 1
 										|| textField.getText().split(
-												"[^a-zA-Z0-9_ ]", 2).length != 1)
+												"[^a-zA-Z0-9_ ŠĐĆŽČčćžđš]", 2).length != 1)
 									throw new Exception(
 											"Niste pravilno unijeli ime i prezime!");
 								String[] temp = textField.getText().split(" ");
@@ -220,6 +218,11 @@ public class Admin extends JPanel {
 								if (!Arrays.equals(textField_2.getPassword(),
 										textField_3.getPassword()))
 									throw new Exception("Šifre nisu iste!");
+								if (pass1.split("[0-9]", 2).length == 1
+										|| pass1.length() < 6
+										|| pass1.split("[^a-zA-Z0-9_ ]", 2).length != 1)
+									throw new Exception(
+											"Šifra mora imati barem 6 znakova i mora sadržavati i slova i brojeve!");
 								novi.setIme(ime);
 								novi.setPrezime(prezime);
 								if (textField_5.getSelectedIndex() == 1)
@@ -367,7 +370,8 @@ public class Admin extends JPanel {
 					if (!textField.getText().contains(" ")
 							|| textField.getText().split(" {2,}", 2).length != 1
 							|| textField.getText().split("[0-9]", 2).length != 1
-							|| textField.getText().split("[^a-zA-Z0-9_ ]", 2).length != 1)
+							|| textField.getText().split(
+									"[^a-zA-Z0-9_ ŠĐĆŽČčćžđš]", 2).length != 1)
 						throw new Exception(
 								"Niste pravilno unijeli ime i prezime!");
 					String[] temp = textField.getText().split(" ");
@@ -386,6 +390,11 @@ public class Admin extends JPanel {
 					if (!Arrays.equals(textField_2.getPassword(),
 							textField_3.getPassword()))
 						throw new Exception("Šifre nisu iste!");
+					if (pass1.split("[0-9]", 2).length == 1
+							|| pass1.length() < 6
+							|| pass1.split("[^a-zA-Z0-9_ ]", 2).length != 1)
+						throw new Exception(
+								"Šifra mora imati barem 6 znakova i mora sadržavati i slova i brojeve!");
 					Zaposlenik z = new Zaposlenik(ime, prezime,
 							TipUposlenika.obicni.toString(), 1);
 					if (textField_5.getSelectedIndex() == 1)
