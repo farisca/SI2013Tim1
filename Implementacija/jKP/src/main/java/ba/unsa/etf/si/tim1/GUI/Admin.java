@@ -342,7 +342,7 @@ public class Admin extends JPanel {
 								"Potvrda", JOptionPane.INFORMATION_MESSAGE);
 						throw new Exception("Niste upisali ime i prezime!");
 					}
-					if (ki.length()==0 || ki.split("[^a-zA-Z0-9_ ]",2).length!=1)
+					if (ki.length()==0 || ki.split("[^a-zA-Z0-9_]",2).length!=1)
 						throw new Exception("Niste pravilno upisali korisničko ime!");
 					if(pass1.length()==0 || pass2.length()==0)
 						throw new Exception("Niste upisali šifru!");
