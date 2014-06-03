@@ -103,8 +103,8 @@ public class Izvjestaji extends JPanel {
         lblDoDatuma.setBounds(51, 69, 75, 15);
         this.add(lblDoDatuma);
         
-        UtilDateModel model = new UtilDateModel();
-                JDatePanelImpl datePanel = new JDatePanelImpl(model);
+        final UtilDateModel model = new UtilDateModel();
+                final JDatePanelImpl datePanel = new JDatePanelImpl(model);
         
         final JLabel mjesec = new JLabel("Mjesec:");
         mjesec.setBounds(71, 67, 75, 15);
@@ -178,115 +178,121 @@ public class Izvjestaji extends JPanel {
 	        
         	btnOk.addActionListener(new ActionListener() {
         		public void actionPerformed(ActionEvent e) {
-        			File file1 = new File("izvjestaj.pdf");
-        			file1.delete();
-        			RandomAccessFile raf;
-        			File file = new File("");
-        			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-        			Date date = new Date();
-        			if(comboBox.getSelectedIndex() == 0) {
-        				
-        				file = new File(dateFormat.format(date) + ".pdf");
-                		try {
-							SedmicniRadnici(dateFormat.format(date) + ".pdf", (Date) datePicker.getModel().getValue());
-						} catch (Exception e1) {
-							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+        			if(datePicker.getModel().getValue() != null && !(((new Date()).before((Date) datePicker.getModel().getValue())))) {
+	        			File file1 = new File("izvjestaj.pdf");
+	        			file1.delete();
+	        			RandomAccessFile raf;
+	        			File file = new File("");
+	        			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+	        			Date date = new Date();
+	        			if(comboBox.getSelectedIndex() == 0) {
+	        				
+	        				file = new File(dateFormat.format(date) + ".pdf");
+	                		try {
+								SedmicniRadnici(dateFormat.format(date) + ".pdf", (Date) datePicker.getModel().getValue());
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+							}
+	                	}
+	        			if(comboBox.getSelectedIndex() == 1) {
+	        				file = new File(dateFormat.format(date) + ".pdf");
+	                		try {
+								MjesecniSumarni(dateFormat.format(date) + ".pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+							}
+	                	}
+	        			if(comboBox.getSelectedIndex() == 2) {
+	        				file = new File(dateFormat.format(date) + ".pdf");
+	                		try {
+								MjesecniStornirani(dateFormat.format(date) + ".pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+							}
+	                	}
+	        			if(comboBox.getSelectedIndex() == 3) {
+	        				file = new File(dateFormat.format(date) + ".pdf");
+	        				try {
+	        					MjesecniViseLokacija(dateFormat.format(date) + ".pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+							}	
+	                	}
+	        			if(comboBox.getSelectedIndex() == 4) {
+	        				file = new File(dateFormat.format(date) + ".pdf");
+	                		try {
+								Godisnji(dateFormat.format(date) + ".pdf", (Date) datePicker.getModel().getValue());
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
+							}
+	                	}
+	        			final String lokacija = file.getAbsolutePath();
+	        			
+	        	        
+	        	        jSpasiti.addActionListener(new ActionListener() {
+	        	        	public void actionPerformed(ActionEvent e) {
+	        	        		/* JFileChooser saveFile = new JFileChooser();
+	        	        		 int userSelection = saveFile.showSaveDialog(null);
+	        	                 if (userSelection == JFileChooser.APPROVE_OPTION) {
+	        	                     File fileToSave = saveFile.getSelectedFile();
+	        	                     try {
+	        							Files.copy((new File(lokacija)).toPath(), fileToSave.toPath());
+	        						} catch (IOException e1) {
+	        							// TODO Auto-generated catch block
+	        							e1.printStackTrace();
+	        						}*/
+	        	                     System.out.println("ik");
+	        	               //  }
+	        	        	}
+	        	        });
+	        	        
+	        	        jStampati.addActionListener(new ActionListener() {
+	        	        	public void actionPerformed(ActionEvent e) {
+	        	        		 PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+	        	        	        DocPrintJob printerJob = defaultPrintService.createPrintJob();
+	        	        	        File pdfFile = new File(lokacija);
+	        	        	        SimpleDoc simpleDoc = null;
+	        	        	        
+	        	        	        try {
+	        	        	            simpleDoc = new SimpleDoc(pdfFile.toURL(), DocFlavor.URL.AUTOSENSE, null);
+	        	        	        } catch (MalformedURLException ex) {
+	        	        	            ex.printStackTrace();
+	        	        	        }
+	        	        	        try {
+	        	        	            printerJob.print(simpleDoc, null);
+	        	        	        } catch (PrintException ex) {
+	        	        	            ex.printStackTrace();
+	        	        	        }
+	        	        	        
+	        	        	}
+	        	        });
+	                   
+	                    FileChannel channel; 
+	                    ByteBuffer buf;
+	                    PDFFile pdffile;
+	                    final PDFPage page;
+	                    try {
+							raf = new RandomAccessFile(file, "r");
+							channel = raf.getChannel();
+		        			buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+		        			pdffile = new PDFFile(buf);
+		        			page = pdffile.getPage(1); 
+		        	        prikazPdf.useZoomTool(true);
+		        	        prikazPdf.showPage(page);
+		        	        raf.close();
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
-                	}
-        			if(comboBox.getSelectedIndex() == 1) {
-        				file = new File(dateFormat.format(date) + ".pdf");
-                		try {
-							MjesecniSumarni(dateFormat.format(date) + ".pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
-						} catch (Exception e1) {
-							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
-						}
-                	}
-        			if(comboBox.getSelectedIndex() == 2) {
-        				file = new File(dateFormat.format(date) + ".pdf");
-                		try {
-							MjesecniStornirani(dateFormat.format(date) + ".pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
-						} catch (Exception e1) {
-							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
-						}
-                	}
-        			if(comboBox.getSelectedIndex() == 3) {
-        				file = new File(dateFormat.format(date) + ".pdf");
-        				try {
-        					MjesecniViseLokacija(dateFormat.format(date) + ".pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
-						} catch (Exception e1) {
-							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
-						}	
-                	}
-        			if(comboBox.getSelectedIndex() == 4) {
-        				file = new File(dateFormat.format(date) + ".pdf");
-                		try {
-							Godisnji(dateFormat.format(date) + ".pdf", (Date) datePicker.getModel().getValue());
-						} catch (Exception e1) {
-							JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
-						}
-                	}
-        			final String lokacija = file.getAbsolutePath();
-        			
-        	        
-        	        jSpasiti.addActionListener(new ActionListener() {
-        	        	public void actionPerformed(ActionEvent e) {
-        	        		 JFileChooser saveFile = new JFileChooser();
-        	        		 int userSelection = saveFile.showSaveDialog(null);
-        	                 if (userSelection == JFileChooser.APPROVE_OPTION) {
-        	                     File fileToSave = saveFile.getSelectedFile();
-        	                     try {
-        							Files.copy((new File(lokacija)).toPath(), fileToSave.toPath());
-        						} catch (IOException e1) {
-        							// TODO Auto-generated catch block
-        							e1.printStackTrace();
-        						}
-        	                     System.out.println("Save as file: " + fileToSave.getAbsolutePath());
-        	                 }
-        	        	}
-        	        });
-        	        
-        	        jStampati.addActionListener(new ActionListener() {
-        	        	public void actionPerformed(ActionEvent e) {
-        	        		 PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
-        	        	        DocPrintJob printerJob = defaultPrintService.createPrintJob();
-        	        	        File pdfFile = new File(lokacija);
-        	        	        SimpleDoc simpleDoc = null;
-        	        	        
-        	        	        try {
-        	        	            simpleDoc = new SimpleDoc(pdfFile.toURL(), DocFlavor.URL.AUTOSENSE, null);
-        	        	        } catch (MalformedURLException ex) {
-        	        	            ex.printStackTrace();
-        	        	        }
-        	        	        try {
-        	        	            printerJob.print(simpleDoc, null);
-        	        	        } catch (PrintException ex) {
-        	        	            ex.printStackTrace();
-        	        	        }
-        	        	        
-        	        	}
-        	        });
-                   
-                    FileChannel channel; 
-                    ByteBuffer buf;
-                    PDFFile pdffile;
-                    final PDFPage page;
-                    try {
-						raf = new RandomAccessFile(file, "r");
-						channel = raf.getChannel();
-	        			buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
-	        			pdffile = new PDFFile(buf);
-	        			page = pdffile.getPage(1); 
-	        	        prikazPdf.useZoomTool(true);
-	        	        prikazPdf.showPage(page);
-	        	        raf.close();
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+	        		}
+        			else {
+        				JOptionPane.showMessageDialog(getRootPane(), "Morate odabrati ispravan datum!");
+            		}
         		}
+        		
         	});
 			datePicker.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
