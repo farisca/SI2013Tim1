@@ -169,7 +169,7 @@ public class Izvjestaji extends JPanel {
         	final JButton jSpasiti = new JButton("Spasiti");
 	        jSpasiti.setBounds(650, 600, 153, 48);
 	        jSpasiti.setBackground(Color.LIGHT_GRAY);
-	        this.add(jSpasiti);
+	        
 	        
 	        final JButton jStampati = new JButton("Odštampati");
 	        jStampati.setBounds(810, 600, 153, 48);
