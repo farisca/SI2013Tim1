@@ -419,7 +419,7 @@ public class RadniNalozi extends JTabbedPane {
         		if(korisnik.dajTipUposlenika()==TipUposlenika.privilegirani){
 	        		if (i!=-1){
 	        			RadniNalog r= radni_nalozi.get(i);
-	        			if(r.dajStatus()==StatusRadnogNaloga.kreiran){
+	        			if(r.dajStatus()==StatusRadnogNaloga.kreiran || r.dajStatus()==StatusRadnogNaloga.nezakljucen){
 	        				StornirajRadniNalog novi=new StornirajRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
 	        				novi.setVisible(true);
 	        			}
@@ -446,7 +446,7 @@ public class RadniNalozi extends JTabbedPane {
         		if(korisnik.dajTipUposlenika()==TipUposlenika.privilegirani){
 	        		if (i!=-1){
 	        			RadniNalog r= radni_nalozi.get(i);
-	        			if(r.dajStatus()==StatusRadnogNaloga.kreiran){
+	        			if(r.dajStatus()==StatusRadnogNaloga.kreiran || r.dajStatus()==StatusRadnogNaloga.nezakljucen){
 	        				ZakljuciRadniNalog novi=new ZakljuciRadniNalog(korisnik,radni_nalozi.get(i), Dialog.ModalityType.APPLICATION_MODAL, glavni);
 	        				novi.setVisible(true);
 	        			}

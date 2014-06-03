@@ -16,7 +16,7 @@ public class GlavniProzor extends JFrame {
 		kontejner.setBackground(Color.WHITE);
 		kontejner.setLayout(null);
 		
-		MeniPanel meni = new MeniPanel(kontejner, korisnik);
+		MeniPanel meni = new MeniPanel(kontejner, korisnik,this);
 		kontejner.add(meni);
 		
 		RadniNalozi radniNalozi = new RadniNalozi();

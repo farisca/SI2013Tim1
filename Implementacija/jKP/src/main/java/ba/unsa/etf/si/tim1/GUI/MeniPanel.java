@@ -19,9 +19,8 @@ public class MeniPanel extends JPanel {
 	final private JPanel kontejner;
 	private Zaposlenik korisnik;
 	
-	public MeniPanel(final JPanel kontejner, Zaposlenik kor) {
+	public MeniPanel(final JPanel kontejner, Zaposlenik kor, final GlavniProzor gp) {
 		korisnik = kor;
-		
 		this.kontejner = kontejner;
 		
         this.setBounds(0, 0, 201, 900);
@@ -87,7 +86,8 @@ public class MeniPanel extends JPanel {
         JButton btnIzlaz = new JButton("Izlaz");
         btnIzlaz.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		System.exit(0);
+        		new Login();
+        		gp.dispose();
         	}
         });
         btnIzlaz.setBackground(Color.LIGHT_GRAY);
