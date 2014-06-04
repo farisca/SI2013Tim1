@@ -263,6 +263,7 @@ public class Izvjestaji extends JPanel {
 		        	        		 
 		        	        		// Create Print Job
 		        	        		PrinterJob pjob = PrinterJob.getPrinterJob();
+		        	        		if(pjob.printDialog()) {
 		        	        		PageFormat pf = PrinterJob.getPrinterJob().defaultPage();
 		        	        		pjob.setJobName(f.getName());
 		        	        		Book book = new Book();
@@ -271,6 +272,7 @@ public class Izvjestaji extends JPanel {
 		        	        		 
 		        	        		// Send print job to default printer
 		        	        		pjob.print();
+		        	        		}
 								} catch (FileNotFoundException e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
