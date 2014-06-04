@@ -92,19 +92,29 @@ public class HibernateZaposlenik {
 		s.close();
 		return id;
 	}
+	
 	public static List<Zaposlenik> dajZaposlenikePoKriteriju(String kriterij) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
 		
-		Query query = s.createQuery("FROM Zaposlenik WHERE ime LIKE :kriterij OR prezime LIKE :kriterij");
-		query.setParameter("kriterij", "%"+kriterij+"%");
-		if(query.list().isEmpty()) {
-			s.close();
-			return null;
+		long id = -1;
+		try {
+			id = Long.parseLong(kriterij);
 		}
+		catch(Exception ex) {
+			
+		}
+		
+		Query query = s.createQuery("FROM Zaposlenik WHERE id=:id OR ime LIKE :kriterij OR prezime LIKE :kriterij");
+		query.setParameter("kriterij", "%"+kriterij+"%");
+		query.setParameter("id", id);
+		
 		List<Zaposlenik> lista = (List<Zaposlenik>)query.list();
+		s.close();
+		
 		return lista;
 	}
+	
 	public static void urediZaposlenika(Zaposlenik z) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = s.beginTransaction();

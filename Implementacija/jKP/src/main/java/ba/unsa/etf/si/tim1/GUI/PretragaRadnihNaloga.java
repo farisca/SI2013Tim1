@@ -111,6 +111,7 @@ public class PretragaRadnihNaloga extends JPanel {
         JScrollPane scrollPane_3 = new JScrollPane();
         scrollPane_3.setBounds(39, 278, 732, 199);
         this.add(scrollPane_3);
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         scrollPane_3.setViewportView(tabela);
         tabela.setModel(new DefaultTableModel(

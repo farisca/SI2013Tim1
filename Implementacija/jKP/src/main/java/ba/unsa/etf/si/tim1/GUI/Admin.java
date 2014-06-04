@@ -21,10 +21,13 @@ public class Admin extends JPanel {
 	private JTextField txtUsername;
 	private JPasswordField pwdSifra;
 	private JPasswordField pwdPotvrda;
-	private JTextField textField_4;
-	private JTable table;
+	
+	
 	private JComboBox comboBoxTip;
 	private Boolean nemaTaba;
+	
+	private JTextField txtPretraga;
+	private JTable table;
 	private DefaultTableModel tablemodel;
 	private Object[][] data = { { "", "", "" }, { "", "", "" }, { "", "", "" },
 			{ "", "", "" }, { "", "", "" }, { "", "", "" }, { "", "", "" },
@@ -46,19 +49,19 @@ public class Admin extends JPanel {
 		lblNewLabel.setBounds(90, 33, 104, 15);
 		panelPretraga.add(lblNewLabel);
 
-		textField_4 = new JTextField();
-		textField_4.setBounds(210, 31, 388, 19);
-		panelPretraga.add(textField_4);
-		textField_4.setColumns(10);
+		txtPretraga = new JTextField();
+		txtPretraga.setBounds(210, 31, 388, 19);
+		panelPretraga.add(txtPretraga);
+		txtPretraga.setColumns(10);
 
 		Model();
 
-		JButton btnTrai = new JButton("Traži");
-		btnTrai.setBackground(Color.LIGHT_GRAY);
-		btnTrai.setBounds(610, 28, 117, 25);
-		panelPretraga.add(btnTrai);
+		JButton btnTrazi = new JButton("Traži");
+		btnTrazi.setBackground(Color.LIGHT_GRAY);
+		btnTrazi.setBounds(610, 28, 117, 25);
+		panelPretraga.add(btnTrazi);
 
-		btnTrai.addActionListener(new ActionListener() {
+		btnTrazi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PopuniTabelu();
 			}
@@ -67,20 +70,19 @@ public class Admin extends JPanel {
 		lblRezultatiPretrage.setBounds(90, 121, 162, 15);
 		panelPretraga.add(lblRezultatiPretrage);
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(tablemodel);
 		JScrollPane jsp = new JScrollPane(table);
 		jsp.setBounds(171, 152, 431, 106);
 		panelPretraga.add(jsp);
-		pomoc = textField_4.getText();
-		JButton button = new JButton("(De)aktiviraj");
-		button.addActionListener(new ActionListener() {
+		pomoc = txtPretraga.getText();
+		JButton btnAktiviraj = new JButton("(De)aktiviraj");
+		btnAktiviraj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (table.getSelectedRow() == -1)
-						throw new Exception(
-								"Niste odabrali nijednog zaposlenika!");
-					List<Zaposlenik> lz = HibernateZaposlenik
-							.dajZaposlenikePoKriteriju(textField_4.getText());
+						throw new Exception("Niste odabrali nijednog zaposlenika!");
+					List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(txtPretraga.getText());
 					Zaposlenik novi = lz.get(table.getSelectedRow());
 					if (novi.getTipUposlenika().equals("neaktivan")) {
 						Object[] options = { "Obični", "Privilegirani",
@@ -97,13 +99,15 @@ public class Admin extends JPanel {
 							novi.postaviTipUposlenika(TipUposlenika.privilegirani);
 							HibernateZaposlenik.urediZaposlenika(novi);
 						}
-					} else {
+					}
+					else {
 						novi.postaviTipUposlenika(TipUposlenika.neaktivan);
 						HibernateZaposlenik.urediZaposlenika(novi);
 					}
 					dispose();
 					PopuniTabelu();
-				} catch (Exception e1) {
+				}
+				catch (Exception e1) {
 					JOptionPane.showMessageDialog(tabovi, e1.getMessage(),
 							"Potvrda", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -114,23 +118,21 @@ public class Admin extends JPanel {
 
 			}
 		});
-		button.setBackground(Color.LIGHT_GRAY);
-		button.setBounds(481, 269, 117, 25);
-		panelPretraga.add(button);
+		btnAktiviraj.setBackground(Color.LIGHT_GRAY);
+		btnAktiviraj.setBounds(481, 269, 117, 25);
+		panelPretraga.add(btnAktiviraj);
 		nemaTaba = true;
-		JButton bModifikuj = new JButton("Modifikuj");
-		bModifikuj.setBackground(Color.LIGHT_GRAY);
-		bModifikuj.setBounds(354, 270, 117, 25);
-		panelPretraga.add(bModifikuj);
-		bModifikuj.addActionListener(new ActionListener() {
+		JButton btnModifikuj = new JButton("Modifikuj");
+		btnModifikuj.setBackground(Color.LIGHT_GRAY);
+		btnModifikuj.setBounds(354, 270, 117, 25);
+		panelPretraga.add(btnModifikuj);
+		btnModifikuj.addActionListener(new ActionListener() {
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (table.getSelectedRow() == -1)
-						throw new Exception(
-								"Niste odabrali nijednog zaposlenika!");
-					final List<Zaposlenik> lz = HibernateZaposlenik
-							.dajZaposlenikePoKriteriju(textField_4.getText());
+						throw new Exception("Niste odabrali nijednog zaposlenika!");
+					final List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(txtPretraga.getText());
 					final Zaposlenik novi = lz.get(table.getSelectedRow());
 					final JPanel panelNovi = new JPanel();
 					panelNovi.setLayout(null);
@@ -138,24 +140,20 @@ public class Admin extends JPanel {
 						tabovi.addTab("Modifikuj", panelNovi);
 						tabovi.setSelectedComponent(panelNovi);
 						nemaTaba = false;
-					} else {
+					}
+					else {
 						tabovi.setSelectedIndex(2);
-						txtImePrezime.setText(novi.getIme() + " "
-								+ novi.getPrezime());
-						txtUsername.setText(HibernatePristupniPodaci
-								.dajKorisnickoImePoKriteriju(
-										novi.getPristupniPodaci()).toString());
+						txtImePrezime.setText(novi.getIme() + " " + novi.getPrezime());
+						txtUsername.setText(HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(novi.getPristupniPodaci()).toString());
 					}
 					final JLabel lblImeIPrezime_1 = new JLabel("Ime i prezime:");
 					lblImeIPrezime_1.setBounds(243, 181, 102, 15);
-					lblImeIPrezime_1
-							.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+					lblImeIPrezime_1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 					panelNovi.add(lblImeIPrezime_1);
 
 					JLabel lblKorisnikoIme = new JLabel("Korisničko ime:");
 					lblKorisnikoIme.setBounds(232, 212, 113, 15);
-					lblKorisnikoIme
-							.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+					lblKorisnikoIme.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 					panelNovi.add(lblKorisnikoIme);
 
 					JLabel lblifra = new JLabel("Šifra:");
@@ -164,81 +162,63 @@ public class Admin extends JPanel {
 					panelNovi.add(lblifra);
 
 					JLabel lblPotvrdaifre = new JLabel("Potvrda šifre:");
-					lblPotvrdaifre
-							.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+					lblPotvrdaifre.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 					lblPotvrdaifre.setBounds(243, 274, 102, 15);
 					panelNovi.add(lblPotvrdaifre);
 
+					txtImePrezime = new JTextField();
+					txtImePrezime.setBounds(363, 179, 196, 19);
+					panelNovi.add(txtImePrezime);
+					txtImePrezime.setColumns(10);
+					txtImePrezime.setText(novi.getIme()+" "+novi.getPrezime());
+					txtUsername = new JTextField();
+					txtUsername.setColumns(10);
+					txtUsername.setBounds(363, 210, 196, 19);
+					panelNovi.add(txtUsername);
+					txtUsername.setText(HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(novi.getPristupniPodaci()).toString());
+					pwdSifra = new JPasswordField();
+					pwdSifra.setColumns(10);
+					pwdSifra.setBounds(363, 241, 196, 19);
+					panelNovi.add(pwdSifra);
 
-				txtImePrezime = new JTextField();
-				txtImePrezime.setBounds(363, 179, 196, 19);
-				panelNovi.add(txtImePrezime);
-				txtImePrezime.setColumns(10);
-				txtImePrezime.setText(novi.getIme()+" "+novi.getPrezime());
-				txtUsername = new JTextField();
-				txtUsername.setColumns(10);
-				txtUsername.setBounds(363, 210, 196, 19);
-				panelNovi.add(txtUsername);
-				txtUsername.setText(HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(novi.getPristupniPodaci()).toString());
-				pwdSifra = new JPasswordField();
-				pwdSifra.setColumns(10);
-				pwdSifra.setBounds(363, 241, 196, 19);
-				panelNovi.add(pwdSifra);
+					pwdPotvrda = new JPasswordField();
+					pwdPotvrda.setColumns(10);
+					pwdPotvrda.setBounds(363, 272, 196, 19);
+					panelNovi.add(pwdPotvrda);
 
-
-				pwdPotvrda = new JPasswordField();
-				pwdPotvrda.setColumns(10);
-				pwdPotvrda.setBounds(363, 272, 196, 19);
-				panelNovi.add(pwdPotvrda);
-
-				JButton btnSpasiti = new JButton("Spasiti");
-				btnSpasiti.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						try {
-							if (!txtImePrezime.getText().contains(" ")
-									|| txtImePrezime.getText()
-											.split(" {2,}", 2).length != 1
-									|| txtImePrezime.getText()
-											.split("[0-9]", 2).length != 1
-									|| txtImePrezime.getText().split(
-											"[^a-zA-Z0-9_ ŠĐĆŽČčćžđš]", 2).length != 1)
-								throw new Exception(
-										"Niste pravilno unijeli ime i prezime!");
+					JButton btnSpasiti = new JButton("Spasiti");
+					btnSpasiti.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							try {
+								String imePrezime = txtImePrezime.getText();
+								String username = txtUsername.getText();
+								String sifra = pwdSifra.getText();
+								String potvrdaSifre = pwdPotvrda.getText();
 								
-								String[] temp = txtImePrezime.getText().split(" ");
-								String ime = temp[0].toString();
-								String prezime = temp[1].toString();
-								String ki = txtUsername.getText();
-								String pass1 = pwdSifra.getText();
-								String pass2 = pwdPotvrda.getText();
-								if (ki.length() == 0
-										|| ki.split("[^a-zA-Z0-9_]", 2).length != 1
-										|| ki.split(" {2,}", 2).length != 1)
-									throw new Exception(
-											"Niste pravilno upisali korisničko ime!");
-								if (pass1.length() == 0 || pass2.length() == 0)
-									throw new Exception("Niste upisali šifru!");
-								if (!Arrays.equals(pwdSifra.getPassword(),
-										pwdPotvrda.getPassword()))
+								
+								Validacija.validirajImeIPrezime(imePrezime);
+								Validacija.validirajUsername(username);
+								Validacija.validirajPassword(sifra);
+								if (!sifra.equals(potvrdaSifre))
 									throw new Exception("Šifre nisu iste!");
-								if (pass1.split("[0-9]", 2).length == 1
-										|| pass1.length() < 6
-										|| pass1.split("[^a-zA-Z0-9_ ]", 2).length != 1)
-									throw new Exception(
-											"Šifra mora imati barem 6 znakova i mora sadržavati i slova i brojeve!");
-								novi.setIme(ime);
-								novi.setPrezime(prezime);
+				
+								String[] temp = imePrezime.split(" ");
+								temp = Util.remove(temp, "");
+								String ime = temp[0].toString();
+								temp = Util.remove(temp, 0);
+								String prezime = Util.join(temp, " ");
+								
 								if (comboBoxTip.getSelectedIndex() == 1)
 									novi.postaviTipUposlenika(TipUposlenika.privilegirani);
 								else
 									novi.postaviTipUposlenika(TipUposlenika.obicni);
-								PristupniPodaci p = HibernateZaposlenik
-										.dajPristupnePodatkePoId(novi);
-								p.setKorisnickoIme(ki);
-								p.setLozinka(HibernatePristupniPodaci
-										.HesirajMD5(pass1));
-								HibernatePristupniPodaci
-										.urediPristupnePodatke(p);
+								
+								novi.setIme(ime);
+								novi.setPrezime(prezime);
+								PristupniPodaci p = HibernateZaposlenik.dajPristupnePodatkePoId(novi);
+								p.setKorisnickoIme(username);
+								p.setLozinka(HibernatePristupniPodaci.HesirajMD5(sifra));
+								HibernatePristupniPodaci.urediPristupnePodatke(p);
 								HibernateZaposlenik.urediZaposlenika(novi);
 								JOptionPane.showMessageDialog(
 										panelNovi,
@@ -252,15 +232,16 @@ public class Admin extends JPanel {
 								tabovi.remove(2);
 								nemaTaba = true;
 								dispose();
-							} catch (Exception e1) {
-								JOptionPane.showMessageDialog(panelNovi,
-										e1.getMessage(), "Potvrda",
-										JOptionPane.INFORMATION_MESSAGE);
 							}
-
+							catch (Exception e1) {
+								JOptionPane.showMessageDialog(panelNovi,
+									e1.getMessage(), "Potvrda",
+									JOptionPane.INFORMATION_MESSAGE);
+							}
+	
 							PopuniTabelu();
 						}
-
+	
 						private void dispose() {
 							// TODO Auto-generated method stub
 							txtImePrezime.setText("");
@@ -268,7 +249,6 @@ public class Admin extends JPanel {
 							pwdSifra.setText("");
 							pwdPotvrda.setText("");
 						}
-
 					});
 					btnSpasiti.setBackground(Color.LIGHT_GRAY);
 					btnSpasiti.setBounds(635, 450, 117, 25);
@@ -278,14 +258,13 @@ public class Admin extends JPanel {
 					btnOtkazati.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							JOptionPane.showMessageDialog(panelNovi,
-									"Kreiranje novog korisnika otkazano.",
+									"Modifikacija korisnika otkazana.",
 									"Potvrda", JOptionPane.INFORMATION_MESSAGE);
 							tabovi.remove(2);
 							nemaTaba = true;
 							dispose();
 						}
-
-
+	
 						private void dispose() {
 							// TODO Auto-generated method stub
 							txtImePrezime.setText("");
@@ -297,28 +276,26 @@ public class Admin extends JPanel {
 					btnOtkazati.setBackground(Color.LIGHT_GRAY);
 					btnOtkazati.setBounds(504, 450, 117, 25);
 					panelNovi.add(btnOtkazati);
-
+	
 					JLabel label = new JLabel("Tip:");
 					label.setHorizontalAlignment(SwingConstants.RIGHT);
 					label.setBounds(243, 302, 102, 15);
 					panelNovi.add(label);
-
+	
 					comboBoxTip = new JComboBox();
 					comboBoxTip.addItem("Obični korisnik");
 					comboBoxTip.addItem("Privilegirani korisnik");
 					comboBoxTip.setBounds(363, 300, 196, 19);
 					panelNovi.add(comboBoxTip);
-
+	
 					setBounds(190, 0, 1000, 700);
 					setVisible(true);
-
-
-				} catch (Exception e1) {
+				}
+				catch (Exception e1) {
 					JOptionPane.showMessageDialog(tabovi, e1.getMessage(),
-							"Potvrda", JOptionPane.INFORMATION_MESSAGE);
+						"Potvrda", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
-
 		});
 
 		// Tab za kreiranje novog korisnika
@@ -460,18 +437,16 @@ public class Admin extends JPanel {
 
 	public void Model() {
 
-		tablemodel = new DefaultTableModel(new Object[][] {}, new String[] {
-				"Ime i Prezime", "Korisničko ime", "Status" }) {
+		tablemodel = new DefaultTableModel(new Object[][] {}, new String[] {"Ime i Prezime", "Korisničko ime", "Status" }) {
 			Class[] columnTypes = new Class[] { String.class, String.class,
 					String.class
-
 			};
 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 
-			boolean[] columnEditables = new boolean[] { true, true, true };
+			boolean[] columnEditables = new boolean[] { false, false, false };
 
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -483,12 +458,10 @@ public class Admin extends JPanel {
 
 	private void PopuniTabelu() {
 		IzbrisiTabelu();
-		List<Zaposlenik> lz = HibernateZaposlenik
-				.dajZaposlenikePoKriteriju(textField_4.getText());
+		List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(txtPretraga.getText());
 		for (int i = 0; i < lz.size(); i++) {
 			data[i][0] = lz.get(i).getIme() + " " + lz.get(i).getPrezime();
-			data[i][1] = HibernatePristupniPodaci
-					.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
+			data[i][1] = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
 			if (lz.get(i).dajTipUposlenika() == TipUposlenika.neaktivan)
 				data[i][2] = "Deaktiviran";
 			else if (lz.get(i).dajTipUposlenika() == TipUposlenika.obicni)
@@ -496,13 +469,11 @@ public class Admin extends JPanel {
 			else
 				data[i][2] = "Privilegirani";
 		}
-		if (data.length == 0) {
-			JOptionPane.showMessageDialog(null, "Nema rezultata pretrage",
-					"Info", JOptionPane.INFORMATION_MESSAGE);
+		if (lz.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Nema rezultata pretrage", "Info", JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		for (int j = 0; j < lz.size(); j++) {
-
 			tablemodel.addRow(data[j]);
 		}
 
@@ -511,7 +482,6 @@ public class Admin extends JPanel {
 	private void IzbrisiTabelu() {
 		tablemodel.getDataVector().removeAllElements();
 		tablemodel.fireTableDataChanged();
-
 	}
 
 }

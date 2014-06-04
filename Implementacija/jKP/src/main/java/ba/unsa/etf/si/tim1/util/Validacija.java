@@ -7,8 +7,8 @@ public class Validacija {
 	}
 	
 	public static void validirajImeIPrezime(String imePrezime) throws Exception {
-		if(!imePrezime.contains(" ") || imePrezime.split("[^a-zA-ZČčĆćĐđŠšŽž\\s]", 2).length != 1)
-			throw new Exception("Niste ispravno unijeli ime i prezime (dozvoljena su samo slova)!");
+		if(!imePrezime.contains(" ") || imePrezime.split("[^-a-zA-ZČčĆćĐđŠšŽž\\s]", 2).length != 1)
+			throw new Exception("Niste ispravno unijeli ime i prezime!\nIme i prezime mora sadržavati barem dvije riječi koje sastoje isključivo od malih i velikih slova.");
 	}
 	
 	public static void validirajUsername(String username) throws Exception {
