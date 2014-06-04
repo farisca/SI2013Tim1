@@ -22,6 +22,7 @@ public class PretragaRadnihNaloga extends JPanel {
 	private Zaposlenik korisnik;
 	
 	private final JComboBox<Zaposlenik> comboBoxIzvrsilac;
+	private final JComboBox<TipPosla> cmbTipPosla;
 	private final JXDatePicker datePickerDatumKreiranja;
 	
 	private Object[][] podaci = new Object[100][10];
@@ -84,6 +85,7 @@ public class PretragaRadnihNaloga extends JPanel {
         
 		java.util.List<Zaposlenik> listaZaposlenika = HibernateZaposlenik.dajSveZaposlenike();
         Zaposlenik[] zaposlenici = listaZaposlenika.toArray(new Zaposlenik[listaZaposlenika.size()]);
+        
 		
         comboBoxIzvrsilac = new JComboBox<Zaposlenik>();
         comboBoxIzvrsilac.setBounds(240, 160, 225, 20);
@@ -107,7 +109,7 @@ public class PretragaRadnihNaloga extends JPanel {
         this.add(datePickerDatumKreiranja);
         
         JScrollPane scrollPane_3 = new JScrollPane();
-        scrollPane_3.setBounds(39, 244, 732, 199);
+        scrollPane_3.setBounds(39, 278, 732, 199);
         this.add(scrollPane_3);
         
         scrollPane_3.setViewportView(tabela);
@@ -265,6 +267,11 @@ public class PretragaRadnihNaloga extends JPanel {
         			Zaposlenik z = (Zaposlenik) comboBoxIzvrsilac.getSelectedItem();
         			lista.add(String.valueOf(z.getId()));
     			}
+        		
+        		if (cmbTipPosla.getSelectedIndex() != -1) {
+        			lista.add("POSAO");
+        			lista.add(cmbTipPosla.getSelectedItem().toString());   			
+        		}
 
         		if (datePickerDatumKreiranja.getDate() != null) {
         			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -287,7 +294,7 @@ public class PretragaRadnihNaloga extends JPanel {
                 }
         	}
         });
-        btnTrazi.setBounds(318, 191, 146, 23);
+        btnTrazi.setBounds(319, 230, 146, 23);
         this.add(btnTrazi);
         
         //Detaljni prikaz radnog naloga
@@ -390,6 +397,16 @@ public class PretragaRadnihNaloga extends JPanel {
         });
         btnZakljuci.setBounds(385, 454, 89, 23);
         this.add(btnZakljuci);
+        
+        JLabel lblTipPoslaIli = new JLabel("Tip posla ili usluge:");
+        lblTipPoslaIli.setBounds(50, 190, 187, 14);
+        add(lblTipPoslaIli);
+        
+        cmbTipPosla = new JComboBox();
+        cmbTipPosla.setBounds(240, 190, 225, 20);
+        cmbTipPosla.setModel(new DefaultComboBoxModel<TipPosla> (new TipPosla[] {TipPosla.WomaMasina, TipPosla.UgradnjaVodomjera, TipPosla.ZamjenaVodomjera, TipPosla.ZamjenaCijevi, TipPosla.Ostalo}));
+        cmbTipPosla.setSelectedIndex(-1);
+        add(cmbTipPosla);
         
 	}
 	
