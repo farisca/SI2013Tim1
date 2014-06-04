@@ -299,7 +299,7 @@ public class PretragaRadnihNaloga extends JPanel {
         
         //Detaljni prikaz radnog naloga
         JButton btnDetaljnije = new JButton("Detaljnije");
-        btnDetaljnije.setBounds(682, 454, 89, 23);
+        btnDetaljnije.setBounds(682, 485, 89, 23);
         btnDetaljnije.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		int i = tabela.getSelectedRow();
@@ -340,12 +340,12 @@ public class PretragaRadnihNaloga extends JPanel {
         		}
         	}
         });
-        btnModifikuj.setBounds(583, 454, 89, 23);
+        btnModifikuj.setBounds(583, 485, 89, 23);
         this.add(btnModifikuj);
         
         //Storniranje radnih naloga
         JButton btnStorniraj = new JButton("Storniraj");
-        btnStorniraj.setBounds(484, 454, 89, 23);
+        btnStorniraj.setBounds(484, 485, 89, 23);
         this.add(btnStorniraj);
         btnStorniraj.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e){
@@ -395,7 +395,7 @@ public class PretragaRadnihNaloga extends JPanel {
                 
         	}
         });
-        btnZakljuci.setBounds(385, 454, 89, 23);
+        btnZakljuci.setBounds(385, 485, 89, 23);
         this.add(btnZakljuci);
         
         JLabel lblTipPoslaIli = new JLabel("Tip posla ili usluge:");
