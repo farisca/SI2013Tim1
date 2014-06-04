@@ -403,8 +403,8 @@ public class PretragaRadnihNaloga extends JPanel {
 			RadniNalog rn = radniNalozi.get(red);
 			 
 			podaci[red][0] = rn.getBrojRadnogNaloga();
-			podaci[red][1] = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(rn.getKreatorRadnogNaloga()).getImeIPrezime(); 
-			podaci[red][2] = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(rn.getIzvrsilacPosla()).getImeIPrezime();
+			podaci[red][1] = HibernateZaposlenik.dajZaposlenikaPoId(rn.getKreatorRadnogNaloga()).getImeIPrezime(); 
+			podaci[red][2] = HibernateZaposlenik.dajZaposlenikaPoId(rn.getIzvrsilacPosla()).getImeIPrezime();
 			podaci[red][3] = rn.getStatus();
 			podaci[red][4] = rn.getLokacija();
 			podaci[red][5] = rn.getDatumKreiranja();

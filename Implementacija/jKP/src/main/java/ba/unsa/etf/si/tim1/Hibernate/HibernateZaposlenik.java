@@ -13,6 +13,23 @@ import org.hibernate.Transaction;
 public class HibernateZaposlenik {
 	public HibernateZaposlenik() {}
 	
+	public static Zaposlenik dajZaposlenikaPoId(long id){
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		s.beginTransaction();
+		
+		Query query = s.createQuery("FROM Zaposlenik WHERE id = :id");
+		query.setParameter("id", id);
+		
+		if(query.list().isEmpty()) {
+			s.close();
+			return null;
+		}
+		
+		Zaposlenik z = (Zaposlenik)query.list().get(0);
+
+		s.close();
+		return z;
+	}
 	
 	public static Zaposlenik dajZaposlenikaPoPristupnimPodacima(long id) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
