@@ -227,6 +227,7 @@ public class PretragaRadnihNaloga extends JPanel {
         		return columnEditables[column];
         	}
         });
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabela.getColumnModel().getColumn(0).setPreferredWidth(40);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
         tabela.getColumnModel().getColumn(1).setMinWidth(120);
