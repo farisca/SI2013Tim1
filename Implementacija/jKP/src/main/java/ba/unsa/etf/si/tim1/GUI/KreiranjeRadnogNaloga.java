@@ -19,7 +19,8 @@ public class KreiranjeRadnogNaloga extends JPanel {
 	private final JComboBox<Zaposlenik> comboBoxKreirao;
 	private final JComboBox<Zaposlenik> comboBoxIzvrsilac;
 	private final JTextField txtLokacija;
-	private final JFormattedTextField txtUtrosenoVrijeme;
+	private final JSpinner spinnerSati;
+	private final JSpinner spinnerMinute;
 	private final JComboBox<TipPosla> comboBoxTipPosla;
 	private final JTextArea textAreaOpisPosla;
 	private final JTextArea textAreaPotrebniMaterijal;
@@ -68,6 +69,14 @@ public class KreiranjeRadnogNaloga extends JPanel {
         lblUtrosenoVrijeme.setBounds(76, 262, 150, 14);
         this.add(lblUtrosenoVrijeme);
         
+        JLabel lblSati = new JLabel("sati");
+        lblSati.setBounds(280, 256, 46, 20);
+        add(lblSati);
+        
+        JLabel lblMinuta = new JLabel("minuta");
+        lblMinuta.setBounds(360, 256, 46, 20);
+        add(lblMinuta);
+        
         JLabel lblTipPosla = new JLabel("Tip posla ili usluge:");
         lblTipPosla.setBounds(76, 287, 150, 14);
         this.add(lblTipPosla);
@@ -110,11 +119,15 @@ public class KreiranjeRadnogNaloga extends JPanel {
         this.add(txtLokacija);
         txtLokacija.setColumns(10);
         
-        txtUtrosenoVrijeme = new JFormattedTextField();
-        //txtUtrosenoVrijeme.setEditable(false);
-        //txtUtrosenoVrijeme.setEnabled(false);
-        txtUtrosenoVrijeme.setBounds(236, 256, 200, 20);
-        this.add(txtUtrosenoVrijeme);
+        spinnerSati = new JSpinner();
+        spinnerSati.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+        spinnerSati.setBounds(236, 256, 40, 20);
+        add(spinnerSati);
+        
+        spinnerMinute = new JSpinner();
+        spinnerMinute.setModel(new SpinnerNumberModel(0, 0, 59, 1));
+        spinnerMinute.setBounds(316, 256, 40, 20);
+        add(spinnerMinute);
         
         comboBoxTipPosla = new JComboBox<TipPosla>();
         comboBoxTipPosla.setModel(new DefaultComboBoxModel<TipPosla>(new TipPosla[] {TipPosla.WomaMasina, TipPosla.UgradnjaVodomjera, TipPosla.ZamjenaVodomjera, TipPosla.ZamjenaCijevi, TipPosla.Ostalo}));
@@ -195,14 +208,7 @@ public class KreiranjeRadnogNaloga extends JPanel {
             		String potrebniMaterijal = textAreaPotrebniMaterijal.getText();
             		String lokacija = txtLokacija.getText();
             		Date datumIzvrsenja = datePickerDatumZavrsetkaRadova.getDate();
-            		Time utrosenoVrijeme;
-            		if (!txtUtrosenoVrijeme.getText().isEmpty()) {
-            			int sati = (int)(Double.parseDouble(txtUtrosenoVrijeme.getText()));
-            			int minute = (int)(((Double.parseDouble(txtUtrosenoVrijeme.getText())) - sati)*60);
-                		utrosenoVrijeme = new Time(sati, minute, 0);
-            		}
-            		else
-            			utrosenoVrijeme = null;
+            		Time utrosenoVrijeme = new Time((Integer)spinnerSati.getValue(), (Integer)spinnerMinute.getValue(), 0);
             		String opisPosla = textAreaOpisPosla.getText();
             		
             		if (lokacija.isEmpty())
@@ -237,6 +243,6 @@ public class KreiranjeRadnogNaloga extends JPanel {
         });
         btnKreiraj.setBounds(345, 670, 89, 23);
         this.add(btnKreiraj);
+        
 	}
-	
 }
