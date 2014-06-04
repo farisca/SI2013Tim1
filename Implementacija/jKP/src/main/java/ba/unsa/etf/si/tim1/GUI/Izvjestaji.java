@@ -38,6 +38,7 @@ import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DateFormatter;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
@@ -69,6 +70,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.html.WebColors;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -127,7 +129,8 @@ public class Izvjestaji extends JPanel {
         final JComboBox comboBox_2 = new JComboBox();
         comboBox_2.setBounds(318, 64, 61, 20);
         add(comboBox_2);
-        comboBox_2.addItem("2014");
+        for(int i=2010; i <= (new Date()).getYear() + 1900; i++) 
+        	comboBox_2.addItem(String.valueOf(i));
         
         final JLabel godina = new JLabel("Godina:");
         godina.setBounds(259, 67, 37, 14);
@@ -140,6 +143,9 @@ public class Izvjestaji extends JPanel {
         datePicker.setLocation(144, 59);
         datePicker.setSize(202, 26);
         this.add(datePicker);
+        Date danasnji = new Date();
+        model.setDate(danasnji.getYear() + 1900, danasnji.getMonth(), danasnji.getDay());
+        model.setSelected(true);
         final PagePanel prikazPdf = new PagePanel();
       //prikazPdf.showPage(page);   
         final JScrollPane a = new JScrollPane(prikazPdf);
@@ -233,11 +239,21 @@ public class Izvjestaji extends JPanel {
 	        	        
 	        	        jSpasiti.addActionListener(new ActionListener() {
 	        	        	public void actionPerformed(ActionEvent e) {
+	        	        		if(!(new File("izvjestaj.pdf").exists())) {
+	        	        			JOptionPane.showMessageDialog(getRootPane(), "Morate prvo kreirati izvještaj!");
+	        	        			return;
+	        	        		}
 	        	        		 JFileChooser saveFile = new JFileChooser();
+	        	        		 saveFile.setFileFilter(new FileNameExtensionFilter("PDF", "pdf"));
 	        	        		 int userSelection = saveFile.showSaveDialog(null);
 	        	                 if (userSelection == JFileChooser.APPROVE_OPTION) {
 	        	                     File fileToSave = saveFile.getSelectedFile();
 	        	                     try {
+	        	                    	 String file_name = fileToSave.toString();
+	        	                    	 if (!file_name.endsWith(".pdf")) {
+	        	                    		 fileToSave = new File(file_name + ".pdf");
+	        	                    	 }
+	        	                    	 System.out.println(fileToSave.toString());
 	        							Files.copy((new File("izvjestaj.pdf")).toPath(), fileToSave.toPath());
 	        							JOptionPane.showMessageDialog(getRootPane(), "Uspješno ste spasili izvještaj!");
 	        						} catch (Exception e1) {
@@ -250,7 +266,10 @@ public class Izvjestaji extends JPanel {
 	        	        
 	        	        jStampati.addActionListener(new ActionListener() {
 	        	        	public void actionPerformed(ActionEvent e) {
-
+	        	        		if(!(new File("izvjestaj.pdf").exists())) {
+	        	        			JOptionPane.showMessageDialog(getRootPane(), "Morate prvo kreirati izvještaj!");
+	        	        			return;
+	        	        		}
 	        	        		// Create a PDFFile from a File reference
 	        	        		File f = new File("izvjestaj.pdf");
 	        	        		FileInputStream fis;
@@ -328,49 +347,10 @@ public class Izvjestaji extends JPanel {
 		}
        
 	}
-	public static void drawTable(PDPage page, PDPageContentStream contentStream, 
-            float y, float margin, String[][] content) throws IOException {
-			final int rows = content.length;
-			final int cols = content[0].length;
-			final float rowHeight = 20f;
-			final float tableWidth = page.findMediaBox().getWidth() - margin - margin;
-			final float tableHeight = rowHeight * rows;
-			final float colWidth = tableWidth/(float)cols;
-			final float cellMargin=5f;
-			
-			//draw the rows
-			float nexty = y ;
-			for (int i = 0; i <= rows; i++) {
-				contentStream.drawLine(margin, nexty, margin+tableWidth, nexty);
-				nexty-= rowHeight;
-			}
-			
-			//draw the columns
-			float nextx = margin;
-			for (int i = 0; i <= cols; i++) {
-				contentStream.drawLine(nextx, y, nextx, y-tableHeight);
-				nextx += colWidth;
-			}
-			
-			//now add the text        
-			contentStream.setFont( PDType1Font.TIMES_ROMAN , 12 );    
-			
-			float textx = margin+cellMargin;
-			float texty = y-15;        
-			for(int i = 0; i < content.length; i++){
-				for(int j = 0 ; j < content[i].length; j++){
-					String text = content[i][j];
-					contentStream.beginText();
-					contentStream.moveTextPositionByAmount(textx,texty);
-					contentStream.drawString(text);
-					contentStream.endText();
-					textx += colWidth;
-				}
-				texty-=rowHeight;
-				textx = margin+cellMargin;
-			}
-			}
+
 	void MjesecniSumarni(String fajl, int mjesec, String godina) throws Exception {
+		BaseFont bf;
+        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
 		DateFormat mj = new SimpleDateFormat("MM");
 		DateFormat god = new SimpleDateFormat("yyyy");
 		Date date = new Date();
@@ -391,11 +371,9 @@ public class Izvjestaji extends JPanel {
 	        PdfPTable table = new PdfPTable(2);
 	        
 	        table.setWidthPercentage(50f);
-	        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-	        	      Font.BOLD);
-	        Font ctFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-	        	      Font.BOLD);
-	        Paragraph parah = new Paragraph("Kreirani, zakljuceni, nezakljuceni i stornirani radni nalozi", catFont);
+	        Font catFont = new Font(bf, 18);
+	        Font ctFont = new Font(bf, 16);Font ct = new Font(bf, 12);
+	        Paragraph parah = new Paragraph("Kreirani, zaključeni, nezaključeni i stornirani radni nalozi", catFont);
 	        parah.setAlignment(Element.ALIGN_CENTER);
 	        
 	        document.add(parah);
@@ -407,9 +385,9 @@ public class Izvjestaji extends JPanel {
 	        PdfPCell cell;
 	        cell = new PdfPCell(new Phrase("Kreirani radni nalozi"));cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
 	        cell = new PdfPCell(new Phrase(String.valueOf(neizvrseni + izvrseni + stornirani))); table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Zakljuceni"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Zaključeni",ct));table.addCell(cell);
 	        cell = new PdfPCell(new Phrase(String.valueOf(izvrseni)));table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Nezakljuceni")); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Nezaključeni",ct)); table.addCell(cell);
 	        cell = new PdfPCell(new Phrase(String.valueOf(neizvrseni))); table.addCell(cell);
 	        cell = new PdfPCell(new Phrase("Stornirani"));table.addCell(cell);
 	        cell = new PdfPCell(new Phrase(String.valueOf(stornirani))); table.addCell(cell);
@@ -432,6 +410,7 @@ public class Izvjestaji extends JPanel {
 		if(Integer.valueOf(god.format(date)).intValue() == Integer.valueOf(godina).intValue() && Integer.valueOf(mj.format(date)).intValue() < mjesec)
 			throw new Exception ("Pogrešan mjesec!");
         try {
+        	
         	Session session = HibernateUtil.getSessionFactory().openSession();
     		Transaction t = session.beginTransaction();     
     		List<Object[]> lq =session.createSQLQuery("select r.brojradnognaloga, r.datumkreiranja, r.posao, z.ime, z.prezime, r.razlogstorniranja from radninalog r, zaposlenik z where z.id = r.osobakojastornira and r.status = 'storniran' and month(r.datumkreiranja) = " +String.valueOf(mjesec)+ " and year(r.datumkreiranja) = " + godina ).list();
@@ -442,11 +421,11 @@ public class Izvjestaji extends JPanel {
 	        PdfPTable table = new PdfPTable(7);
 	        
 	        table.setWidthPercentage(95f);
-	        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-	        	      Font.BOLD);
-	        Font ctFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-	        	      Font.BOLD);
-	        Paragraph parah = new Paragraph("Stornirani radni nalozi", catFont);
+	        BaseFont bf;
+	        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
+	        Font catFont = new Font(bf, 18);
+	        Font ctFont = new Font(bf, 16);Font ct = new Font(bf, 12);
+	        Paragraph parah = new Paragraph("Stornirani radni nalozi", new Font(bf, 18));
 	        parah.setAlignment(Element.ALIGN_CENTER);
 	        document.add(parah);
 	        parah = new Paragraph("Mjesec: " + mjesec + "  Godina: " + godina, ctFont);
@@ -463,13 +442,13 @@ public class Izvjestaji extends JPanel {
 	        cell = new PdfPCell(new Phrase("Stanje")); cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
 	        cell = new PdfPCell(new Phrase("Razlog storniranja"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
     		for(Object[] q : lq) {
-    			cell = new PdfPCell(new Phrase(String.valueOf(i + 1))); table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[0])));table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[1])));table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[2])));table.addCell(cell);
-    			cell = new PdfPCell(new Phrase( String.valueOf(q[3]) + " " + String.valueOf(q[4])));table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(i + 1),ct)); table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[0]),ct));table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[1]),ct));table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[2]),ct));table.addCell(cell);
+    			cell = new PdfPCell(new Phrase( String.valueOf(q[3]) + " " + String.valueOf(q[4]),ct));table.addCell(cell);
     			cell = new PdfPCell(new Phrase("Storniran"));table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[5])));table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[5]),ct));table.addCell(cell);
     			i++;
     		}
 		
@@ -500,6 +479,8 @@ public class Izvjestaji extends JPanel {
         		throw new Exception("Pogrešna sedmica!");
 		Document document = new Document();
         try {
+        	BaseFont bf;
+	        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
         	Session session = HibernateUtil.getSessionFactory().openSession();
     		Transaction t = session.beginTransaction();
     		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -520,15 +501,13 @@ public class Izvjestaji extends JPanel {
 	        PdfPTable table = new PdfPTable(5);
 	        
 	        table.setWidthPercentage(95f);
-	        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-	        	      Font.BOLD);
-	        Font ctFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-	        	      Font.BOLD);
+	        Font catFont = new Font(bf, 18);
+	        Font ctFont = new Font(bf, 16);Font ct = new Font(bf, 12);
 	        Calendar cal = Calendar.getInstance();
 	        cal.setTime(datePicker);
 	        int week = cal.get(Calendar.WEEK_OF_YEAR);
-	        int year = cal.get(Calendar.YEAR);
-	        Paragraph parah = new Paragraph("Sedmicni izvjestaj o radu zaposlenika", catFont);
+	        int year = datePicker.getYear() + 1900;
+	        Paragraph parah = new Paragraph("Sedmični izvještaj o radu zaposlenika", catFont);
 	        parah.setAlignment(Element.ALIGN_CENTER);
 	        document.add(parah);
 	        parah = new Paragraph("Sedmica: " + week + ".  Godina: " + year, ctFont);
@@ -539,16 +518,16 @@ public class Izvjestaji extends JPanel {
 	        PdfPCell cell;
 	        cell = new PdfPCell(new Phrase("Id"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
 	        cell = new PdfPCell(new Phrase("Ime i prezime")); cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Broj zakljucenih"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Broj nezakljucenih"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Broj zaključenih",ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Broj nezaključenih",ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
 	        cell = new PdfPCell(new Phrase("Broj storniranih"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
 	        
     		for(Object[] q : lq) {
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[0])));cell.setHorizontalAlignment(Element.ALIGN_CENTER); table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[1] + " " + q[2])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[3])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[4])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
-    			cell = new PdfPCell(new Phrase( String.valueOf(q[5])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[0]),ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER); table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[1] + " " + q[2]),ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[3]),ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[4]),ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase( String.valueOf(q[5]),ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
     			i++;
     		}
 		
@@ -568,6 +547,8 @@ public class Izvjestaji extends JPanel {
 		
 		if((new Date()).before(datePicker)) throw new Exception("Pogrešan datum!");
         try {
+        	BaseFont bf;
+	        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
             Calendar calendar = Calendar.getInstance();  
             calendar.setTime(datePicker);  
 
@@ -598,15 +579,13 @@ public class Izvjestaji extends JPanel {
 	        PdfPTable table = new PdfPTable(6);
 	        
 	        table.setWidthPercentage(95f);
-	        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-	        	      Font.BOLD);
-	        Font ctFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-	        	      Font.BOLD);
+	        Font catFont = new Font(bf, 18);
+	        Font ctFont = new Font(bf, 16);Font ct = new Font(bf, 12);
 	        Calendar cal = Calendar.getInstance();
 	        cal.setTime(new Date());
 	        int week = cal.get(Calendar.WEEK_OF_YEAR);
 	        int year = cal.get(Calendar.YEAR);
-	        Paragraph parah = new Paragraph("Godisnji sumarni izvjestaj o radnim nalozima", catFont);
+	        Paragraph parah = new Paragraph("Godišnji sumarni izvještaj o radnim nalozima", catFont);
 	        parah.setAlignment(Element.ALIGN_CENTER);
 	        document.add(parah);
 	        DateFormat dft = new SimpleDateFormat("dd.MM.yyyy");
@@ -620,8 +599,8 @@ public class Izvjestaji extends JPanel {
 	        cell = new PdfPCell(new Phrase("R.br.mj. - Godina"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
 	        cell = new PdfPCell(new Phrase("Mjesec")); cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
 	        cell = new PdfPCell(new Phrase("Kreirani radni nalozi"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Zakljuceni radni nalozi"));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Nezakljuceni radni nalozi"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Zaključeni radni nalozi", ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Nezaključeni radni nalozi",ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
 	        cell = new PdfPCell(new Phrase("Stornirani radni nalozi"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
 	        TimeSeries pop1 = new TimeSeries("Ukupno", Day.class);
 	        TimeSeries pop2 = new TimeSeries("Zakljuceni", Day.class);
@@ -647,10 +626,10 @@ public class Izvjestaji extends JPanel {
     			else if(q[0] == (Object) 11) cell = new PdfPCell(new Phrase("Novembar"));
     			else if(q[0] == (Object) 12) cell = new PdfPCell(new Phrase("Decembar"));
     			cell.setHorizontalAlignment(Element.ALIGN_CENTER); table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[2])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[3])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[4])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[5])));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[2]),ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[3]),ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[4]),ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[5]),ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);table.addCell(cell);
     		}
 		
 	        document.add(table);
@@ -699,6 +678,8 @@ public class Izvjestaji extends JPanel {
 		if(Integer.valueOf(god.format(date)).intValue() == Integer.valueOf(godina).intValue() && Integer.valueOf(mj.format(date)).intValue() < mjesec)
 			throw new Exception ("Pogrešan mjesec!");
         try {
+        	BaseFont bf;
+	        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
         	Session session = HibernateUtil.getSessionFactory().openSession();
     		Transaction t = session.beginTransaction();     
     		List<Object[]> lq =session.createSQLQuery("select * from (select r.lokacija, count(r.brojradnognaloga) broj from radninalog r where month(r.datumkreiranja) = " + mjesec + " and year(r.datumkreiranja) = " + godina + ") rez where rez.broj > 1").list();
@@ -709,11 +690,9 @@ public class Izvjestaji extends JPanel {
 	        PdfPTable table = new PdfPTable(3);
 	        
 	        table.setWidthPercentage(60f);
-	        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-	        	      Font.BOLD);
-	        Font ctFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-	        	      Font.BOLD);
-	        Paragraph parah = new Paragraph("Lokacije na kojima su opravke vrsene vise puta", catFont);
+	        Font catFont = new Font(bf, 18);
+	        Font ctFont = new Font(bf, 16);Font ct = new Font(bf, 12);
+	        Paragraph parah = new Paragraph("Lokacije na kojima su opravke vršene više puta", catFont);
 	        parah.setAlignment(Element.ALIGN_CENTER);
 	        document.add(parah);
 	        parah = new Paragraph("Mjesec: " + mjesec + "  Godina: " + godina, ctFont);
@@ -723,13 +702,13 @@ public class Izvjestaji extends JPanel {
 	        table.setWidths(new float[]{(float)0.2,(float) 0.6,(float) 0.2});
 	        PdfPCell cell;
 	        
-	        cell = new PdfPCell(new Phrase("R.br."));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Lokacija")); cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
-	        cell = new PdfPCell(new Phrase("Broj popravki"));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("R.br.", ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER); cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Lokacija",ct)); cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3"));table.addCell(cell);
+	        cell = new PdfPCell(new Phrase("Broj popravki",ct));cell.setHorizontalAlignment(Element.ALIGN_CENTER);cell.setBackgroundColor(WebColors.getRGBColor("#d3d3d3")); table.addCell(cell);
 	        for(Object[] q : lq) {
-    			cell = new PdfPCell(new Phrase(String.valueOf(i + 1))); table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[0])));table.addCell(cell);
-    			cell = new PdfPCell(new Phrase(String.valueOf(q[1])));table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(i + 1), ct)); table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[0]),ct));table.addCell(cell);
+    			cell = new PdfPCell(new Phrase(String.valueOf(q[1]),ct));table.addCell(cell);
     			i++;
     		}
 		
