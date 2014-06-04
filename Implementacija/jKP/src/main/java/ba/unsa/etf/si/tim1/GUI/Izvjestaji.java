@@ -3,8 +3,13 @@ package ba.unsa.etf.si.tim1.GUI;
 import ba.unsa.etf.si.tim1.util.HibernateUtil;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.Book;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -68,6 +74,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
+import com.sun.pdfview.PDFPrintPage;
 import com.sun.pdfview.PagePanel;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
@@ -169,7 +176,7 @@ public class Izvjestaji extends JPanel {
         	final JButton jSpasiti = new JButton("Spasiti");
 	        jSpasiti.setBounds(650, 600, 153, 48);
 	        jSpasiti.setBackground(Color.LIGHT_GRAY);
-	        
+	        this.add(jSpasiti);
 	        
 	        final JButton jStampati = new JButton("Odštampati");
 	        jStampati.setBounds(810, 600, 153, 48);
@@ -185,43 +192,38 @@ public class Izvjestaji extends JPanel {
 	        			File file = new File("");
 	        			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 	        			Date date = new Date();
+	        			file = new File("izvjestaj.pdf");
 	        			if(comboBox.getSelectedIndex() == 0) {
-	        				
-	        				file = new File(dateFormat.format(date) + ".pdf");
 	                		try {
-								SedmicniRadnici(dateFormat.format(date) + ".pdf", (Date) datePicker.getModel().getValue());
+								SedmicniRadnici("izvjestaj.pdf", (Date) datePicker.getModel().getValue());
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 							}
 	                	}
 	        			if(comboBox.getSelectedIndex() == 1) {
-	        				file = new File(dateFormat.format(date) + ".pdf");
 	                		try {
-								MjesecniSumarni(dateFormat.format(date) + ".pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+								MjesecniSumarni("izvjestaj.pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 							}
 	                	}
 	        			if(comboBox.getSelectedIndex() == 2) {
-	        				file = new File(dateFormat.format(date) + ".pdf");
 	                		try {
-								MjesecniStornirani(dateFormat.format(date) + ".pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+								MjesecniStornirani("izvjestaj.pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 							}
 	                	}
 	        			if(comboBox.getSelectedIndex() == 3) {
-	        				file = new File(dateFormat.format(date) + ".pdf");
 	        				try {
-	        					MjesecniViseLokacija(dateFormat.format(date) + ".pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+	        					MjesecniViseLokacija("izvjestaj.pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 							}	
 	                	}
 	        			if(comboBox.getSelectedIndex() == 4) {
-	        				file = new File(dateFormat.format(date) + ".pdf");
 	                		try {
-								Godisnji(dateFormat.format(date) + ".pdf", (Date) datePicker.getModel().getValue());
+								Godisnji("izvjestaj.pdf", (Date) datePicker.getModel().getValue());
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 							}
@@ -231,54 +233,73 @@ public class Izvjestaji extends JPanel {
 	        	        
 	        	        jSpasiti.addActionListener(new ActionListener() {
 	        	        	public void actionPerformed(ActionEvent e) {
-	        	        		/* JFileChooser saveFile = new JFileChooser();
+	        	        		 JFileChooser saveFile = new JFileChooser();
 	        	        		 int userSelection = saveFile.showSaveDialog(null);
 	        	                 if (userSelection == JFileChooser.APPROVE_OPTION) {
 	        	                     File fileToSave = saveFile.getSelectedFile();
 	        	                     try {
-	        							Files.copy((new File(lokacija)).toPath(), fileToSave.toPath());
-	        						} catch (IOException e1) {
-	        							// TODO Auto-generated catch block
-	        							e1.printStackTrace();
-	        						}*/
+	        							Files.copy((new File("izvjestaj.pdf")).toPath(), fileToSave.toPath());
+	        							JOptionPane.showMessageDialog(getRootPane(), "Uspješno ste spasili izvještaj!");
+	        						} catch (Exception e1) {
+	        							JOptionPane.showMessageDialog(getRootPane(), "Greška!");
+	        						}
 	        	                     System.out.println("ik");
-	        	               //  }
+	        	                 }
 	        	        	}
 	        	        });
 	        	        
 	        	        jStampati.addActionListener(new ActionListener() {
 	        	        	public void actionPerformed(ActionEvent e) {
-	        	        		 PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
-	        	        	        DocPrintJob printerJob = defaultPrintService.createPrintJob();
-	        	        	        File pdfFile = new File(lokacija);
-	        	        	        SimpleDoc simpleDoc = null;
-	        	        	        
-	        	        	        try {
-	        	        	            simpleDoc = new SimpleDoc(pdfFile.toURL(), DocFlavor.URL.AUTOSENSE, null);
-	        	        	        } catch (MalformedURLException ex) {
-	        	        	            ex.printStackTrace();
-	        	        	        }
-	        	        	        try {
-	        	        	            printerJob.print(simpleDoc, null);
-	        	        	        } catch (PrintException ex) {
-	        	        	            ex.printStackTrace();
-	        	        	        }
+
+	        	        		// Create a PDFFile from a File reference
+	        	        		File f = new File("izvjestaj.pdf");
+	        	        		FileInputStream fis;
+								try {
+									fis = new FileInputStream(f);
+									FileChannel fc = fis.getChannel();
+		        	        		ByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+		        	        		PDFFile pdfFile = new PDFFile(bb); // Create PDF Print Page
+		        	        		PDFPrintPage pages = new PDFPrintPage(pdfFile);
+		        	        		 
+		        	        		// Create Print Job
+		        	        		PrinterJob pjob = PrinterJob.getPrinterJob();
+		        	        		PageFormat pf = PrinterJob.getPrinterJob().defaultPage();
+		        	        		pjob.setJobName(f.getName());
+		        	        		Book book = new Book();
+		        	        		book.append(pages, pf, pdfFile.getNumPages());
+		        	        		pjob.setPageable(book);
+		        	        		 
+		        	        		// Send print job to default printer
+		        	        		pjob.print();
+								} catch (FileNotFoundException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (PrinterException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+	        	        		
 	        	        	        
 	        	        	}
 	        	        });
 	                   
-	                    FileChannel channel; 
-	                    ByteBuffer buf;
 	                    PDFFile pdffile;
 	                    final PDFPage page;
 	                    try {
 							raf = new RandomAccessFile(file, "r");
-							channel = raf.getChannel();
-		        			buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+							byte[] b = new byte[(int)raf.length()];
+							raf.readFully(b);
+							ByteBuffer buf = ByteBuffer.wrap(b);
 		        			pdffile = new PDFFile(buf);
 		        			page = pdffile.getPage(1); 
 		        	        prikazPdf.useZoomTool(true);
 		        	        prikazPdf.showPage(page);
+		        	        prikazPdf.repaint();
+		        	        prikazPdf.revalidate();
+		        	        
 		        	        raf.close();
 						} catch (FileNotFoundException e1) {
 							// TODO Auto-generated catch block
