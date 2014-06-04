@@ -193,7 +193,7 @@ public class ModificirajRadniNalog extends JDialog {
 	    
 	    final JSpinner spinner = new JSpinner();
 	    spinner.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-	    spinner.setBounds(168, 411, 35, 20);
+	    spinner.setBounds(168, 411, 46, 20);
 	    if (t!=null)
 	    	spinner.setValue(t.getHours());
 	    else
@@ -201,12 +201,12 @@ public class ModificirajRadniNalog extends JDialog {
 	    contentPanel.add(spinner);
 	    
 	    JLabel label_4 = new JLabel("Sati");
-	    label_4.setBounds(213, 417, 46, 14);
+	    label_4.setBounds(224, 414, 40, 14);
 	    contentPanel.add(label_4);
 	    
 	    final JSpinner spinner_1 = new JSpinner();
 	    spinner_1.setModel(new SpinnerNumberModel(0, 0, 59, 1));
-	    spinner_1.setBounds(264, 411, 37, 20);
+	    spinner_1.setBounds(264, 411, 46, 20);
 	    if (t!=null)
 	    	spinner_1.setValue(t.getMinutes());
 	    else
@@ -214,7 +214,7 @@ public class ModificirajRadniNalog extends JDialog {
 	    contentPanel.add(spinner_1);
 	    
 	    JLabel label_5 = new JLabel("Minuta");
-	    label_5.setBounds(311, 417, 46, 14);
+	    label_5.setBounds(320, 414, 46, 14);
 	    contentPanel.add(label_5);
 	    
 	    textField_4 = new JTextField();

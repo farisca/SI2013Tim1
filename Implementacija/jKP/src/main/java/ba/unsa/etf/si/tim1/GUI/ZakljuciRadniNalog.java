@@ -85,12 +85,12 @@ public class ZakljuciRadniNalog extends JDialog {
 	    
 		final JSpinner spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-		spinner.setBounds(189, 103, 29, 20);
+		spinner.setBounds(189, 103, 44, 20);
 		contentPanel.add(spinner);
 		
 		final JSpinner spinner_1 = new JSpinner();
 		spinner_1.setModel(new SpinnerNumberModel(0, 0, 59, 1));
-		spinner_1.setBounds(287, 103, 29, 20);
+		spinner_1.setBounds(281, 103, 44, 20);
 		contentPanel.add(spinner_1);
 		
 		JLabel lblUtroenoVrijeme = new JLabel("Utrošeno vrijeme:");
@@ -99,11 +99,11 @@ public class ZakljuciRadniNalog extends JDialog {
 		contentPanel.add(lblUtroenoVrijeme);
 		
 		JLabel lblSati = new JLabel("Sati");
-		lblSati.setBounds(228, 109, 46, 14);
+		lblSati.setBounds(243, 106, 46, 14);
 		contentPanel.add(lblSati);
 		
 		JLabel lblMinuta = new JLabel("Minuta");
-		lblMinuta.setBounds(326, 109, 46, 14);
+		lblMinuta.setBounds(335, 106, 46, 14);
 		contentPanel.add(lblMinuta);
 		
 		JLabel lblDodatniKomentaropcionalno = new JLabel("Dodatni komentar(opcionalno):");
