@@ -39,7 +39,7 @@ public class Login extends JFrame {
 		getContentPane().add(jp);
 		jp.setLayout(null);
 		
-		ImageIcon image = new ImageIcon("logo.jpg");
+		ImageIcon image = new ImageIcon(getClass().getResource("/logo.jpg"));
         JLabel logo = new JLabel("", image, JLabel.CENTER);
         logo.setBounds(100 ,80, image.getIconWidth(), image.getIconHeight());
         jp.add(logo);

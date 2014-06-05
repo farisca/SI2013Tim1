@@ -28,7 +28,7 @@ public class MeniPanel extends JPanel {
         this.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 3, Color.gray));
         this.setLayout(null);
         
-        ImageIcon image = new ImageIcon("logo.jpg");
+        ImageIcon image = new ImageIcon(getClass().getResource("/logo.jpg"));
         JLabel logo = new JLabel("", image, JLabel.CENTER);
         logo.setBounds(60, 30, image.getIconWidth(), image.getIconHeight());
         this.add(logo);
