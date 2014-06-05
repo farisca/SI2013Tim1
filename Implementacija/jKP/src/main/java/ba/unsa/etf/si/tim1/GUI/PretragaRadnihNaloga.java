@@ -310,6 +310,13 @@ public class PretragaRadnihNaloga extends JPanel {
 	        		if (korisnik.getId() == r.getKreatorRadnogNaloga() || korisnik.dajTipUposlenika() == TipUposlenika.privilegirani) {
 	        			DetaljniRadniNalog novi = new DetaljniRadniNalog(korisnik,radniNalozi.get(i), java.awt.Dialog.ModalityType.APPLICATION_MODAL, glavni);
 	        			novi.setVisible(true);
+	        			radniNalozi.clear();
+	        			upisiPodatkeUTabelu();
+	        			txtBrojNaloga.setText("");
+	        			txtLokacija.setText("");
+	        			comboBoxIzvrsilac.setSelectedIndex(-1);
+	        			cmbTipPosla.setSelectedIndex(-1);
+	        			datePickerDatumKreiranja.setDate(null);
 	        		}
 	        		else{
 	        			JOptionPane.showMessageDialog(null, "Nemate privilegije za prikaz selektovanog radnog naloga");
@@ -332,6 +339,13 @@ public class PretragaRadnihNaloga extends JPanel {
 	        		if (i != -1 && i < radniNalozi.size()){
 	        			ModificirajRadniNalog novi=new ModificirajRadniNalog(korisnik,radniNalozi.get(i), java.awt.Dialog.ModalityType.APPLICATION_MODAL, glavni);
 	        			novi.setVisible(true);
+	        			radniNalozi.clear();
+	        			upisiPodatkeUTabelu();
+	        			txtBrojNaloga.setText("");
+	        			txtLokacija.setText("");
+	        			comboBoxIzvrsilac.setSelectedIndex(-1);
+	        			cmbTipPosla.setSelectedIndex(-1);
+	        			datePickerDatumKreiranja.setDate(null);
 	        		}
 	        		else{
 	        			JOptionPane.showMessageDialog(null, "Niste izabrali radni nalog iz pretrage");
@@ -358,6 +372,13 @@ public class PretragaRadnihNaloga extends JPanel {
 	        			if(r.dajStatus()==StatusRadnogNaloga.kreiran || r.dajStatus()==StatusRadnogNaloga.nezakljucen){
 	        				StornirajRadniNalog novi=new StornirajRadniNalog(korisnik,radniNalozi.get(i), java.awt.Dialog.ModalityType.APPLICATION_MODAL, glavni);
 	        				novi.setVisible(true);
+	        				radniNalozi.clear();
+	        				upisiPodatkeUTabelu();
+	        				txtBrojNaloga.setText("");
+		        			txtLokacija.setText("");
+		        			comboBoxIzvrsilac.setSelectedIndex(-1);
+		        			cmbTipPosla.setSelectedIndex(-1);
+		        			datePickerDatumKreiranja.setDate(null);
 	        			}
 	        			else
 	        				JOptionPane.showMessageDialog(null, "Izabrani radni nalog je zaključen ili storniran.");
@@ -383,6 +404,13 @@ public class PretragaRadnihNaloga extends JPanel {
 	        			if(r.dajStatus()==StatusRadnogNaloga.kreiran || r.dajStatus()==StatusRadnogNaloga.nezakljucen){
 	        				ZakljuciRadniNalog novi=new ZakljuciRadniNalog(korisnik,radniNalozi.get(i), java.awt.Dialog.ModalityType.APPLICATION_MODAL, glavni);
 	        				novi.setVisible(true);
+	        				radniNalozi.clear();
+	        				upisiPodatkeUTabelu();
+	        				txtBrojNaloga.setText("");
+		        			txtLokacija.setText("");
+		        			comboBoxIzvrsilac.setSelectedIndex(-1);
+		        			cmbTipPosla.setSelectedIndex(-1);
+		        			datePickerDatumKreiranja.setDate(null);
 	        			}
 	        			else
 	        				JOptionPane.showMessageDialog(null, "Izabrani radni nalog je zaključen ili storniran.");
