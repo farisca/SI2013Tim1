@@ -66,7 +66,7 @@ public class HibernatePristupniPodaciTest {
 			String ime = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(id);
 			Assert.assertEquals("fcakaric999", ime);
 			
-			HibernatePristupniPodaci.izbrisiPristupnePodatke(p);
+			HibernatePristupniPodaci.izbrisiPristupnePodatke(p.getId());
 		}
 		catch (Exception e) {
 			fail(e.getMessage());
@@ -75,7 +75,7 @@ public class HibernatePristupniPodaciTest {
 
 	@After
 	public void ocistiBazu() {
-		HibernatePristupniPodaci.izbrisiPristupnePodatke(podaci);
+		HibernatePristupniPodaci.izbrisiPristupnePodatke(podaci.getId());
 	}
 
 }

@@ -87,7 +87,18 @@ public class Admin extends JPanel {
 								"Niste odabrali nijednog zaposlenika!");
 					List<Zaposlenik> lz = HibernateZaposlenik
 							.dajZaposlenikePoKriteriju(txtPretraga.getText());
-					Zaposlenik novi = lz.get(table.getSelectedRow());
+					List<Zaposlenik> lz_1 = HibernateZaposlenik
+							.dajZaposlenikePoKriteriju(txtPretraga.getText());
+					lz_1.clear();
+					for (int i=0;i<lz.size();i++) {
+						if(lz.get(i).dajTipUposlenika()!=TipUposlenika.izbrisan)
+							lz_1.add(lz.get(i));
+					}
+					for (int i=0;i<lz_1.size();i++) {
+							JOptionPane.showMessageDialog(tabovi, "LZ-1( "+i+"): "+ lz_1.get(i).getIme() +" "+lz_1.get(i).getTipUposlenika(),
+									"Potvrda", JOptionPane.INFORMATION_MESSAGE);
+					}
+					Zaposlenik novi = lz_1.get(table.getSelectedRow());
 					JPasswordField pf = new JPasswordField();
 					JOptionPane.showConfirmDialog(null, pf,
 							"Molimo unesite Vašu šifru ponovo!",
@@ -102,11 +113,13 @@ public class Admin extends JPanel {
 					Zaposlenik brisac = HibernateZaposlenik
 							.dajZaposlenikaPoPristupnimPodacima(id);
 					if (brisac != null) {
+						HibernatePristupniPodaci.izbrisiPristupnePodatke(novi.getPristupniPodaci());
 						novi.postaviTipUposlenika(TipUposlenika.izbrisan);
 						HibernateZaposlenik.urediZaposlenika(novi);
-						JOptionPane.showMessageDialog(tabovi,
-								"Korisnik je izbrisan!", "Potvrda",
+												JOptionPane.showMessageDialog(tabovi,
+														novi.getPristupniPodaci(), "Potvrda",
 								JOptionPane.INFORMATION_MESSAGE);
+						PopuniTabelu();
 					} else {
 						JOptionPane
 								.showMessageDialog(

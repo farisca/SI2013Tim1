@@ -77,7 +77,7 @@ public class HibernateZaposlenikTest {
 	@After
 	public void ocistiBazu() {
 		HibernateZaposlenik.izbrisiZaposlenika(zaposlenik);
-		HibernatePristupniPodaci.izbrisiPristupnePodatke(podaci);
+		HibernatePristupniPodaci.izbrisiPristupnePodatke(podaci.getId());
 	}
 
 }

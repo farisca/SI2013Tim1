@@ -53,7 +53,7 @@ public class HibernateZaposlenik {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
 		
-		Query query = s.createQuery("FROM PristupniPodaci WHERE id = :id");
+		Query query = s.createQuery("FROM PristupniPodaci WHERE ID = :id");
 		query.setParameter("id",z.getPristupniPodaci());
 		
 		if(query.list().isEmpty()) {
