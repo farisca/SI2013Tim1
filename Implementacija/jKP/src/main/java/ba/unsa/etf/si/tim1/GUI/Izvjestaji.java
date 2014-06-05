@@ -248,18 +248,7 @@ public class Izvjestaji extends JPanel {
 	        	        		 int userSelection = saveFile.showSaveDialog(null);
 	        	                 if (userSelection == JFileChooser.APPROVE_OPTION) {
 	        	                     File fileToSave = saveFile.getSelectedFile();
-	        	                     try {
-	        	                    	 String file_name = fileToSave.toString();
-	        	                    	 if (!file_name.endsWith(".pdf")) {
-	        	                    		 fileToSave = new File(file_name + ".pdf");
-	        	                    	 }
-	        	                    	 System.out.println(fileToSave.toString());
-	        							Files.copy((new File("izvjestaj.pdf")).toPath(), fileToSave.toPath());
-	        							JOptionPane.showMessageDialog(getRootPane(), "Uspješno ste spasili izvještaj!");
-	        						} catch (Exception e1) {
-	        							JOptionPane.showMessageDialog(getRootPane(), "Greška!");
-	        						}
-	        	                     System.out.println("ik");
+	        	                     SpasiIzvjestaj(fileToSave);
 	        	                 }
 	        	        	}
 	        	        });
@@ -740,6 +729,20 @@ public class Izvjestaji extends JPanel {
 		}
        
 		
+	}
+	public void SpasiIzvjestaj(File fileToSave) {
+		try {
+       	 String file_name = fileToSave.toString();
+       	 if (!file_name.endsWith(".pdf")) {
+       		 fileToSave = new File(file_name + ".pdf");
+       	 }
+       	 System.out.println(fileToSave.toString());
+			Files.copy((new File("izvjestaj.pdf")).toPath(), fileToSave.toPath());
+			JOptionPane.showMessageDialog(getRootPane(), "Uspješno ste spasili izvještaj!");
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(getRootPane(), "Greška!");
+		}
+        System.out.println("ik");
 	}
 }
 
