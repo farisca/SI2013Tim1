@@ -144,7 +144,6 @@ public class HibernatePristupniPodaci {
 			session.getTransaction().commit();
 
 		}
-
 		catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();

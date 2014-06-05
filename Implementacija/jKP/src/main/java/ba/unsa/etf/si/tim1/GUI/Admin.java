@@ -94,10 +94,6 @@ public class Admin extends JPanel {
 						if(lz.get(i).dajTipUposlenika()!=TipUposlenika.izbrisan)
 							lz_1.add(lz.get(i));
 					}
-					for (int i=0;i<lz_1.size();i++) {
-							JOptionPane.showMessageDialog(tabovi, "LZ-1( "+i+"): "+ lz_1.get(i).getIme() +" "+lz_1.get(i).getTipUposlenika(),
-									"Potvrda", JOptionPane.INFORMATION_MESSAGE);
-					}
 					Zaposlenik novi = lz_1.get(table.getSelectedRow());
 					JPasswordField pf = new JPasswordField();
 					JOptionPane.showConfirmDialog(null, pf,
@@ -141,8 +137,16 @@ public class Admin extends JPanel {
 				try {
 					if (table.getSelectedRow() == -1)
 						throw new Exception("Niste odabrali nijednog zaposlenika!");
-					List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(txtPretraga.getText());
-					Zaposlenik novi = lz.get(table.getSelectedRow());
+					List<Zaposlenik> lz = HibernateZaposlenik
+							.dajZaposlenikePoKriteriju(txtPretraga.getText());
+					List<Zaposlenik> lz_1 = HibernateZaposlenik
+							.dajZaposlenikePoKriteriju(txtPretraga.getText());
+					lz_1.clear();
+					for (int i=0;i<lz.size();i++) {
+						if(lz.get(i).dajTipUposlenika()!=TipUposlenika.izbrisan)
+							lz_1.add(lz.get(i));
+					}
+					Zaposlenik novi = lz_1.get(table.getSelectedRow());
 					if (novi.dajTipUposlenika().equals(TipUposlenika.izbrisan))
 						throw new Exception("Nije moguće (De)aktivirati izbrisanog zaposlenika!");
 					if (novi.getTipUposlenika().equals("neaktivan")) {
@@ -193,8 +197,16 @@ public class Admin extends JPanel {
 				try {
 					if (table.getSelectedRow() == -1)
 						throw new Exception("Niste odabrali nijednog zaposlenika!");
-					final List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(txtPretraga.getText());
-					final Zaposlenik novi = lz.get(table.getSelectedRow());
+					final List<Zaposlenik> lz = HibernateZaposlenik
+							.dajZaposlenikePoKriteriju(txtPretraga.getText());
+					final List<Zaposlenik> lz_1 = HibernateZaposlenik
+							.dajZaposlenikePoKriteriju(txtPretraga.getText());
+					lz_1.clear();
+					for (int i=0;i<lz.size();i++) {
+						if(lz.get(i).dajTipUposlenika()!=TipUposlenika.izbrisan)
+							lz_1.add(lz.get(i));
+					}
+					final Zaposlenik novi = lz_1.get(table.getSelectedRow());
 					if (novi.dajTipUposlenika().equals(TipUposlenika.izbrisan))
 						throw new Exception("Nije moguće modificirati izbrisanog korisnika!");
 					final JPanel panelNovi = new JPanel();
