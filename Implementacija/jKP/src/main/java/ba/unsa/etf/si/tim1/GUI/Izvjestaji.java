@@ -339,7 +339,7 @@ public class Izvjestaji extends JPanel {
 
 	void MjesecniSumarni(String fajl, int mjesec, String godina) throws Exception {
 		BaseFont bf;
-        bf = BaseFont.createFont(getClass().getResource("/arial.ttf").toURI().toString(), "Cp1250", BaseFont.EMBEDDED);
+        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
 		DateFormat mj = new SimpleDateFormat("MM");
 		DateFormat god = new SimpleDateFormat("yyyy");
 		Date date = new Date();
@@ -411,8 +411,7 @@ public class Izvjestaji extends JPanel {
 	        
 	        table.setWidthPercentage(95f);
 	        BaseFont bf;
-	        bf = BaseFont.createFont(getClass().getResource("/arial.ttf").toURI().toString(), "Cp1250", BaseFont.EMBEDDED);
-	        System.out.print(getClass().getResource("/arial.ttf").getPath());
+	        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
 	        Font catFont = new Font(bf, 18);
 	        Font ctFont = new Font(bf, 16);Font ct = new Font(bf, 12);
 	        Paragraph parah = new Paragraph("Stornirani radni nalozi", new Font(bf, 18));
@@ -470,7 +469,7 @@ public class Izvjestaji extends JPanel {
 		Document document = new Document();
         try {
         	BaseFont bf;
-	        bf = BaseFont.createFont(getClass().getResource("/arial.ttf").toURI().toString(), "Cp1250", BaseFont.EMBEDDED);
+	        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
         	Session session = HibernateUtil.getSessionFactory().openSession();
     		Transaction t = session.beginTransaction();
     		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -538,9 +537,7 @@ public class Izvjestaji extends JPanel {
 		if((new Date()).before(datePicker)) throw new Exception("Pogrešan datum!");
         try {
         	BaseFont bf;
-        	System.out.print(getClass().getResource("/arial.ttf").toURI().toString());
-        	
-	        bf = BaseFont.createFont(getClass().getResource("/arial.ttf").toURI().toString(), "Cp1250", BaseFont.EMBEDDED);
+	        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
             Calendar calendar = Calendar.getInstance();  
             calendar.setTime(datePicker);  
 
@@ -688,7 +685,7 @@ public class Izvjestaji extends JPanel {
 			throw new Exception ("Pogrešan mjesec!");
         try {
         	BaseFont bf;
-	        bf = BaseFont.createFont(getClass().getResource("/arial.ttf").toURI().toString(), "Cp1250", BaseFont.EMBEDDED);
+	        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
         	Session session = HibernateUtil.getSessionFactory().openSession();
     		Transaction t = session.beginTransaction();     
     		List<Object[]> lq =session.createSQLQuery("select * from (select r.LOKACIJA, count(r.BROJRADNOGNALOGA) broj from RADNINALOG r where month(r.DATUMKREIRANJA) = " + mjesec + " and year(r.DATUMKREIRANJA) = " + godina + ") rez where rez.broj > 1").list();

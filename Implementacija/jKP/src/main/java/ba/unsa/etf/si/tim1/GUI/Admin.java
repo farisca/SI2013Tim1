@@ -33,7 +33,7 @@ public class Admin extends JPanel {
 			{ "", "", "" }, { "", "", "" }, { "", "", "" }, { "", "", "" },
 			{ "", "", "" }, { "", "", "" }, { "", "", "" }, { "", "", "" } };
 
-	public Admin() {
+	public Admin(final Zaposlenik admin) {
 		this.setLayout(null);
 		this.setBackground(Color.white);
 		final JPanel panelPretraga = new JPanel();
@@ -76,6 +76,52 @@ public class Admin extends JPanel {
 		jsp.setBounds(171, 152, 431, 106);
 		panelPretraga.add(jsp);
 		pomoc = txtPretraga.getText();
+		JButton btnIzbrisati = new JButton("Izbrisati");
+		btnIzbrisati.setBackground(Color.RED);
+		btnIzbrisati.setBounds(481, 300, 117, 25);
+		btnIzbrisati.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if (table.getSelectedRow() == -1)
+						throw new Exception(
+								"Niste odabrali nijednog zaposlenika!");
+					List<Zaposlenik> lz = HibernateZaposlenik
+							.dajZaposlenikePoKriteriju(txtPretraga.getText());
+					Zaposlenik novi = lz.get(table.getSelectedRow());
+					JPasswordField pf = new JPasswordField();
+					JOptionPane.showConfirmDialog(null, pf,
+							"Molimo unesite Vašu šifru ponovo!",
+							JOptionPane.OK_CANCEL_OPTION,
+							JOptionPane.PLAIN_MESSAGE);
+					String provjera_pass = pf.getText();
+					long id = HibernatePristupniPodaci.provjeriPodatke(
+							HibernatePristupniPodaci
+									.dajKorisnickoImePoKriteriju(
+											admin.getPristupniPodaci())
+									.toString(), provjera_pass);
+					Zaposlenik brisac = HibernateZaposlenik
+							.dajZaposlenikaPoPristupnimPodacima(id);
+					if (brisac != null) {
+						novi.postaviTipUposlenika(TipUposlenika.izbrisan);
+						HibernateZaposlenik.urediZaposlenika(novi);
+						JOptionPane.showMessageDialog(tabovi,
+								"Korisnik je izbrisan!", "Potvrda",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane
+								.showMessageDialog(
+										tabovi,
+										"Niste unijeli Vašu šifru pravilno, i brisanje nije izvrešeno!",
+										"Potvrda",
+										JOptionPane.INFORMATION_MESSAGE);
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(tabovi, e1.getMessage(),
+							"Potvrda", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		panelPretraga.add(btnIzbrisati);
 		JButton btnAktiviraj = new JButton("(De)aktiviraj");
 		btnAktiviraj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -84,6 +130,8 @@ public class Admin extends JPanel {
 						throw new Exception("Niste odabrali nijednog zaposlenika!");
 					List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(txtPretraga.getText());
 					Zaposlenik novi = lz.get(table.getSelectedRow());
+					if (novi.dajTipUposlenika().equals(TipUposlenika.izbrisan))
+						throw new Exception("Nije moguće (De)aktivirati izbrisanog zaposlenika!");
 					if (novi.getTipUposlenika().equals("neaktivan")) {
 						Object[] options = { "Obični", "Privilegirani",
 								"Otkazujem aktivaciju!" };
@@ -134,6 +182,8 @@ public class Admin extends JPanel {
 						throw new Exception("Niste odabrali nijednog zaposlenika!");
 					final List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(txtPretraga.getText());
 					final Zaposlenik novi = lz.get(table.getSelectedRow());
+					if (novi.dajTipUposlenika().equals(TipUposlenika.izbrisan))
+						throw new Exception("Nije moguće modificirati izbrisanog korisnika!");
 					final JPanel panelNovi = new JPanel();
 					panelNovi.setLayout(null);
 					if (nemaTaba == true) {
@@ -459,22 +509,26 @@ public class Admin extends JPanel {
 	private void PopuniTabelu() {
 		IzbrisiTabelu();
 		List<Zaposlenik> lz = HibernateZaposlenik.dajZaposlenikePoKriteriju(txtPretraga.getText());
+		int k=0;
 		for (int i = 0; i < lz.size(); i++) {
-			data[i][0] = lz.get(i).getIme() + " " + lz.get(i).getPrezime();
-			data[i][1] = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
+			if(lz.get(i).dajTipUposlenika() != TipUposlenika.izbrisan) {
+			data[k][0] = lz.get(i).getIme() + " " + lz.get(i).getPrezime();
+			data[k][1] = HibernatePristupniPodaci.dajKorisnickoImePoKriteriju(lz.get(i).getPristupniPodaci());
 			if (lz.get(i).dajTipUposlenika() == TipUposlenika.neaktivan)
-				data[i][2] = "Deaktiviran";
+				data[k][2] = "Deaktiviran";
 			else if (lz.get(i).dajTipUposlenika() == TipUposlenika.obicni)
-				data[i][2] = "Obični";
-			else
-				data[i][2] = "Privilegirani";
+				data[k][2] = "Obični";
+			else if (lz.get(i).dajTipUposlenika() == TipUposlenika.privilegirani)
+				data[k][2] = "Privilegirani";
+			k++;
+			}		
 		}
 		if (lz.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Nema rezultata pretrage", "Info", JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
-		for (int j = 0; j < lz.size(); j++) {
-			tablemodel.addRow(data[j]);
+		for (int j = 0; j < k; j++) {
+				tablemodel.addRow(data[j]);
 		}
 
 	}

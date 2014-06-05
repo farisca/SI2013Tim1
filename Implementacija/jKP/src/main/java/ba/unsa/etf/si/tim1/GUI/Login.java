@@ -39,7 +39,7 @@ public class Login extends JFrame {
 		getContentPane().add(jp);
 		jp.setLayout(null);
 		
-		ImageIcon image = new ImageIcon(getClass().getResource("/logo.jpg"));
+		ImageIcon image = new ImageIcon("logo.jpg");
         JLabel logo = new JLabel("", image, JLabel.CENTER);
         logo.setBounds(100 ,80, image.getIconWidth(), image.getIconHeight());
         jp.add(logo);
@@ -111,6 +111,7 @@ public class Login extends JFrame {
 			long id = HibernatePristupniPodaci.provjeriPodatke(txtUsername.getText(), txtPassword.getText());
 			korisnik = HibernateZaposlenik.dajZaposlenikaPoPristupnimPodacima(id);
 			if ((korisnik.getTipUposlenika().equals(TipUposlenika.neaktivan.toString()))) throw new Exception("Neaktivan korisnik !");
+			if ((korisnik.getTipUposlenika().equals(TipUposlenika.izbrisan.toString()))) throw new Exception("Izbrisani korisnik !");
 			GlavniProzor prozor = new GlavniProzor(korisnik);
     		prozor.setVisible(true);
     		setVisible(false);
