@@ -325,18 +325,45 @@ public class ModificirajRadniNalog extends JDialog {
 							r.postaviPosao(TipPosla.Ostalo);
 						Date d = (Date) datePickerPlaniraniDatumIzvrsenja.getModel().getValue();
 						Date d1 = (Date) datePickerDatumIzvrsenja.getModel().getValue();
-						Date temp = new Date();
 						int temp4=1;
-						d1.setHours(temp.getHours());
-						d1.setMinutes(temp.getMinutes());
-						d1.setSeconds(temp.getSeconds());
+						Date temp =r.getDatumKreiranja();
 						r.setPlaniraniDatumIzvrsenja(d);
-						try {
-							r.setDatumIzvrsenja(d1);
-							
-						} catch (Exception e) {
-							JOptionPane.showMessageDialog(contentPanel, "Datuma izvršenja ne može biti u budućnosti");		
-							temp4=0;
+						Date tempDatum=r.getDatumIzvrsenja();
+						if(tempDatum==null && d1==null)
+							temp4=1;
+						else if(tempDatum==null && d1!=null){
+							try {
+								d1.setHours(temp.getHours());
+								d1.setMinutes(temp.getMinutes());
+								d1.setSeconds(temp.getSeconds()+1);
+								r.setDatumIzvrsenja(d1);
+								
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(contentPanel, "Datuma izvršenja ne može biti u budućnosti");		
+								temp4=0;
+							}
+						}
+						else if(tempDatum!=null && d1==null){
+							try {
+								r.setDatumIzvrsenja(null);
+								
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(contentPanel, "Datuma izvršenja ne može biti u budućnosti");		
+								temp4=0;
+							}
+						}
+						
+						else if(tempDatum.getYear()!=d1.getYear() || tempDatum.getMonth()!=d1.getMonth() || tempDatum.getDay()!=d1.getDay()){
+							try {
+								d1.setHours(temp.getHours());
+								d1.setMinutes(temp.getMinutes());
+								d1.setSeconds(temp.getSeconds());
+								r.setDatumIzvrsenja(d1);
+								
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(contentPanel, "Datuma izvršenja ne može biti u budućnosti");		
+								temp4=0;
+							}
 						}
 						int temp1=0;
 						for(Zaposlenik z:zaposlenici){
