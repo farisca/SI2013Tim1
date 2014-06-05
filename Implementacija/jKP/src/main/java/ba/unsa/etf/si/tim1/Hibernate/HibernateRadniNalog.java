@@ -81,7 +81,7 @@ public class HibernateRadniNalog {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
 		
-		Query query = s.createQuery("FROM RADNINALOG");
+		Query query = s.createQuery("FROM RadniNalog");
 		
 		if(query.list().isEmpty()) {
 			s.close();
@@ -97,7 +97,7 @@ public class HibernateRadniNalog {
 	public static int dajBrojRadnihNaloga() {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
-		Query query = s.createSQLQuery("SELECT Count(*) FROM RADNINALOG");
+		Query query = s.createSQLQuery("SELECT Count(*) FROM RadniNalog");
 		int brojNaloga = ((java.math.BigInteger)query.list().get(0)).intValue();
 		s.close();
 		return brojNaloga;
