@@ -36,7 +36,7 @@ public class HibernateRadniNalog {
 	public static List<RadniNalog> pretragaPoListiKriterija(List<String> lista) {
 		if (lista.isEmpty()) return null;
 		
-		String upit = "SELECT * FROM radninalog WHERE ";
+		String upit = "SELECT * FROM RADNINALOG WHERE ";
 		int brojac = 1;
 		for(int i = 0; i < lista.size(); i += 2) {
 			if (lista.get(i).equals("DATUMKREIRANJA"))
@@ -81,7 +81,7 @@ public class HibernateRadniNalog {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
 		
-		Query query = s.createQuery("FROM RadniNalog");
+		Query query = s.createQuery("FROM RADNINALOG");
 		
 		if(query.list().isEmpty()) {
 			s.close();
@@ -97,7 +97,7 @@ public class HibernateRadniNalog {
 	public static int dajBrojRadnihNaloga() {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
-		Query query = s.createSQLQuery("SELECT Count(*) FROM radninalog");
+		Query query = s.createSQLQuery("SELECT Count(*) FROM RADNINALOG");
 		int brojNaloga = ((java.math.BigInteger)query.list().get(0)).intValue();
 		s.close();
 		return brojNaloga;

@@ -38,12 +38,12 @@ public class KorisnickiPodaci extends JPanel {
         this.setLayout(null);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         
-        JLabel lblKorisnickiPodaci = new JLabel("Korisni\u010Dki podaci");
+        JLabel lblKorisnickiPodaci = new JLabel("Korisnički podaci");
         lblKorisnickiPodaci.setFont(new Font("Tahoma", Font.BOLD, 16));
         lblKorisnickiPodaci.setBounds(39, 29, 229, 20);
         this.add(lblKorisnickiPodaci);
         
-        JLabel lblKorisnickoIme = new JLabel("Korisni\u010Dko ime:");
+        JLabel lblKorisnickoIme = new JLabel("Korisničko ime:");
         lblKorisnickoIme.setBounds(76, 112, 100, 14);
         this.add(lblKorisnickoIme);
         
@@ -72,20 +72,20 @@ public class KorisnickiPodaci extends JPanel {
         panelPassword.setLayout(null);
         panelPassword.setVisible(false);
         
-        JLabel lblPromjenaSifre = new JLabel("Promjena \u0161ifre");
+        JLabel lblPromjenaSifre = new JLabel("Promjena šifre");
         lblPromjenaSifre.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblPromjenaSifre.setBounds(37, 21, 100, 14);
         panelPassword.add(lblPromjenaSifre);
         
-        JLabel lblStaraSifra = new JLabel("Stara \u0161ifra:");
+        JLabel lblStaraSifra = new JLabel("Stara šifra:");
         lblStaraSifra.setBounds(47, 56, 110, 14);
         panelPassword.add(lblStaraSifra);
         
-        JLabel lblNovaSifra = new JLabel("Nova \u0161ifra:");
+        JLabel lblNovaSifra = new JLabel("Nova šifra:");
         lblNovaSifra.setBounds(47, 81, 110, 14);
         panelPassword.add(lblNovaSifra);
         
-        JLabel lblPotvrdiNovuSifru = new JLabel("Potvrdi novu \u0161ifru:");
+        JLabel lblPotvrdiNovuSifru = new JLabel("Potvrdi novu šifru:");
         lblPotvrdiNovuSifru.setBounds(47, 106, 110, 14);
         panelPassword.add(lblPotvrdiNovuSifru);
         
@@ -109,7 +109,7 @@ public class KorisnickiPodaci extends JPanel {
         btnOdustani.setBounds(100, 140, 89, 23);
         panelPassword.add(btnOdustani);
         
-        btnPrikaziPanel = new JButton("Promijeni \u0161ifru");
+        btnPrikaziPanel = new JButton("Promijeni šifru");
         btnPrikaziPanel.setBounds(216, 180, 120, 23);
         this.add(btnPrikaziPanel);
         

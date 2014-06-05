@@ -61,7 +61,7 @@ public class HibernatePristupniPodaci {
 		Session s = HibernateUtil.getSessionFactory().openSession();		
 		s.beginTransaction();
 		
-		Query query = s.createQuery("from PristupniPodaci where korisnickoIme = :uName");
+		Query query = s.createQuery("from PristupniPodaci where KORISNICKOIME = :uName");
 		query.setParameter("uName", username);
 		
 		if(query.list().isEmpty()) {
@@ -101,7 +101,7 @@ public class HibernatePristupniPodaci {
 	public static String dajKorisnickoImePoKriteriju(long id) {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
-		Query query = s.createQuery("FROM PristupniPodaci WHERE id = :id");
+		Query query = s.createQuery("FROM PristupniPodaci WHERE ID = :id");
 		query.setParameter("id", id);
 		if (query.list().isEmpty()) 
 			return "";
@@ -119,7 +119,7 @@ public class HibernatePristupniPodaci {
 	public static long dajBrojKorisnika() {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
-		Query query = s.createSQLQuery("SELECT Count(*) FROM pristupnipodaci");
+		Query query = s.createSQLQuery("SELECT Count(*) FROM PRISTUPNIPODACI");
 		int brojKorisnika = ((java.math.BigInteger)query.list().get(0)).intValue();
 		s.close();
 		return brojKorisnika;

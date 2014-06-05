@@ -17,7 +17,7 @@ public class HibernateZaposlenik {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
 		
-		Query query = s.createQuery("FROM Zaposlenik WHERE id = :id");
+		Query query = s.createQuery("FROM Zaposlenik WHERE ID = :id");
 		query.setParameter("id", id);
 		
 		if(query.list().isEmpty()) {
@@ -35,7 +35,7 @@ public class HibernateZaposlenik {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
 		
-		Query query = s.createQuery("FROM Zaposlenik WHERE pristupnipodaci = :id");
+		Query query = s.createQuery("FROM Zaposlenik WHERE pristupniPodaci = :id");
 		query.setParameter("id", id);
 		
 		if(query.list().isEmpty()) {
@@ -105,7 +105,7 @@ public class HibernateZaposlenik {
 			
 		}
 		
-		Query query = s.createQuery("FROM Zaposlenik WHERE id=:id OR ime LIKE :kriterij OR prezime LIKE :kriterij");
+		Query query = s.createQuery("FROM Zaposlenik WHERE ID=:id OR IME LIKE :kriterij OR PREZIME LIKE :kriterij");
 		query.setParameter("kriterij", "%"+kriterij+"%");
 		query.setParameter("id", id);
 		
@@ -126,7 +126,7 @@ public class HibernateZaposlenik {
 	public static int dajBrojZaposlenika() {
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
-		Query query = s.createSQLQuery("SELECT Count(*) FROM zaposlenik");
+		Query query = s.createSQLQuery("SELECT Count(*) FROM Zaposlenik");
 		int brojKorisnika = ((java.math.BigInteger)query.list().get(0)).intValue();
 		s.close();
 		return brojKorisnika;

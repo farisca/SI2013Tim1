@@ -222,7 +222,7 @@ public class Izvjestaji extends JPanel {
 	                	}
 	        			if(comboBox.getSelectedIndex() == 3) {
 	        				try {
-	        					MjesecniViseLokacija("izvjestaj.pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
+	        					MjesecniViseLOKACIJA("izvjestaj.pdf", comboBox_1.getSelectedIndex() + 1, comboBox_2.getSelectedItem().toString());
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 							}	
@@ -234,7 +234,7 @@ public class Izvjestaji extends JPanel {
 								JOptionPane.showMessageDialog(getRootPane(), e1.getMessage());
 							}
 	                	}
-	        			final String lokacija = file.getAbsolutePath();
+	        			final String LOKACIJA = file.getAbsolutePath();
 	        			
 	        	        
 	        	        jSpasiti.addActionListener(new ActionListener() {
@@ -360,9 +360,9 @@ public class Izvjestaji extends JPanel {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();   
 		int neizvrseni = 0; int izvrseni = 0; int stornirani = 0; 
-		neizvrseni = Integer.parseInt(((session.createSQLQuery("select count(*) from radninalog where month(datumkreiranja) = "+ mjesec + " and year(datumkreiranja) = " + godina + " and status = 'nezakljucen'")).list().toArray()[0]).toString());
-		izvrseni = Integer.parseInt(((session.createSQLQuery("select count(*) from radninalog where month(datumkreiranja) = "+ mjesec + " and year(datumkreiranja) = " + godina + " and status = 'zakljucen'")).list().toArray()[0]).toString());
-		stornirani = Integer.parseInt(((session.createSQLQuery("select count(*) from radninalog where month(datumkreiranja) = "+ mjesec + " and year(datumkreiranja) = " + godina + " and status = 'storniran'")).list().toArray()[0]).toString());
+		neizvrseni = Integer.parseInt(((session.createSQLQuery("select count(*) from RADNINALOG where month(DATUMKREIRANJA) = "+ mjesec + " and year(DATUMKREIRANJA) = " + godina + " and STATUS = 'kreiran'")).list().toArray()[0]).toString());
+		izvrseni = Integer.parseInt(((session.createSQLQuery("select count(*) from RADNINALOG where month(DATUMKREIRANJA) = "+ mjesec + " and year(DATUMKREIRANJA) = " + godina + " and STATUS = 'zakljucen'")).list().toArray()[0]).toString());
+		stornirani = Integer.parseInt(((session.createSQLQuery("select count(*) from RADNINALOG where month(DATUMKREIRANJA) = "+ mjesec + " and year(DATUMKREIRANJA) = " + godina + " and STATUS = 'storniran'")).list().toArray()[0]).toString());
 		
 		Document document = new Document();
 		try {
@@ -413,7 +413,7 @@ public class Izvjestaji extends JPanel {
         	
         	Session session = HibernateUtil.getSessionFactory().openSession();
     		Transaction t = session.beginTransaction();     
-    		List<Object[]> lq =session.createSQLQuery("select r.brojradnognaloga, r.datumkreiranja, r.posao, z.ime, z.prezime, r.razlogstorniranja from radninalog r, zaposlenik z where z.id = r.osobakojastornira and r.status = 'storniran' and month(r.datumkreiranja) = " +String.valueOf(mjesec)+ " and year(r.datumkreiranja) = " + godina ).list();
+    		List<Object[]> lq =session.createSQLQuery("select r.BROJRADNOGNALOGA, r.DATUMKREIRANJA, r.POSAO, z.IME, z.PREZIME, r.RAZLOGSTORNIRANJA from RADNINALOG r, ZAPOSLENIK z where z.ID = r.OSOBAKOJASTORNIRA and r.STATUS = 'storniran' and month(r.DATUMKREIRANJA) = " +String.valueOf(mjesec)+ " and year(r.DATUMKREIRANJA) = " + godina ).list();
     		String[][] elementi = new String[lq.size()][6];
     		int i = 0; int j = 0;
     		PdfWriter.getInstance(document, new FileOutputStream(fajl));
@@ -485,15 +485,15 @@ public class Izvjestaji extends JPanel {
     		Transaction t = session.beginTransaction();
     		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     		List<Object[]> lq =session.createSQLQuery("select z.id, z.ime, z.prezime, "
-    				+ "(select count(rn.brojradnognaloga) from zaposlenik zn, radninalog rn where rn.kreatorradnognaloga = z.id and "
-    				+ "rn.status = 'zakljucen' and z.id = zn.id  and "
-    				+ "week(rn.datumkreiranja) = week('"+ dateFormat.format(datePicker) + "')), "
-    				+ "(select count(rn.brojradnognaloga) from zaposlenik zn, radninalog rn where rn.kreatorradnognaloga = z.id and "
-    				+ "rn.status = 'nezakljucen' and z.id = zn.id  and "
-    				+ "week(rn.datumkreiranja) = week('"+ dateFormat.format(datePicker) + "')), (select count(rn.brojradnognaloga) from zaposlenik zn, radninalog rn"
-    				+ " where rn.kreatorradnognaloga = z.id and rn.status = 'storniran' and z.id = zn.id and "
-    				+ "week(rn.datumkreiranja) = week('"+ dateFormat.format(datePicker) + "'))"
-    				+ " from zaposlenik z, radninalog r where r.izvrsilacposla = z.id group by z.id").list();
+    				+ "(select count(rn.BROJRADNOGNALOGA) from ZAPOSLENIK zn, RADNINALOG rn where rn.KREATORRADNOGNALOGA = z.ID and "
+    				+ "rn.STATUS = 'zakljucen' and z.ID = zn.ID  and "
+    				+ "week(rn.DATUMKREIRANJA) = week('"+ dateFormat.format(datePicker) + "')), "
+    				+ "(select count(rn.BROJRADNOGNALOGA) from ZAPOSLENIK zn, RADNINALOG rn where rn.KREATORRADNOGNALOGA = z.ID and "
+    				+ "rn.STATUS = 'kreiran' and z.ID = zn.ID  and "
+    				+ "week(rn.DATUMKREIRANJA) = week('"+ dateFormat.format(datePicker) + "')), (select count(rn.BROJRADNOGNALOGA) from ZAPOSLENIK zn, RADNINALOG rn"
+    				+ " where rn.KREATORRADNOGNALOGA = z.ID and rn.STATUS = 'storniran' and z.ID = zn.ID and "
+    				+ "week(rn.DATUMKREIRANJA) = week('"+ dateFormat.format(datePicker) + "'))"
+    				+ " from ZAPOSLENIK z, RADNINALOG r where r.IZVRSILACPOSLA = z.ID group by z.ID").list();
     		
     		int i = 0; int j = 0;
     		PdfWriter.getInstance(document, new FileOutputStream(fajl));
@@ -557,22 +557,39 @@ public class Izvjestaji extends JPanel {
 
             Date lastDayOfMonth = calendar.getTime();
             calendar.add(Calendar.YEAR, -1);
+            
+            Calendar calendar1 = Calendar.getInstance();  
+            calendar1.setTime(datePicker);
+            calendar1.add(Calendar.MONTH, 1);
+            calendar1.set(Calendar.DAY_OF_MONTH, 1);
+            Date zadnji = calendar1.getTime();
           
         	Document document = new Document();
         	Session session = HibernateUtil.getSessionFactory().openSession();
     		Transaction t = session.beginTransaction();
     		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    		List<Object[]> lq =session.createSQLQuery("select month(datumkreiranja) mj, year(datumkreiranja) god, (select count(r.brojradnognaloga) "
-    				+ "from radninalog r where month(r.datumkreiranja) = mj and year(r.datumkreiranja) = god and r.datumkreiranja <= '" + dateFormat.format(lastDayOfMonth) + "' "
-    						+ "and r.datumkreiranja >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)),"
-    						+ " (select count(r.brojradnognaloga) from radninalog r where r.status = 'zakljucen' and "
-    						+ "month(r.datumkreiranja) = mj and year(r.datumkreiranja) = god and r.datumkreiranja <= '" + dateFormat.format(lastDayOfMonth) + "' and "
-    								+ "r.datumkreiranja >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)), "
-    				+ "(select count(r.brojradnognaloga) from radninalog r where r.status = 'nezakljucen' "
-    				+ "and month(r.datumkreiranja) = mj and year(r.datumkreiranja) = god and r.datumkreiranja <= '" + dateFormat.format(lastDayOfMonth) + "' and r.datumkreiranja >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)),"
-    						+ " (select count(r.brojradnognaloga) from radninalog r "
-    				+ "where r.status = 'storniran' and month(r.datumkreiranja) = mj and year(r.datumkreiranja) = god and r.datumkreiranja <= '" + dateFormat.format(lastDayOfMonth) + "' and r.datumkreiranja >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)) "
-    						+ "from radninalog group by mj, god order by god asc, mj asc").list();
+    		List<Object[]> lq =session.createSQLQuery("select month(DATUMKREIRANJA) mj, year(DATUMKREIRANJA) god, (select count(r.BROJRADNOGNALOGA) "
+    				+ "from RADNINALOG r where month(r.DATUMKREIRANJA) = mj and year(r.DATUMKREIRANJA) = god and r.DATUMKREIRANJA < '" + dateFormat.format(zadnji) + "' "
+    						+ "and r.DATUMKREIRANJA >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)),"
+    						+ " (select count(r.BROJRADNOGNALOGA) from RADNINALOG r where r.STATUS = 'zakljucen' and "
+    						+ "month(r.DATUMKREIRANJA) = mj and year(r.DATUMKREIRANJA) = god and r.DATUMKREIRANJA <'" + dateFormat.format(zadnji) + "' and "
+    								+ "r.DATUMKREIRANJA >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)), "
+    				+ "(select count(r.BROJRADNOGNALOGA) from RADNINALOG r where r.STATUS = 'kreiran' "
+    				+ "and month(r.DATUMKREIRANJA) = mj and year(r.DATUMKREIRANJA) = god and r.DATUMKREIRANJA < '" + dateFormat.format(zadnji) + "' and r.DATUMKREIRANJA >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)),"
+    						+ " (select count(r.BROJRADNOGNALOGA) from RADNINALOG r "
+    				+ "where r.STATUS = 'storniran' and month(r.DATUMKREIRANJA) = mj and year(r.DATUMKREIRANJA) = god and r.DATUMKREIRANJA < '" + dateFormat.format(zadnji) + "' and r.DATUMKREIRANJA >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)) "
+    						+ "from RADNINALOG group by mj, god order by god asc, mj asc").list();
+    		System.out.println("select month(DATUMKREIRANJA) mj, year(DATUMKREIRANJA) god, (select count(r.BROJRADNOGNALOGA) "
+    				+ "from RADNINALOG r where month(r.DATUMKREIRANJA) = mj and year(r.DATUMKREIRANJA) = god and r.DATUMKREIRANJA < '" + dateFormat.format(zadnji) + "' "
+					+ "and r.DATUMKREIRANJA >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)),"
+					+ " (select count(r.BROJRADNOGNALOGA) from RADNINALOG r where r.STATUS = 'zakljucen' and "
+					+ "month(r.DATUMKREIRANJA) = mj and year(r.DATUMKREIRANJA) = god and r.DATUMKREIRANJA <'" + dateFormat.format(zadnji) + "' and "
+							+ "r.DATUMKREIRANJA >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)), "
+			+ "(select count(r.BROJRADNOGNALOGA) from RADNINALOG r where r.STATUS = 'kreiran' "
+			+ "and month(r.DATUMKREIRANJA) = mj and year(r.DATUMKREIRANJA) = god and r.DATUMKREIRANJA < '" + dateFormat.format(zadnji) + "' and r.DATUMKREIRANJA >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)),"
+					+ " (select count(r.BROJRADNOGNALOGA) from RADNINALOG r "
+			+ "where r.STATUS = 'storniran' and month(r.DATUMKREIRANJA) = mj and year(r.DATUMKREIRANJA) = god and r.DATUMKREIRANJA < '" + dateFormat.format(zadnji) + "' and r.DATUMKREIRANJA >= DATE_SUB('" + dateFormat.format(lastDayOfMonth) + "',INTERVAL 1 YEAR)) "
+					+ "from RADNINALOG group by mj, god order by god asc, mj asc");
     		
     		PdfWriter.getInstance(document, new FileOutputStream(fajl));
 	        document.open();
@@ -669,7 +686,7 @@ public class Izvjestaji extends JPanel {
 		}
         
 	}
-	void MjesecniViseLokacija(String fajl, int mjesec, String godina) throws Exception {
+	void MjesecniViseLOKACIJA(String fajl, int mjesec, String godina) throws Exception {
 		Document document = new Document();
 		DateFormat mj = new SimpleDateFormat("MM");
 		DateFormat god = new SimpleDateFormat("yyyy");
@@ -682,7 +699,7 @@ public class Izvjestaji extends JPanel {
 	        bf = BaseFont.createFont("arial.ttf", "Cp1250", BaseFont.EMBEDDED);
         	Session session = HibernateUtil.getSessionFactory().openSession();
     		Transaction t = session.beginTransaction();     
-    		List<Object[]> lq =session.createSQLQuery("select * from (select r.lokacija, count(r.brojradnognaloga) broj from radninalog r where month(r.datumkreiranja) = " + mjesec + " and year(r.datumkreiranja) = " + godina + ") rez where rez.broj > 1").list();
+    		List<Object[]> lq =session.createSQLQuery("select * from (select r.LOKACIJA, count(r.BROJRADNOGNALOGA) broj from RADNINALOG r where month(r.DATUMKREIRANJA) = " + mjesec + " and year(r.DATUMKREIRANJA) = " + godina + ") rez where rez.broj > 1").list();
     		
     		int i = 0; 
     		PdfWriter.getInstance(document, new FileOutputStream(fajl));
