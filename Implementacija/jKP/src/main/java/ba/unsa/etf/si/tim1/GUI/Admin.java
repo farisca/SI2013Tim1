@@ -113,7 +113,7 @@ public class Admin extends JPanel {
 						novi.postaviTipUposlenika(TipUposlenika.izbrisan);
 						HibernateZaposlenik.urediZaposlenika(novi);
 												JOptionPane.showMessageDialog(tabovi,
-														novi.getPristupniPodaci(), "Potvrda",
+														"Korisnik "+novi.getImeIPrezime()+" je uspiješno izbrisan!", "Potvrda",
 								JOptionPane.INFORMATION_MESSAGE);
 						PopuniTabelu();
 					} else {
