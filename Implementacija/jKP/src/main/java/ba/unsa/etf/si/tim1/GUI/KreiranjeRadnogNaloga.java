@@ -1,21 +1,36 @@
 package ba.unsa.etf.si.tim1.GUI;
 
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.Book;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.sql.Time;
 import java.util.Date;
 import java.util.Locale;
+import java.nio.ByteBuffer;
 
 import javax.swing.*;
 
 import org.jdesktop.swingx.JXDatePicker;
+
+import com.sun.pdfview.PDFFile;
+import com.sun.pdfview.PDFPrintPage;
 
 import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
 
 public class KreiranjeRadnogNaloga extends JPanel {
+	private static final String Style = null;
 	private final JComboBox<Zaposlenik> comboBoxKreirao;
 	private final JComboBox<Zaposlenik> comboBoxIzvrsilac;
 	private final JTextField txtLokacija;
@@ -189,6 +204,43 @@ public class KreiranjeRadnogNaloga extends JPanel {
         // Kreiraj prazan radni nalog
         btnKreirajPrazanNalog.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        
+        			if(!(new File("prazanRadniNalog.pdf").exists())) {
+	        			JOptionPane.showMessageDialog(getRootPane(), "Fajl koji želite printati ne postoji!");
+	        			return;
+	        		}
+        			else {
+        				// Create a PDFFile from a File reference
+        				File f = new File("prazanRadniNalog.pdf");
+        				FileInputStream fis;
+
+        				try {
+        					fis = new FileInputStream(f);
+        					FileChannel fc = fis.getChannel();
+        					ByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+        					PDFFile pdfFile = new PDFFile(bb); // Create PDF Print Page
+        					PDFPrintPage pages = new PDFPrintPage(pdfFile);
+
+        					// Create Print Job
+        					PrinterJob pjob = PrinterJob.getPrinterJob();
+        					if(pjob.printDialog()) {
+        						PageFormat pf = PrinterJob.getPrinterJob().defaultPage();
+        						pjob.setJobName(f.getName());
+        						Book book = new Book();
+        						book.append(pages, pf, pdfFile.getNumPages());
+        						pjob.setPageable(book);
+
+        						// Send print job to default printer
+        						pjob.print();
+        					}
+        				} catch (FileNotFoundException e1) {
+        					e1.printStackTrace();
+        				} catch (IOException e1) {
+        					e1.printStackTrace();
+        				} catch (PrinterException e1) {
+        					e1.printStackTrace();
+        				}
+        			}
         		
         	}
         });
@@ -245,4 +297,7 @@ public class KreiranjeRadnogNaloga extends JPanel {
         this.add(btnKreiraj);
         
 	}
+	
+	
+  
 }
