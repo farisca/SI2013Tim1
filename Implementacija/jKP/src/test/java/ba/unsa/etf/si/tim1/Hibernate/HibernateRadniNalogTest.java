@@ -62,6 +62,20 @@ public class HibernateRadniNalogTest {
 	
 	@Test
 	public void testModifikujRadniNalog() {
+		try{
+			pripremiBazuZaTestiranje();
+			HibernateRadniNalog.pohraniRadniNalog(rn1);
+			rn1.setLokacija("Zmaja od Bosne bb");
+			HibernateRadniNalog.modifikujRadniNalog(rn1);
+			List<String> podaci = new ArrayList();
+			podaci.add("LOKACIJA");
+			podaci.add("Zmaja od Bosne bb");
+			
+			List<RadniNalog> nalozi = HibernateRadniNalog.pretragaPoListiKriterija(podaci);
+			Assert.assertEquals("Zmaja od Bosne bb", nalozi.get(0).getLokacija());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 	
