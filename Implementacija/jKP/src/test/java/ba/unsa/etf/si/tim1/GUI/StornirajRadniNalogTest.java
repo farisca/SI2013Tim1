@@ -34,7 +34,7 @@ public class StornirajRadniNalogTest {
 			r.setOsobaKojaStornira(2);
 			r.setDodatniKomentar("");
 			r.postaviStatus(StatusRadnogNaloga.storniran);
-			assertEquals(a,r);
+			assertEquals(a.getStatus(),r.getStatus());
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
