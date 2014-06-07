@@ -438,6 +438,21 @@ public class PretragaRadnihNaloga extends JPanel {
         cmbTipPosla.setSelectedIndex(-1);
         add(cmbTipPosla);
         
+        JButton btnIsprintaj = new JButton("Isprintaj");
+        btnIsprintaj.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		int i = tabela.getSelectedRow();
+        		if(i != -1){
+        			RadniNalog nalog = radniNalozi.get(i);
+        			Printanje.sacuvajPrintajRadniNalogPdf(nalog);
+        		}
+        		else
+        			JOptionPane.showMessageDialog(null, "Morate prvo izabrati nalog iz tabele kojeg želite isprintati.");
+        	}
+        });
+        btnIsprintaj.setBounds(286, 485, 89, 23);
+        add(btnIsprintaj);
+        
 	}
 	
 	Zaposlenik[] ucitajSveZaposlenike() {

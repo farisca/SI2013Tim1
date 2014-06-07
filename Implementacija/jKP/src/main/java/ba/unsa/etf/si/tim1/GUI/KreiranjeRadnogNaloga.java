@@ -11,6 +11,8 @@ import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.sql.Time;
@@ -22,12 +24,22 @@ import javax.swing.*;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPrintPage;
+
+import java.io.FileOutputStream;
+import java.util.Date;
 
 import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
+
+import java.awt.Dimension;
 
 public class KreiranjeRadnogNaloga extends JPanel {
 	private static final String Style = null;
@@ -42,6 +54,9 @@ public class KreiranjeRadnogNaloga extends JPanel {
 	private final JComboBox<StatusRadnogNaloga> comboBoxStatusNaloga;
 	private final JButton btnKreiraj;
 	private final JButton btnKreirajPrazanNalog;
+	private final JXDatePicker datePickerPlaniraniDatumIzvrsenja;
+	private final JXDatePicker datePickerDatumKreiranja;
+	private final JXDatePicker datePickerDatumZavrsetkaRadova;
 	
 	private Zaposlenik korisnik;
 	
@@ -49,7 +64,7 @@ public class KreiranjeRadnogNaloga extends JPanel {
 		korisnik = GlavniProzor.korisnik;
 		
         this.setLayout(null);
-        this.setPreferredSize(new java.awt.Dimension(500, 710));
+        this.setPreferredSize(new Dimension(500, 735));
         
         JLabel lblKreiranjeRadnogNaloga = new JLabel("Kreiranje radnog naloga");
         lblKreiranjeRadnogNaloga.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -175,7 +190,7 @@ public class KreiranjeRadnogNaloga extends JPanel {
         this.add(comboBoxStatusNaloga);
         
         // Datepicker
-        final JXDatePicker datePickerDatumKreiranja = new JXDatePicker(new Date());
+        datePickerDatumKreiranja = new JXDatePicker(new Date());
         datePickerDatumKreiranja.setLocation(236, 106);
         datePickerDatumKreiranja.setSize(200, 20);
         datePickerDatumKreiranja.setLocale(new Locale("hr", "BA"));
@@ -183,14 +198,14 @@ public class KreiranjeRadnogNaloga extends JPanel {
         datePickerDatumKreiranja.setEnabled(false);
         this.add(datePickerDatumKreiranja);
         
-        final JXDatePicker datePickerPlaniraniDatumIzvrsenja = new JXDatePicker();
+        datePickerPlaniraniDatumIzvrsenja = new JXDatePicker();
         datePickerPlaniraniDatumIzvrsenja.setLocation(236, 206);
         datePickerPlaniraniDatumIzvrsenja.setSize(200, 20);
         datePickerPlaniraniDatumIzvrsenja.setLocale(new java.util.Locale("hr"));
         datePickerPlaniraniDatumIzvrsenja.setFormats(new String[] {"EEEE dd.MM.yyyy"});
         this.add(datePickerPlaniraniDatumIzvrsenja);
                 
-        final JXDatePicker datePickerDatumZavrsetkaRadova = new JXDatePicker();
+        datePickerDatumZavrsetkaRadova = new JXDatePicker();
         datePickerDatumZavrsetkaRadova.setLocation(236, 231);
         datePickerDatumZavrsetkaRadova.setSize(200, 20);
         datePickerDatumZavrsetkaRadova.setLocale(new java.util.Locale("hr"));
@@ -198,106 +213,100 @@ public class KreiranjeRadnogNaloga extends JPanel {
         this.add(datePickerDatumZavrsetkaRadova);
         
         btnKreirajPrazanNalog = new JButton("Prazan radni nalog");
-        btnKreirajPrazanNalog.setBounds(76, 670, 150, 23);
+        btnKreirajPrazanNalog.setBounds(286, 704, 150, 23);
         this.add(btnKreirajPrazanNalog);
         
         // Kreiraj prazan radni nalog
         btnKreirajPrazanNalog.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        
-        			if(!(new File("prazanRadniNalog.pdf").exists())) {
-	        			JOptionPane.showMessageDialog(getRootPane(), "Fajl koji želite printati ne postoji!");
-	        			return;
-	        		}
-        			else {
-        				// Create a PDFFile from a File reference
-        				File f = new File("prazanRadniNalog.pdf");
-        				FileInputStream fis;
-
-        				try {
-        					fis = new FileInputStream(f);
-        					FileChannel fc = fis.getChannel();
-        					ByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-        					PDFFile pdfFile = new PDFFile(bb); // Create PDF Print Page
-        					PDFPrintPage pages = new PDFPrintPage(pdfFile);
-
-        					// Create Print Job
-        					PrinterJob pjob = PrinterJob.getPrinterJob();
-        					if(pjob.printDialog()) {
-        						PageFormat pf = PrinterJob.getPrinterJob().defaultPage();
-        						pjob.setJobName(f.getName());
-        						Book book = new Book();
-        						book.append(pages, pf, pdfFile.getNumPages());
-        						pjob.setPageable(book);
-
-        						// Send print job to default printer
-        						pjob.print();
-        					}
-        				} catch (FileNotFoundException e1) {
-        					e1.printStackTrace();
-        				} catch (IOException e1) {
-        					e1.printStackTrace();
-        				} catch (PrinterException e1) {
-        					e1.printStackTrace();
-        				}
-        			}
-        		
+        		try{
+        			Printanje.printajPdf("prazanRadniNalog.pdf");
+        		}
+        		catch(Exception exc){
+        			exc.printStackTrace();
+        		}
         	}
         });
-
+        
+       
         btnKreiraj = new JButton("Kreiraj");
         
         // Kreiraj radni nalog
         btnKreiraj.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		try {
-        			Date datumKreiranja = new Date();
-            		long kreirao = GlavniProzor.korisnik.getId();
-            		String status = comboBoxStatusNaloga.getSelectedItem().toString();
-            		String tip = comboBoxTipPosla.getSelectedItem().toString();
-            		Date planiraniDatumIzvrsenja = datePickerPlaniraniDatumIzvrsenja.getDate();
-            		long izvrsilac = ((Zaposlenik)comboBoxIzvrsilac.getSelectedItem()).getId();
-            		String potrebniMaterijal = textAreaPotrebniMaterijal.getText();
-            		String lokacija = txtLokacija.getText();
-            		Date datumIzvrsenja = datePickerDatumZavrsetkaRadova.getDate();
-            		Time utrosenoVrijeme = new Time((Integer)spinnerSati.getValue(), (Integer)spinnerMinute.getValue(), 0);
-            		String opisPosla = textAreaOpisPosla.getText();
-            		
-            		if (lokacija.isEmpty())
-            			throw new Exception("Niste unijeli lokaciju");
-            		if (planiraniDatumIzvrsenja == null)
-            			throw new Exception("Niste izabrali planiran datum izvršenja radnog naloga");
-            		if (opisPosla.isEmpty())
-            			throw new Exception("Niste unijeli opis posla");
-            		if (potrebniMaterijal.isEmpty())
-            			throw new Exception("Niste unijeli potrebni materijal");
-            		
-        			RadniNalog rn = new RadniNalog(datumKreiranja, kreirao, status, tip, planiraniDatumIzvrsenja, izvrsilac, potrebniMaterijal, lokacija, datumIzvrsenja, utrosenoVrijeme, false, opisPosla);
-        			HibernateRadniNalog.pohraniRadniNalog(rn);
-        			
-        			JOptionPane.showMessageDialog(null, "Radni nalog je uspješno kreiran");
-        			
-        			dispose();
-        		}
-        		catch (Exception ex) {
-        			JOptionPane.showMessageDialog(null, ex.getMessage(), "Greška", JOptionPane.WARNING_MESSAGE);
-        		}
+        		kreirajRadniNalog();
         	}
-
-			private void dispose() {
-				// TODO Auto-generated method stub
-		        datePickerPlaniraniDatumIzvrsenja.setDate(null);
-		        datePickerDatumZavrsetkaRadova.setDate(null);
-		        txtLokacija.setText("");
-				textAreaOpisPosla.setText("");
-				textAreaPotrebniMaterijal.setText("");
-			}
+        	
+        	
         });
-        btnKreiraj.setBounds(345, 670, 89, 23);
+
+			
+
+			
+        btnKreiraj.setBounds(192, 670, 89, 23);
         this.add(btnKreiraj);
         
+        JButton btnKreirajItampaj = new JButton("Kreiraj i štampaj");
+        btnKreirajItampaj.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		RadniNalog rn = kreirajRadniNalog();
+        		Printanje.sacuvajPrintajRadniNalogPdf(rn);
+        	}
+
+			
+        });
+        btnKreirajItampaj.setBounds(286, 670, 150, 23);
+        add(btnKreirajItampaj);
+        
+	}
+	private RadniNalog kreirajRadniNalog() {
+		RadniNalog rn = null;
+		try {
+			Date datumKreiranja = new Date();
+    		long kreirao = GlavniProzor.korisnik.getId();
+    		String status = comboBoxStatusNaloga.getSelectedItem().toString();
+    		String tip = comboBoxTipPosla.getSelectedItem().toString();
+    		Date planiraniDatumIzvrsenja = datePickerPlaniraniDatumIzvrsenja.getDate();
+    		long izvrsilac = ((Zaposlenik)comboBoxIzvrsilac.getSelectedItem()).getId();
+    		String potrebniMaterijal = textAreaPotrebniMaterijal.getText();
+    		String lokacija = txtLokacija.getText();
+    		Date datumIzvrsenja = datePickerDatumZavrsetkaRadova.getDate();
+    		Time utrosenoVrijeme = new Time((Integer)spinnerSati.getValue(), (Integer)spinnerMinute.getValue(), 0);
+    		String opisPosla = textAreaOpisPosla.getText();
+    		
+    		if (lokacija.isEmpty())
+    			throw new Exception("Niste unijeli lokaciju");
+    		if (planiraniDatumIzvrsenja == null)
+    			throw new Exception("Niste izabrali planiran datum izvršenja radnog naloga");
+    		if (opisPosla.isEmpty())
+    			throw new Exception("Niste unijeli opis posla");
+    		if (potrebniMaterijal.isEmpty())
+    			throw new Exception("Niste unijeli potrebni materijal");
+    		
+			rn = new RadniNalog(datumKreiranja, kreirao, status, tip, planiraniDatumIzvrsenja, izvrsilac, potrebniMaterijal, lokacija, datumIzvrsenja, utrosenoVrijeme, false, opisPosla);
+			HibernateRadniNalog.pohraniRadniNalog(rn);
+			
+			JOptionPane.showMessageDialog(null, "Radni nalog je uspješno kreiran");
+			
+			dispose();
+			
+		}
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Greška", JOptionPane.WARNING_MESSAGE);
+		}
+		return rn;
 	}
 	
 	
-  
+	private void dispose() {
+		// TODO Auto-generated method stub
+        datePickerPlaniraniDatumIzvrsenja.setDate(null);
+        datePickerDatumZavrsetkaRadova.setDate(null);
+        txtLokacija.setText("");
+		textAreaOpisPosla.setText("");
+		textAreaPotrebniMaterijal.setText("");
+	}
+	
+	 
+     	
 }
