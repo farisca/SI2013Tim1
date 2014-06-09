@@ -53,12 +53,26 @@ public class HibernateRadniNalogTest {
         }
 	}
 	
-	/*@Test
+	@Test
 	public void testPohraniRadniNalog() {
 		
-		fail("Not yet implemented"); // TODO
+		try{
+			pripremiBazuZaTestiranje();
+			rn1.setLokacija("Vratnik");
+			HibernateRadniNalog.pohraniRadniNalog(rn1);
+			rn1.setLokacija("Bascarsija");
+			List<String> podaci = new ArrayList();
+			podaci.add("LOKACIJA");
+			podaci.add("Vratnik");
+			
+			List<RadniNalog> nalozi = HibernateRadniNalog.dajSveRadneNaloge();
+			Assert.assertEquals("Vratnik", nalozi.get(nalozi.size() - 1).getLokacija());
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
-	}*/
+	}
 	
 	@Test
 	public void testModifikujRadniNalog() {
