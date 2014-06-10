@@ -78,7 +78,7 @@ public class Admin extends JPanel {
 		pomoc = txtPretraga.getText();
 		JButton btnIzbrisati = new JButton("Izbrisati");
 		btnIzbrisati.setBackground(Color.RED);
-		btnIzbrisati.setBounds(481, 300, 117, 25);
+		btnIzbrisati.setBounds(481, 305, 117, 25);
 		btnIzbrisati.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -113,14 +113,14 @@ public class Admin extends JPanel {
 						novi.postaviTipUposlenika(TipUposlenika.izbrisan);
 						HibernateZaposlenik.urediZaposlenika(novi);
 												JOptionPane.showMessageDialog(tabovi,
-														"Korisnik "+novi.getImeIPrezime()+" je uspiješno izbrisan!", "Potvrda",
+														"Korisnik "+novi.getImeIPrezime()+" je uspješno izbrisan!", "Potvrda",
 								JOptionPane.INFORMATION_MESSAGE);
 						PopuniTabelu();
 					} else {
 						JOptionPane
 								.showMessageDialog(
 										tabovi,
-										"Niste unijeli Vašu šifru pravilno, i brisanje nije izvrešeno!",
+										"Niste unijeli Vašu šifru pravilno, i brisanje nije izvršeno!",
 										"Potvrda",
 										JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -136,7 +136,7 @@ public class Admin extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (table.getSelectedRow() == -1)
-						throw new Exception("Niste odabrali nijednog zaposlenika!");
+						throw new Exception("Niste odabrali ni jednog zaposlenika!");
 					List<Zaposlenik> lz = HibernateZaposlenik
 							.dajZaposlenikePoKriteriju(txtPretraga.getText());
 					List<Zaposlenik> lz_1 = HibernateZaposlenik
@@ -148,7 +148,7 @@ public class Admin extends JPanel {
 					}
 					Zaposlenik novi = lz_1.get(table.getSelectedRow());
 					if (novi.dajTipUposlenika().equals(TipUposlenika.izbrisan))
-						throw new Exception("Nije moguće (De)aktivirati izbrisanog zaposlenika!");
+						throw new Exception("Nije moguće (de)aktivirati izbrisanog zaposlenika!");
 					if (novi.getTipUposlenika().equals("neaktivan")) {
 						Object[] options = { "Obični", "Privilegirani",
 								"Otkazujem aktivaciju!" };
@@ -184,7 +184,7 @@ public class Admin extends JPanel {
 			}
 		});
 		btnAktiviraj.setBackground(Color.LIGHT_GRAY);
-		btnAktiviraj.setBounds(481, 269, 117, 25);
+		btnAktiviraj.setBounds(481, 270, 117, 25);
 		panelPretraga.add(btnAktiviraj);
 		nemaTaba = true;
 		JButton btnModifikuj = new JButton("Modifikuj");
@@ -297,7 +297,7 @@ public class Admin extends JPanel {
 								HibernateZaposlenik.urediZaposlenika(novi);
 								JOptionPane.showMessageDialog(
 										panelNovi,
-										"Uspjesno ste ažurirali korisnika "
+										"Uspješno ste ažurirali korisnika "
 												+ novi.getIme() + " "
 												+ novi.getPrezime()
 												+ " koji je sada"
@@ -448,7 +448,7 @@ public class Admin extends JPanel {
 
 					HibernateZaposlenik.pohraniZaposlenika(z, HibernatePristupniPodaci.spremiPodatke(username, sifra));
 					JOptionPane.showMessageDialog(panelNovi,
-							"Uspjesno ste kreirali novog korisnika "
+							"Uspješno ste kreirali novog korisnika "
 									+ z.getIme() + " "
 									+ z.getPrezime() + " koji je "
 									+ z.getTipUposlenika() + " uposlenik!",

@@ -1,4 +1,4 @@
-package ba.unsa.etf.si.tim1.Entiteti;
+package ba.unsa.etf.si.tim1.util;
 
 import java.awt.print.Book;
 import java.awt.print.PageFormat;
@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+import ba.unsa.etf.si.tim1.Entiteti.RadniNalog;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
 
 import com.itextpdf.text.Document;

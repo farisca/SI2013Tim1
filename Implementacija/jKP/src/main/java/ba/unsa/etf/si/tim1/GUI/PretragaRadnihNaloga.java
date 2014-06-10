@@ -11,6 +11,7 @@ import java.util.List;
 import ba.unsa.etf.si.tim1.Entiteti.*;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateRadniNalog;
 import ba.unsa.etf.si.tim1.Hibernate.HibernateZaposlenik;
+import ba.unsa.etf.si.tim1.util.Printanje;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
