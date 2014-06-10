@@ -121,7 +121,7 @@ public class KreiranjeRadnogNaloga extends JPanel {
         
         JLabel lblStatusRadnogNaloga = new JLabel("Status radnog naloga:");
         lblStatusRadnogNaloga.setBounds(76, 620, 150, 14);
-        this.add(lblStatusRadnogNaloga);
+        //this.add(lblStatusRadnogNaloga);
         
         java.util.List<Zaposlenik> listaZaposlenika = HibernateZaposlenik.dajSveZaposlenike();
         Zaposlenik[] zaposlenici = listaZaposlenika.toArray(new Zaposlenik[listaZaposlenika.size()]);
@@ -174,7 +174,7 @@ public class KreiranjeRadnogNaloga extends JPanel {
         scrollPane_1.setViewportView(textAreaOpisPosla);
         
         JScrollPane scrollPane_2 = new JScrollPane();
-        scrollPane_2.setBounds(76, 524, 358, 70);
+        scrollPane_2.setBounds(76, 524, 358, 100);
         this.add(scrollPane_2);
         
         textAreaPotrebniMaterijal = new JTextArea();
@@ -187,7 +187,7 @@ public class KreiranjeRadnogNaloga extends JPanel {
         else
         	comboBoxStatusNaloga.setModel(new DefaultComboBoxModel<StatusRadnogNaloga>(new StatusRadnogNaloga[] {StatusRadnogNaloga.kreiran}));
         comboBoxStatusNaloga.setBounds(236, 617, 200, 20);
-        this.add(comboBoxStatusNaloga);
+        //this.add(comboBoxStatusNaloga);
         
         // Datepicker
         datePickerDatumKreiranja = new JXDatePicker(new Date());
